@@ -1,0 +1,1147 @@
+\chapter{Editores de texto}
+\label{sec:editors}
+
+Uma das  principais ferramentas, não apenas para  a administração, mas
+para o uso em geral, dentro do GNU/Linux é o editor de texto. No caso,
+entende-se  editor  de texto  ao  programa  que  permita a  digitação,
+gravação e  correção de textos  em formato ASCII  puro (diferentemente
+dos processadores de texto como  o MS-Office ou o OpenOffice.org). Com
+o uso  de um editor de texto  e as ferramentas corretas,  você pode ir
+desde criar páginas Web e \emph{emails} até a editar novos programas e
+criar textos de alta  qualidade\footnote{No caso, com ferramentas como
+  DocBook e \LaTeX{}}.
+
+Esse  capítulo será  dedicado  a uma  introdução  aos dois  principais
+editores de texto para Unix  e GNU/Linux: o \texttt{vi} (e clones como
+\texttt{vim}  e  \texttt{elvis})  e   o  GNU  \texttt{emacs}  (e  seus
+principais clones,  o \texttt{jed}, e o  \texttt{XEmacs}). Na prática,
+existem  muitos outros  editores,  como \texttt{pico},  \texttt{nano},
+\texttt{joe} e  até ferramentas visuais, como  \texttt{kate} e outras.
+Mas esses dois são facilmente encontrados em qualquer distro GNU/Linux
+(principalmente o  \texttt{vi})\footnote{Antes que perguntem:  o autor
+prefere (e  muito) o  \texttt{emacs}, mas é  capaz sim de  operar, com
+alguma dificuldade,  o \texttt{vi}.  Mas essa é  a grande  vantagem do
+software livre: se não gosta de um, use outro e seja feliz! \emph{Live
+and Let Live}!! :P}.
+
+\section{Por que é importante manipular um editor de texto}
+
+Nos Capítulos  anteriores, comentamos sobre algumas  noções básicas da
+administração do  GNU/Linux. Em  geral, essa administração  passa pela
+edição  de arquivos  de configuração.   Isso é  uma norma  em qualquer
+ambiente. Em alguns, como  no Windows\texttrademark{} e na maioria das
+distros  GNU/Linux,  existem   ferramentas  gráficas  de  configuração
+poderosas.
+
+Mas o GNU/Linux foi ``projetado'' segundo o padrão original do Unix, o
+que  quer dizer  que  você  cedo ou  tarde  \emph{irá precisar  editar
+  manualmente} um arquivo de configuração,  o que irá querer dizer que
+você precisará cedo ou tarde lidar com um editor de texto.
+
+Com a evolução  do GNU/Linux, clones dos principais  editores de texto
+puro,  como  os  encontrados  em   IDEs  e  editores  antigos  como  o
+WordStar\texttrademark{}  foram surgindo para  o GNU/Linux.  Mas, como
+derivado  do mundo  Unix,  o GNU/Linux  tem  dois que  são os  maiores
+contendores  nessa  arena:   o  \texttt{vi}(através  dos  seus  clones
+\texttt{vim} e  \texttt{elvis}) e o GNU  \texttt{emacs}(junto com seus
+clones  \texttt{jed} e  \texttt{XEmacs}). Então  será nesses  dois que
+iremos nos  focar, pelo fato  de ser muito fácil  encontrar \emph{pelo
+menos} um deles em qualquer instalação GNU/Linux.
+
+\subsection{Qual deles é o melhor?}
+
+Dizer qual dos dois é o  melhor entre \texttt{vi} e \texttt{emacs} é o
+mesmo  que perguntar  qual time  de  futebol é  o melhor:  é mais  uma
+questão de afinidade.
+
+Os defensores do \texttt{vi} gostam de dizer que o \texttt{vi} segue o
+KISS  (\emph{Keep   It  Simple  and  Safe}  ---   Mantenha  simples  e
+garantido)\footnote{Na  verdade, é \emph{Keep  It Simple,  Stupid} ---
+Mantenha isso  simples, imbecil  --- mas preferi  ser mais  positivo e
+politicamente  correto. :P},  o  princípio  do Unix  que  dita que  um
+software deve fazer uma coisa só, mas fazer ela \emph{bem}. Portanto o
+\texttt{vi} seria um bom editor  de texto por fazer apenas isso.  Além
+disso,  por ser  \emph{apenas} um  editor  de texto,  o \texttt{vi}  é
+enxuto e  rápido e  pode ser instalado  em qualquer lugar  sem maiores
+problemas. Uma  grande vantagem do \texttt{vi}  é o fato de  que ele é
+parte do \emph{Single  Unix Specification}\cite{SUS2006}, o que indica
+que qualquer sistema baseado em Unix que queira usar o termo de alguma
+forma \emph{tem} que incluir o  \texttt{vi}, ou um clone.  Isso também
+inclui o uso do \texttt{vi} em testes para o LPIC\footnote{\emph{Linux
+Professional  Institute Certificate}  -- Certificado  do  Instituto de
+Profissionais Linux} nível 1.
+
+Os defensores do  \texttt{emacs} porém, gostam de dizer  que o mesmo é
+muito  versátil, pois  o mesmo  pode atuar  como editor  de  texto com
+características          avançadas,          como         \emph{syntax
+  highlight}\footnote{\emph{reforço  de  sintaxe}, uma  característica
+  muito útil ao editar arquivos de configuração e códigos-fonte, aonde
+  as   palavras  são  ressaltadas   conforme  o   contexto:  comandos,
+  variáveis,   \ldots},   recursos   de   formatação   simples,   como
+centralização  e justificação,  modos específicos  conforme o  tipo de
+documento  e   até  mesmo  módulos   extras  com  novos   recursos  (o
+\texttt{emacs} traz  até um terapeuta  freudiano com IA).  Além disso,
+por   ter   sido   construído   em   LISP\footnote{\emph{\textbf{LIS}t
+    \textbf{P}rocessor},  Processador   de  Listas,  uma   poderosa  e
+  complexa   linguagem   de    programação}   ela   permite   poderosa
+personalização e configuração do sistema. A vantagem do \texttt{emacs}
+é o  fato de que ele é  incluído dentro do pacote  de utilitários GNU,
+que atualmente é portado em quase todos os ambientes Unix.
+
+Qual  deles  é o  melhor?  A  única forma  de  descobrir  é usando  os
+dois\footnote{o  autor aconselha  o \texttt{emacs},  mas quem  tem que
+  definir isso  não é ele, e  sim o leitor.  :P}, que é o  objetivo do
+capítulo.
+
+Um último conselho:  \emph{jamais} entre em uma discussão  de qual dos
+dois editores é melhor. Esse  é considerado assunto religioso e motivo
+até  de \emph{flame wars}\footnote{\emph{guerra  de chamas},  a versão
+  Internet das brigas de torcida}. \emph{Você foi avisado!!!!}
+
+\section{Introdução ao \texttt{vi}}
+
+Agora veremos uma  introdução ao \texttt{vi} que lhe  permitirá usar o
+mesmo  rapidamente.   Se  quiser   mais  informações,  use  o  comando
+\texttt{vimtutor}   na   linha   de    comando   ou   então   veja   o
+\texttt{vilearn},  de \citeonline{VILEARN1992}.  Outra opção  boa  é o
+Guia de Consulta Rápida ``Editor \texttt{vi}'', da Editora Novatec, do
+Roberto Coelho\cite{COELHO2002}.
+
+O    \texttt{vi}   (\emph{\textbf{vi}sual    editor})    foi   escrito
+originalmente  por Evans Hall  e entre  outros mantenedores  teve Bill
+Joy, que viria a ser  um importante desenvolvedor no 4.0BSD e fundador
+da Sun  Microsystems\footnote{uma das maiores  empresas de informática
+  de todos os tempos e a  primeira grande empresa a trabalhar com Unix
+  para  o mercado  de massa},  na época  um graduando  de  Ciências da
+Computação na  Universidade da Califórnia, campus  Berkeley (UCB). Ele
+foi criado para o 3.3BSD em substituição a um outro editor de texto, o
+\texttt{ed},  e tinha  um licenciamento  que  não era  livre, mas  era
+aberto. Com  o tempo, foram criados  vários clones do  editor, sendo o
+mais importante e mais usado o \texttt{vim}(\emph{\textbf{\texttt{vi}}
+  \textbf{Im}proved} --- \texttt{vi} melhorado), desenvolvido por Bram
+Moolenaar e  outros. Ele foi licenciado  pela GPL, mas  o autor também
+pede que aqueles  que queiram fazer um bem para  alguém, como ele fez,
+que  doe dinheiro  para instituições  de caridade  na Uganda,  um país
+castigado pela AIDS e pela  pobreza\footnote{o que não deixa de ser um
+  bom ato}.
+
+O \texttt{vi} é  um editor \emph{modal}, no qual  as teclas do sistema
+assumem características e funções diferenciadas conforme o modo em que
+o editor se  encontra. Isso é muito impoirtante,  pois certos comandos
+só podem ser dados no \texttt{vi} em um ou outro modo.
+
+O  comando para  entrar-se no  \texttt{vi} é  \texttt{vi <nome\_arq>},
+aonde \texttt{nome\_arq} representa o arquivo que deseja-se editar. Se
+você não  chamar nenhum arquivo, você  receberá uma tela  similar à do
+Trecho de Código \ref{code:viminit}, Página \pageref{code:viminit}.
+
+\begin{codigo}[htp]   
+\scriptsize
+\begin{Verbatim}[frame=single]
+
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                              VIM - Vi IMproved                                
+~                                                                               
+~                                version 6.3.30                                 
+~                           by Bram Moolenaar et al.                            
+~                      Modified by <bugzilla@redhat.com>                        
+~                 Vim is open source and freely distributable                   
+~                                                                               
+~                        Become a registered Vim user!                          
+~                type  :help register<Enter>   for information                  
+~                                                                               
+~                type  :q<Enter>               to exit                          
+~                type  :help<Enter>  or  <F1>  for on-line help                 
+~                type  :help version6<Enter>   for version info                 
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+                                                              0,0-1         All
+\end{Verbatim}
+\caption{Janela inicial do \texttt{vim}}
+\label{code:viminit}
+\end{codigo}
+
+Perceba  que no  caso irá  aparece a  janela do  \texttt{vim}.  Não se
+preocupe,  pois todos os  comandos que  veremos funcionam  em qualquer
+versão ou clone do \texttt{vi}.
+
+Perceba que o  \texttt{vi} mostra uma série de  linhas com \texttt{\~}
+no seu  começo. Essas linhas na  verdade não existem.  Elas são apenas
+para ocupar o espaço da tela.
+
+\begin{quotation}
+  \textbf{Atenção:}  Os comandos  do  \texttt{vi} são  de dois  tipos:
+  \emph{teclas de  atalho} e \emph{comandos}. Os  comandos iniciam com
+  \texttt{:}, enquanto as \emph{teclas  de atalho} são mostradas nesse
+  tutorial com um desenho  de tecla (\keystroke{{}}). Chamaremos ambos
+  de ``comando'' apenas para  facilitar a compreensão do funcionamento
+  do \texttt{vi}.
+\end{quotation}
+
+\subsection{Edição e navegação por arquivos}
+
+Uma coisa importante antes de  começar a trabalhar com o \texttt{vi} é
+entender os  \emph{modos de uso}  do mesmo. O \texttt{vi}  trabalha em
+dois  modos  básicos: \emph{comando}  e  \emph{edição}. O  \texttt{vi}
+entra em modo de comando. Nesse modo você \emph{não pode} entrar texto
+no  \emph{buffer} onde  você  está  (o \emph{buffer}  é  uma cópia  do
+arquivo  que  você  deseja editar  que  fica  na  memória, de  modo  a
+preservar o arquivo).  Para editar o arquivo, você  deve passar para o
+\emph{modo de edição}. Para isso, pressione a tecla \keystroke{i} ou a
+tecla \Ins. Para  sair do modo de edição e voltar  ao modo de comando,
+tecle  \Esc. O  modo  de  edição pode  ser  identificado pelo  símbolo
+\verb|--  INSERT --|  ou \verb|--  REPLACE  --| que  aparece no  canto
+inferior  esquerdo  da  janela,  como  mostrado no  Trecho  de  Código
+\ref{code:vimedit}, na Página \pageref{code:vimedit}.
+
+\begin{codigo}[htp]   
+\scriptsize
+\begin{Verbatim}[frame=single,commandchars=+//]
+
+
+\subsection{Edição e navegação por arquivos}
+
+Uma coisa importante antes de começar a trabalhar com o \texttt{vi} é entender o
+s \emph{modos de uso} do mesmo. O \texttt{vi} trabalha em dois modos básicos: \e
+mph{comando} e \emph{edição}. O \texttt{vi} entra em modo de comando. Nesse modo
+ você \emph{não pode} entrar texto no \emph{buffer} onde você está (o \emph{buff
+er} é uma cópia do arquivo que você deseja editar que fica na memória, de modo a
+ preservar o arquivo). Para editar o arquivo, você deve passar para o \emph{modo
+ de edição}. Para isso, pressione a tecla \keystroke{i} ou a tecla \Insert. Para
+ sair do modo de edição e voltar ao modo de comando, tecle \Esc. O modo de ediçã
+o pode ser identificado pelo símbolo \verb|-- INSERT --|
+
+\begin{codigo}[htp]
+\scriptsize
+\begin{Verbatim}[frame=single]
+
++\end{Verbatim}
+\caption{Janela do \texttt{vim} em modo de edição}
+\label{code:viminit}
+\end{codigo}
+
+
+
+
+\section{Introdução ao \texttt{emacs}}
+
+-- INSERT --                                                  159,1         Bot
+\end{Verbatim}
+\caption{Janela do \texttt{vim} em modo de edição}
+\label{code:vimedit}
+\end{codigo}
+
+\begin{quotation}
+\textbf{Atenção:} O  \texttt{vi} é \emph{case-sensitive}  em relação a
+comandos.   Portanto,  \keystroke{i}   é  um   comando   diferente  de
+\keystroke{I}.
+\end{quotation}
+
+Você  pode  navegar normalmente  pelo  texto  utilizando-se as  teclas
+direcionais  \LArrow,\DArrow,\UArrow e \RArrow  \emph{enquanto estiver
+no  modo de  edição}.   No modo  de  comando, você  utiliza as  teclas
+\keystroke{h},    \keystroke{j},   \keystroke{k}    e   \keystroke{l},
+respectivamente.
+
+\begin{quotation}
+\textbf{Atenção:} Em  algumas compilações  do \texttt{vi} para  PC, os
+direcionais podem  também ser usados  no modo de comando.  Porém, esse
+\texttt{não é} a forma normal de navegar-se pelo documento \texttt{vi}
+em modo de comando.
+\end{quotation}
+
+Em modo de comando,  pode-se usar alguns outros comandos interessantes
+para navegar-se no texto:
+
+\begin{itemize}
+\item \keystroke{w}: vai para o começo da próxima palavra;
+\item \keystroke{e}: vai para o fim da próxima palavra;
+\item \keystroke{b}: vai para o fim da palavra anterior;
+\item \keystroke{\$} e \keystroke{\^{}}: vai  para o fim e o começo da
+  linha;
+\item \keystroke{0}: vai para a coluna 0 da linha;
+\item  \keystroke{\#|}: Vai  para  a coluna  de  número digitado  (por
+  exemplo,  digitando-se  \keystroke{23|}, vai  para  a  coluna 23  da
+  linha;
+\item \keystroke{f}:  procura a  próxima ocorrência de  um determinado
+  caracter na linha (que deve ser digitado em seguida);
+\item \keystroke{F}:  procura a ocorrência anterior  de um determinado
+  caracter na linha (que deve ser digitado em seguida);
+\item  \keystroke{t}:   move-se  até   a  próxima  ocorrência   de  um
+  determinado caracter (que deve ser digitado em seguida);
+\item  \keystroke{T}:   move-se  até  a  ocorrência   anterior  de  um
+  determinado caracter (que deve ser digitado em seguida);
+\item  \keystroke{,} e  \keystroke{;}: repete  a última  dessas quatro
+  operações   e  volta   para  o   último  resultado   de   um  deles,
+  respectivamente;
+\item \keystroke{m}: Marca uma determinada posição na tela, nomeando-o
+  com um determinado caracter (que deve ser informado em seguida);
+\item  \keystroke{'}: Move-se  para  uma determinada  posição na  tela
+  nomeada  pelo   caracter  informado   em  seguida  (usar   um  outro
+  \keystroke{'} devolve o usuário para o local anterior;
+\item  \keystroke{G}: Vai  para a  última  linha do  documento. Se  um
+  número for informado antes do \keystroke{G}, salta para aquela linha
+  em questão;
+\item \keystroke{\{} e \keystroke{\}}: Vai  para o início e para o fim
+  de um  parágrafo\footnote{a maioria dos editores Unix,  por causa do
+    sistema de processamento de textos  \TeX{} adota a convenção de um
+    parágrafo sendo  determinado por texto  separado por uma  linha em
+    branco entre si};
+\item \keystroke{(} e \keystroke{)}: Vai para o início e para o fim de
+  uma sentença;
+\item  \keystroke{/}:  Procura por  uma  determinada \emph{string}  ou
+  trecho de \emph{string}  para baixo\footnote{na verdade, realiza uma
+    pesquisa por  expressões regulares, mas  isso não é  tão relevante
+    nesse momento};
+\item \keystroke{?}: Idem a \keystroke{/}, mas para cima no texto;
+\item  \keystroke{n}  e  \keystroke{N}:  Avança  ou  volta  na  última
+  pesquisa \keystroke{/} ou \keystroke{?} realizada;
+\item  \Ctrl+\keystroke{U}  e   \Ctrl+\keystroke{D}:  permitem  que  o
+  sistwma role a tela uma janela para cima ou para baixo;
+\end{itemize}
+
+\subsection{Abrindo e salvando arquivos}
+
+Normalmente você já  vai abrir o arquivo a partir  do comando na linha
+de comando. Porém,  algumas vezes pode ser que  você queira carregar o
+arquivo  dentro de  uma seção  do  \texttt{vi}. Para  isso, utilize  o
+comando \texttt{:e} e  o nome do arquivo. Por  exemplo, se você quiser
+abrir o arquivo \texttt{/etc/fstab}, use \texttt{:e /etc/fstab}.
+
+Se  você tiver  editando um  arquivo, precisará  salvar  as alterações
+antes  de  carregar  um  novo  arquivo.   Para  isso,  use  o  comando
+\texttt{:w}.  Se  quiser salvar o  \emph{buffer} do arquivo  com outro
+nome, digite o nome do  arquivo logo após de \texttt{:w}. Por exemplo,
+se você quiser gravar o arquivo \texttt{potionessay} que você abriu do
+usuário \texttt{\~{}hgranger} no  seu diretório \emph{home}, utilize o
+comando \texttt{:w \~{}/potionessay}.
+
+É possível  dividir a janela do  \texttt{vi} em duas  para editar dois
+arquivos.   Para isso, no  modo de  comando, digite  \texttt{:spl} (de
+\emph{split} ---  dividir). A  janela será dividida  em duas  no mesmo
+\emph{buffer}.   Você pode  abrir outro  arquivo em  uma  das janelas,
+colocando outro \emph{buffer} nela,  com o comando normal \texttt{:e}.
+Para  alternar  entre  as   janelas,  utilize,  no  modo  de  comando,
+\Ctrl+\keystroke{W}, e  em seguida \UArrow e  \DArrow para deslocar-se
+entre  as  divisões.   Esse  comando  também  permite  alternar  entre
+\emph{buffers} do \texttt{vi}.
+
+Para sair  de uma das divisões,  use o comando  \texttt{:q}. Se quiser
+gravar antes  as alterações, use  o comando \texttt{:wq}.  Perceba que
+aqui estou combinando os comandos \texttt{:w} e \texttt{:q}. Se quiser
+ignorar as  alterações do \emph{buffer}, use \texttt{:q!}.  O ponto de
+exclamação(\texttt{!})  indica  que  você  está ignorando  alertas  do
+sistema  que te impediriam  de fechar  o \emph{buffer}.  Quando houver
+apenas uma  janela (ou \emph{buffer}),  o uso desse comando  encerra o
+\texttt{vi}.
+
+\subsection{Cortar, Copiar, Colar e Apagar}
+
+Realizar  operações de  recortar, copiar,  colar e  apagar  trechos de
+texto  é  uma  das  funções  mais  comuns da  edição  de  texto,  e  o
+\texttt{vi} oferece alguns comandos.
+
+Para deletar  um trecho de  texto, você utiliza o  comando \texttt{d},
+seguido de um  comando de movimentação de texto.  Por exemplo, se você
+quiser apagar  todo o texto  até o final  do texto, utilize  o comando
+\texttt{d\$}. Se quiser  apagar todo o texto até  a próxima ocorrência
+de um  caracter \texttt{\&},  utilize \texttt{df\&}. A  única situação
+especial  é  apagar  uma  linha  completa.  Para  esse  caso,  utilize
+\texttt{dd}.  Perceba   que  esses  comandos  funcionam   no  modo  de
+comando. No modo de edição, você pode recorrer a \Del e \BSpace.
+
+Essa  deleção funciona  como o  comando ``\emph{Cortar}''  de qualquer
+editor de  texto: ele remove  o texto de  dentro do \emph{buffer}  e o
+envia  para  uma  área especial  de  memória  do  sistema, a  área  de
+transferência (ou \emph{clipboard}). No  caso, como esse texto está no
+\emph{clipboard}, o  \texttt{vi} permite que  você o cole  em qualquer
+posição do  texto. Para isso, utilize  \keystroke{p} ou \keystroke{P},
+para colar o texto na área de transferência antes ou depois do cursor,
+respectivamente.
+
+No caso, se você quiser,  você pode recortar mais textos, colocando um
+tanto  de números  após o  comando \texttt{d}  e antes  do  comando de
+movimentação de texto; Por exemplo, usando \texttt{d3\{}, removemos os
+três próximos parágrafos. 
+
+Para  copiar, ou  \emph{yank}, você  faz o  mesmo tipo  de  comando da
+deleção, mas usando \texttt{y} ao invés de \texttt{d}. Para copiar uma
+linha, use \texttt{yy}, ao invés de \texttt{dd}.
+
+Tanto para  deleção quanto  para a cópia,  você pode usar  marcas. Por
+exemplo, se você marcou um trecho do texto com a letra \texttt{k}, use
+\texttt{y'k} para criar  uma cópia de todo o texto entre  o cursor e o
+ponto \texttt{k}.
+
+\subsection{Truques de edição}
+
+O \texttt{vi} permite que, ao passar  para o modo de edição, você pode
+usar truques que lhe permitam escolher o modo em que se entra:
+
+\begin{itemize}
+  \item \keystroke{O} ou \keystroke{o}: abre uma linha antes ou depois
+    do cursor;
+  \item \keystroke{i}: insere texto antes do cursor;
+  \item \keystroke{I}: insere texto no início da linha;
+  \item \keystroke{a}: adiciona texto após o cursor;
+  \item \keystroke{A}: adiciona texto no final da linha.;
+\end{itemize}
+
+O comando \keystroke{J} no modo  de comando permite emendar linhas uma
+nas  outras.  Você  pode usar  também \keystroke{\#s}  para substituir
+(deletar  e inserir)  os \texttt{\#}  caracteres  do texto  com os  do
+\emph{clipboard},  e  usando  \keystroke{\#S} para  substituir  linhas
+inteiras.   E você  pode  usar \keystroke{~}  para  fazer a  conversão
+maiúscula/minúscula do caracter atual.
+
+Você  pode  desfazer  qualquer  coisa  que  você  fez  na  sua  linha,
+\emph{exceto deleção  total da linha  \emph{com \texttt{dd}}, enquanto
+  não mover-se para outra linha} usando \keystroke{U}. Para defazer as
+alterações uma a uma você pode  usar o \keystroke{u}, e para repetir o
+último comando em outra posição é usando \keystroke{.}.
+
+\subsection{Mudando a codificação do arquivo}
+\label{sec:fileenconde-vi}
+
+Algumas  vezes, você  terá que  mudar  a codificação  do arquivo  para
+editar arquivos específicos no seu GNU/Linux. Por exemplo, você poderá
+precisar editar um  \emph{script} de \emph{logon} na rede  SaMBa ou um
+arquivo em  Unicode no  seu \texttt{vi}. Se  o arquivo em  questão for
+aberto,  não há  problemas:  o \texttt{vi}  detecta automaticamente  a
+codificação  (ou \emph{encoding}) do  arquivo. Mas  se for  um arquivo
+novo, será um pouco mais complicado que isso.
+
+Para modificar a codificação do arquivo, primeiro passe para o modo de
+comando para  alterar a do \emph{buffer}.   No \texttt{vi}, precisa-se
+fazer a configuração da  codificação do arquivo propriamente dita.  Em
+geral,   no  Brasil   usará-se  as   codificações   \texttt{latin1}  e
+\texttt{utf-8}.    Utilize  o   comando  \texttt{:set   encoding}  (ou
+\texttt{:set enc}) para definir a ``página de código'' (codificação do
+arquivo) do \emph{buffer} em  questão.  Use \texttt{latin1}, pois essa
+opção  irá definir  a  codificação  com a  qual  o \emph{buffer}  será
+exibido.
+
+Em seguida,  use \texttt{:set fileencoding}  (\texttt{:set fenc}), que
+definirá em que codificação o arquivo do \emph{buffer} em questão será
+salvo. Para  o Brasil, os padrões  normais serão, além  dos já citados
+\texttt{latin1}  e \texttt{utf-8},  o \texttt{iso-8559-1}  (apenas uma
+outra forma  de definir \texttt{latin1}).   Em todos os casos,  não se
+preocupe   com  a   tradução   de  codificações:   o  \texttt{vi}   se
+responsabilizará quanto a isso por você.
+
+Ainda falta  uma opção,  que é \texttt{:set  fileformat} (\texttt{:set
+ff},  onde   voc  definirá  o  \emph{formato  de   arquivo}  quanto  a
+terminações  de linha  e  afins. Esse  valor  poderá ser  \texttt{dos}
+(DOS/Windows),  \texttt{unix}  (Unix   e  derivados)  ou  \texttt{mac}
+(Macintosh). Isso  deve ser feito se  precisar que o final  de linha e
+outras  especificações  pessoais  de  cada sistema  operacional  sejam
+respeitadas pelo \texttt{vi}.
+
+\subsection{O Arquivo \texttt{~/.exrc} ou \texttt{~/.vimrc}}
+
+Para finalizar, existe um  arquivo de configuração para o \texttt{vi},
+o \texttt{~/.exrc}  (que pode aparecer  \texttt{~/.vimrc}) também como
+que   permite   que   permitre    o   ajuste   do   comportamento   do
+\texttt{vi}.  Como  esse  não   é  o  assunto  dessa  introdução,  não
+entraremos nos detalhes desse  arquivo. Basicamente, o estado atual de
+configuração   do   seu   \texttt{vi}   é   oferecido   pelo   comando
+\texttt{:set}. Para listar todas as opções de configuração disponíveis
+em seu ambiente, use \texttt{:set all}.
+
+Usando esse comando você também  pode acessar e modificar as opções do
+\texttt{vi}. Por exemplo, se  você quiser configurar um tamanho máximo
+de  linha  de  72   caracteres,  configure  a  variável  ambiental  do
+\texttt{vi} \texttt{wm}  (\emph{Wrap Margin}  --- Margem de  quebra de
+linha),  ou seja,  não permitir  que alguma  linha tenha  mais  que 72
+caracteres,  use \texttt{:set  wm=8}\footnote{no  caso, o  \texttt{vi}
+  trata a margem  como um determinado número de  caracteres à esquerda
+  que não serão  preenchidos com texto}. Para colocar  isso no arquivo
+de configurações,  abra o mesmo  e digite \texttt{set  wm=10}. Perceba
+que \emph{não foram}  colocados os pontos. O mesmo  vale para qualquer
+outra opção.
+
+Você também  pode utilizar  esse arquivo para  configurar abreviaturas
+que serãos substituídas caso sejam  digitadas. Por exemplo, se você ao
+digitar \texttt{HP} quer que apareça \texttt{Harry Potter}, utilize em
+modo de comando  \texttt{:ab HP Harry Potter}.  Nesse  caso, as teclas
+deverão ser acionadas no modo de  edição para que isso faça efeito. No
+arquivo \texttt{.exrc}, utilize \texttt{ab HP Harry Potter} para que a
+abreviatura funcione.
+
+Você  pode também  criar mapeamentos,  que  fazem a  mesma função  das
+abreviaturas, mas  no modo de comando. Utilize  para isso \texttt{:map
+  <caracter> <texto>},  lembrando que ele  pode ser gravado  dentro de
+\texttt{.exrc}, usando \texttt{map <caracter> <texto>}.
+
+Essa introdução deve ser o  suficiente para que você consiga editar um
+arquivo  \texttt{.exrc} que  lhe  seja adequado.  Você pode  encontrar
+farta informação sobre esse assunto no \emph{\texttt{vim} User Manual}
+de Bram Moolenaar\cite{VIHELP2003}.
+
+\section{Introdução ao \texttt{emacs}}
+				   
+\subsection{A História do \texttt{emacs}}
+O \texttt{emacs}(\emph{\textbf{E}diting \textbf{mac}ro\textbf{s}}) foi
+criado  por Richard  Stallman (futuro  fundador  do Projeto  GNU e  da
+\emph{Free  Software Foundation})  e  Guy Steele,  como  um editor  de
+macros para o editor TECO (\emph{Tape Editor and Corrector} --- Editor
+e Corretor  de Fitas, ou  também \emph{Text Editor and  Corrector} ---
+Editor e Corretor  de Texto), que rodava em  uma plataforma de sistema
+operacional   chamada   ITS   (\emph{Incompatible   TimeSharing}   ---
+Compartilhamento   de  Tempo   Incompatível),   produzidos  ambos   no
+MIT.  Depois  de algum  tempo,  o  \texttt{emacs}  acabou se  tornando
+independente do \texttt{teco}, de  forma similar ao caso \texttt{vi} e
+\texttt{ex}.  E,  também como  o \texttt{vi}, o  \texttt{emacs} também
+gerou clones, ou melhor  dizendo, \emph{forks}\footnote{O termo vem do
+  comando  \texttt{fork()}  do  C   ---  utilizado  para  gerar  novos
+  processos ---  e denomina a ação  que pode ocorrer  de, por questões
+  técnicas, filosóficas ou de encaminhamento de um projeto, alguns dos
+  autores do software abandonam o  projeto original e criam uma versão
+  do mesmo com outro encaminhamento.}:
+\begin{itemize}
+  \item \emph{Gosling  EMACS:} Criado por  James Gosling (que  viria a
+    ser um  dos arquitetos da tecnologia  Java\texttrademark{}), foi o
+    primeiro  clone  do \texttt{emacs}  a  rodar  em plataforma  Unix.
+    Inicialmente era de código  aberto (embora não livre) e construído
+    em  LISP,  assim como  a  versão  original.  Em 1984,  porém,  foi
+    comprado pela  UniPress, que fechou  seu código. Com o  código que
+    pode  aproveitar  do  \texttt{gosmacs} (apelido  do  \emph{Gosling
+      EMACS} e claro partes do  \texttt{emacs} para o TECO, ele veio a
+    criar o GNU \texttt{emacs}. Utilizava uma variante do LISP chamada
+    \emph{Mocklisp};
+  \item \emph{GNU  EMACS:} Foi o  primeiro de uma legião  de softwares
+    produzidos pelo Projeto GNU. Criado por Richard Stallman, utilizou
+    como base o \texttt{gosmacs},  mas tendo substituído todo o código
+    proprietário de maneira  bem rápida.  Substituiu o \emph{mocklisp}
+    por uma variante  completa do LISP, o EMACS  LISP.  Era similar ao
+    \texttt{gosmacs}  e também  rodava no  Unix, mas  com o  tempo foi
+    ganhando  muitas melhorias,  desde coisas  incrivelmente poderosas
+    que   os  modos  relacionados   a  programação   com  \emph{syntax
+      highlight}  e auto-identação,  até  recursos realmente  bizarros
+    para um  editor de  texto (mas com  certeza úteis) como  leitor de
+    email, cliente  de IRC e até mesmo  alguns \emph{plugins} baseados
+    em inteligência  artificial, como  jogos e um  terapeuta freudiano
+    (!!!!)\footnote{baseado  na   série  de  sistemas   de  IA  ELIZA,
+      coincidentemente desenvolvida em LISP}.   Acabou por se tornar o
+    padrão \emph{de facto} no Unix quando o assunto é EMACS;
+  \item   \emph{XEmacs:}  Anteriormente  conhecido   como  \emph{Lucid
+    Emacs}, foi  um \emph{fork}  do código de  uma versão alfa  do GNU
+    EMACS  versão   19,  cujo   código  rapidamente  divergiu   um  do
+    outro. Embora utilizer o  EMACS LISP, possui algumas diferenças no
+    uso, o  que impede (ao  menos parcialmente) que pacotes  (como são
+    chamados os \emph{plugins} do  EMACS) funcionem no XEmacs e divide
+    com o GNU EMACS a ponta no uso ambiente Unix.
+\end{itemize}
+
+Existem  outros  clones do  EMACS,  como \texttt{jed},  \texttt{jove},
+\texttt{freemacs},   e   afins,   mas   vamos  nos   manter   no   GNU
+EMACS\footnote{\textbf{NA:} Já vou avisando que não darei muitas dicas
+  quanto a  ao \texttt{emacs}, embora  seja fã assumido, para  não ser
+  injusto  com o  \texttt{vi}}, pois  a maior  parte dos  comandos são
+iguas para todas as versões e clones do EMACS.
+
+Os fãs  do EMACS  o admiriam pela  sua versatilidade e  capacidades de
+customização, em  grande parte  oferecidas pelo EMACS  LISP (que  é um
+LISP completo).  Como o GNU EMACS  é incluido como parte  do pacote de
+software GNU, os seus defensores  afirmam que, se um sistema possui os
+pacotes GNU (o que quase  todos possuem atualmente no mundo UNIX), ele
+terá o EMACS.
+
+\sloppy
+Seus   detratores,    porém,   acusam   o    \texttt{emacs}   de   ser
+\emph{bloatware}\footnote{Software que possui código demais em relação
+  à  quantidade de  \emph{features} ---  características úteis  --- do
+  sistema},  usando termos  derrogativos como  ``\emph{Eight Megabytes
+  And Constantly Swapping}'' (Oito  Megabytes e uma porrada de Memória
+Virtual),    ``\emph{Eventually   \texttt{malloc()}s    All   Computer
+  Storage}''    (Ocasionalmente     aloca    todo    o     disco    do
+sistema\footnote{aqui há um pequeno erro: \texttt{malloc()} representa
+  alocação dinâmica  de memória  RAM, não de  disco.  Mas não  dá para
+  afirmar  que não  foi uma  boa tentativa})  e ``\emph{EMACS  Makes A
+  Computer Slow}'' (O  EMACS deixa um computador lento)\cite{ESR2003}.
+Em parte isso  é verdade, uma vez que a  distribuição do EMACS costuma
+ocupar algo em torno de 50 MB de disco em suas versões mais atuais.  O
+principal motivo, porém, é a grande quantidade de modos específicos de
+linguagem  suportados  (C/C++,  \LaTeX{},  \TeX{}  original,  Texinfo,
+\texttt{diff}\footnote{utilitário   Unix   usado   para   mostrar   as
+  diferenças entre duas versões  de um determinado código ou arquivo},
+CVS\footnote{\emph{Concurrenty Version System}  --- Sistema de Versões
+  Concorrentes, um sistema de  SCM --- \emph{Source Code Management}})
+e pelas necessidades do EMACS LISP. De qualquer forma, seus detratores
+afirmam  que  não  é  possível   incluir  um  clone  do  EMACS  em  um
+\emph{rescue disk}\footnote{disco  de recuperação}, por  exemplo. Isso
+pode  ser  desmentido  por   clones  do  EMACS  como  \texttt{jed}  ou
+\texttt{jove}.
+
+\fussy
+Para entrar-se  no EMACS, digite o  comando \texttt{emacs <nome\_arq>}
+na  linha de  comando (você  não precisa  obrigatoriamente  entrar com
+\texttt{nome\_arq},  caso em que  você recebará  uma janela
+como  a mostrada no  Trecho de  Código \ref{code:emacswin},  na Página
+\pageref{code:emacswin}).
+
+\begin{codigo}[htp]   
+\scriptsize
+\begin{Verbatim}[frame=single]
+File Edit Options Buffers Tools Help                                            
+Welcome to GNU Emacs, one component of a Linux-based GNU system.
+
+Get help           C-h  (Hold down CTRL and press h)
+Undo changes       C-x u       Exit Emacs               C-x C-c
+Get a tutorial     C-h t       Use Info to read docs    C-h i
+Ordering manuals   C-h RET
+Activate menubar   F10  or  ESC `  or   M-`
+(`C-' means use the CTRL key.  `M-' means use the Meta (or Alt) key.
+If you have no Meta key, you may instead type ESC followed by the character.)
+
+GNU Emacs 21.3.2 (i386-redhat-linux-gnu)
+ of 2004-10-18 on tweety.build.redhat.com
+Copyright (C) 2001 Free Software Foundation, Inc.
+
+GNU Emacs comes with ABSOLUTELY NO WARRANTY; type C-h C-w for full details.
+Emacs is Free Software--Free as in Freedom--so you can redistribute copies
+of Emacs and modify it; type C-h C-c to see the conditions.
+Type C-h C-d for information on getting the latest version.
+
+
+
+-uuu:---F1  *scratch*         (Lisp Interaction)--L1--All-----------------------
+For information about the GNU Project and its goals, type C-h C-p.
+\end{Verbatim}
+\caption{Janela inicial do \texttt{emacs}}
+\label{code:emacswin}
+\end{codigo}
+
+Essa janela  mostra as quatro divisões do  EMACS: menu, \emph{buffer},
+ \emph{modeline}  e  \emph{minibuffer}.   O \emph{buffer}  contêm  uma
+ \emph{cópia}  do  arquivo  carregada  na memória  (essa  diferença  é
+ importante), além de alguns \emph{buffers} especiais serem possíveis.
+ Em geral,  eles são marcados com  \verb+*+ antes e depois  do nome do
+ \emph{buffer}. Alguns deles são:
+
+\begin{itemize}
+  \item \texttt{scratch}:  é um local  que você pode usar  para editar
+    arquivos  novos. Depois  veremos como  salvar tais  arquivos. Além
+    disso,   \texttt{scratch}  pode  ser   usado  como   prática  para
+    aprendizado de EMACS  LISP, como se fosse um  terminal de comandos
+    EMACS LISP. Não é nossa função nesse tutorial nos aprofundarmos no
+    EMACS  LISP,  uma  linguagem  de  programação/macro  incrivelmente
+    poderosa e complexa. Para  maiores informações sobre o EMACS LISP,
+    consulte  ``\emph{An Introduction  to Programming  in  Emacs Lisp,
+      Second  Edition}''\cite{EMACSLISP2006} e ``\emph{GNU  Emacs Lisp
+      Reference Manual}''\cite{ELISPMANUAL2002};
+  \item \texttt{Messages}:  apresenta mensagens de erro  e alertas que
+    tenham sido disparados durante a operação do sistema. É de bom tom
+    dar uma olhada nele quando houver problemas;
+  \item \texttt{Completion}:  Mosta uma lista das  opções válidas para
+    determinados comandos.  É usado  nos modos e comandos que permitem
+    \emph{completion}   (preenchimento   automático)   de   opções   e
+    parâmetros.
+\end{itemize}
+
+Depois dos \emph{buffers}, a linha seguinte é o \emph{modeline}. Ela é
+ chamada assim pois indica que  documento estamos trabalhando e em que
+ modo  está   nosso  documento.   No  caso,   estamos  trabalhando  no
+ \emph{buffer}  especial   \texttt{\*scratch\*},  no  modo  \emph{Lisp
+   Interaction}  (Interação  LISP).  Esse  modo  permite  que  se  use
+ comandos  LISP  diretamente.   Essa   parte  pode  mudar  conforme  o
+ documento que se está trabalhando.
+
+A última  linha é chamada  de \emph{minibuffer}.  Essa linha  pode ser
+ usada para  lançar-se comandos do  EMACS diretamente, sem  recorrer a
+ atalhos  de teclado.  Além  disso, serve  para  lançar parâmetros  de
+ comandos  e informar  sobre  erros e  mensagens  do sistema.
+
+
+Da  mesma  forma que  no  caso  do  \texttt{vi}, nosso  objetivo  aqui
+\emph{não é} ensinar  totalmente o EMACS. O EMACS  é um software muito
+complexo, mais  complexo que o \texttt{vi}. Nesse  caso, sugerimos que
+consulte  a documentação  do EMACS\cite{EMACSMANUAL2006}.  Além disso,
+você pode  consultar o próprio tutorial  que o EMACS  traz consigo (da
+mesma forma  que o \texttt{vi}  traz o \texttt{vitutor}).  Para iisso,
+digite   \Ctrl  +   \keystroke{h}  e   em  seguida   digite   a  tecla
+\keystroke{t}.
+
+
+\subsubsection{Convenções do \texttt{emacs}}
+
+O \texttt{emacs}, em sua  ajuda, possui algumas convenções. A primeira
+delas  é  que  alguns  comandos  são  apresentados  como  \emph{várias
+  seqüências} de  caracteres. Por exemplo, para acessar  o tutorial do
+\texttt{emacs}  como   demonstramos  anteriormente,  a   ajuda  mostra
+\texttt{C-h  t} (na verdade,  você pode  ver esse  tipo de  notação no
+Trecho      de     Código      \ref{code:emacswin},      na     Página
+\pageref{code:emacswin}.
+
+Nesses  casos, o  caracter \texttt{C}  representa a  tecla \Ctrl,  e a
+letra \texttt{M} representa  a tecla \keystroke{Meta}. Normalmente, na
+maioria dos  ambientes GNU/Linux,  a tecla \keystroke{Meta}  é mapeada
+para  a tecla \Alt.  Caso isso  não aconteça,  outra tecla  usada como
+\keystroke{Meta} é \Esc  (isso por causa da opção  de passar-se para o
+\emph{minibuffer}  com M-x  --- \keystroke{Meta}  +  \keystroke{X} ---
+isso acabou sendo tratado como uma espécie de semi-compatibilidade com
+o  \texttt{vi}).   No  caso,  quando  o EMACS  pede  que  pressione-se
+\texttt{C-x C-f}, primeiro digite  \Ctrl + \keystroke{X} e em seguida,
+digite \Ctrl  + \keystroke{f}. Se  for pedido para  usar \texttt{M-x},
+tecle \Alt + \keystroke{X} (ou \Esc+\keystroke{x}).
+
+Quando duas sequências estão separadas  por espaço, deve-se usar uma e
+em seguida a outra. Por  exemplo, citamos a já citada \texttt{C-x C-f}
+(\Ctrl + \keystroke{x} e depois \Ctrl + \keystroke{f}).
+
+Quando  o  \texttt{emacs} menciona  arquivos,  ele  costuma chamar  de
+\emph{buffers}. O motivo  disso é que é possível  salvar-se o conteúdo
+de  \emph{buffers}   em  arquivos.  Uma   das  vantagens  do   uso  de
+\emph{buffers}  é que,  caso haja  uma queda  de energia,  o  risco de
+corrupção de dados é´mínimo pois os dados são manipulados na memória.
+
+É importante  que você se  acostume com os  nomes de regiões  da tela,
+pois muitas vezes você terá  que visualizar ou fazer referência a cada
+uma dessas seções.
+
+\subsection{Edição e navegação por arquivos}
+
+Normalmente, ao entrar no \texttt{emacs} você irá para um\emph{buffer}
+ (um   arquivo   que   você    tenha   aberto   ou   o   \emph{buffer}
+ \texttt{\*scratch\*}.   Para editar  um texto,  basta  sair digitando
+ naturalmente com o teclado.
+
+Para  navegar   no  texto,  você  irá  usar   as  teclas  \texttt{C-p}
+(\Ctrl+\keystroke{P}),       \texttt{C-n}       (\Ctrl+\keystroke{N}),
+\texttt{C-b}        (\Ctrl+\keystroke{B})        e        \texttt{C-f}
+(\Ctrl+\keystroke{F}).   Você   também  pode  utilizar-se   das  setas
+direcionais   para   se  deslocar   pelo   texto.  Diferentemente   do
+\texttt{vi}, você pode se  deslocar, editar texto e realizar operações
+tudo ao  mesmo tempo. A única  situação adversa é no  caso de comandos
+complexos  que  não  possuam  atalhos  de  teclado:  estes  devem  ser
+utilizados no \emph{minibuffer}, portanto fora do \emph{buffer} normal
+de edição.
+
+Para  navegar   através  de  palavras,   você  pode  usar   as  teclas
+\texttt{M-b}(\Meta+\keystroke{B})  e \texttt{M-f}(\Meta+\keystroke{F})
+para  ir  a   palavra  anterior  ou  seguinte.  Nesse   caso,  como  o
+\texttt{vi}, o \texttt{emacs} não permite  o uso dos direcionais com o
+\Ctrl  como  nos   editores  do  ambiente  Windows\texttrademark{},  por
+padrão. Porém, o \texttt{emacs} oferece um modo de compatibilidade com
+o  sistema  Windows\texttrademark{}.  Veremos  mais  sobre  isso  quando
+falarmos  do  arquivo  de  configuração do  \texttt{emacs},  na  Seção
+\ref{sec:.emacs}, Página \pageref{sec:.emacs}.
+
+Para  ir  ao   começo  e  ao  fim  de   uma  linha,  use  \texttt{C-a}
+(\Ctrl+\keystroke{A}) e \texttt{C-e}  (\Ctrl+\keystroke{E}), e para ir
+ao  início   e  ao  final   de  uma  sentença,   utilize  \texttt{M-a}
+(\Meta+\keystroke{A}) e  \texttt{M-e} (\Meta+\keystroke{E}). Você pode
+ir ao  começo do  arquivo usando \texttt{M-<}  (\Meta+\keystroke{<}) e
+\texttt{M->}(\Meta+\keystroke{>}).  Perceba  que  você precisará  usar
+\Shift nesse  caso, pois se você  tentar digitar (\Meta+\keystroke{<})
+sem    usar    \Shift,    você    estará    na    verdade    digitando
+(\Meta+\keystroke{,}).
+
+Um recurso muito legal do \texttt{emacs} (presente no \texttt{vi}) é a
+repetição  do   comando.   Para  isso,  você   irá  usar  \texttt{C-u}
+(\Ctrl+\keystroke{U}) e digitar no \emph{minibuffer} o número de vezes
+que o comando deverá ser repetido. Por exemplo, se você quiser avançar
+10    palavras   dentro   do    seu   texto,    utilize   \texttt{C-u}
+(\Ctrl+\keystroke{U}), digite em  seguida o número 10 e  logo depois o
+comando \texttt{M-f} (\Meta+\keystroke{F}).
+
+\subsection{Abrindo e salvando arquivos}
+
+Para carregar um arquivo dentro de um \emph{buffer} do \texttt{emacs},
+utilize \texttt{C-x  C-f} (\Ctrl+\keystroke{X} e \Ctrl+\keystroke{F}).
+Ele vai levar você até  o \emph{minibuffer} e perguntar qual o arquivo
+a  ser aberto.  Escolha  o arquivo  desejado normalmente.   Um recurso
+ótimo é que ele aceita \emph{completion}, ou seja, ele vai completando
+o nome do arquivo aonde não houver pedaços diferentes e irá parar caso
+haja outras opções.  Para  chamar o \emph{completion}, utilize a tecla
+\Tab. Se vários arquivos possuir um nome parecido, o \emph{completion}
+irá  preencher  todo o  trecho  de  nome  comum a  todos.   Pressionar
+novamente   \Tab   irá   exibir   no  \emph{minibuffer}   a   mensagem
+\texttt{\[Complete, but not unique\]} (\emph{Completo, mas não único}.
+Pressionar  uma  terceira vez  \Tab  irá fazer  com  que  a tela  seja
+divididas em duas seções e  que os arquivos que tenham nomes similares
+apareçam na seção  debaixo, no \emph{buffer} \texttt{\*Completions\*}.
+Vá digitando trechos que eliminem  as ambigüidades até obter o arquivo
+desejado. Conseguindo isso, tecle \Return.
+
+Ele irá carregar um \emph{buffer} com o arquivo em questão.  Em geral,
+o  modo  apresentado  será  \texttt{Text}, mas  outros  modos  poderão
+aparecer  conforme o tipo  de documento.  Um exemplo  de EMACS  com um
+\emph{buffer}  de   arquivo  pode  ser  visto  no   Trecho  de  Código
+\ref{code:emacsopen}, Página \pageref{code:emacsopen}.
+
+\begin{codigo}[htp]   
+\scriptsize
+\begin{Verbatim}[frame=single]
+File Edit Options Buffers Tools TeX Help                                        
+% www.cenapad.unicamp.br/servicos/treinamentos/tutorial_unix
+% http://proaluno.if.usp.br/minicursos/mini03/mini03/mini03.html
+
+\chapter{Editores de texto}
+
+Uma das  principais ferramentas, não apenas para  a administração, mas
+para o uso em geral, dentro do GNU/Linux é o editor de texto. No caso,
+entende-se  editor  de texto  ao  programa  que  permita a  digitação,
+gravação e  correção de textos  em formato ASCII  puro (diferentemente
+dos processadores de texto como  o MS-Office ou o OpenOffice.org). Com
+o uso  de um editor de texto  e as ferramentas corretas,  você pode ir
+desde criar páginas Web e \emph{emails} até a editar novos programas e
+criar textos de alta  qualidade\footnote{No caso, com ferramentas como
+  DocBook e \LaTeX{}}.
+
+Esse  capítulo será  dedicado  a uma  introdução  aos dois  principais
+editores de texto para Unix  e GNU/Linux: o \texttt{vi} (e clones como
+\texttt{vim} e \texttt{elvis}) e o GNU \texttt{emacs} (e seu principal
+clone, o  \texttt{jed}). Na  prática, existem muitos  outros editores,
+como  \texttt{pico},  \texttt{nano},  \texttt{joe} e  até  ferramentas
+visuais, como  \texttt{kate} e outras.  Mas esses dois  são facilmente
+-uu1(DOS)---F1  cap7.tex          (LaTeX)--L1--Top------------------------------
+Loading tex-mode...done
+\end{Verbatim}
+\caption{Janela do \texttt{emacs} com \emph{buffer}}
+\label{code:emacsopen}
+\end{codigo}
+
+Uma dica  é que  você sempre pode  sair do \emph{minibuffer}  usando o
+atalho  \texttt{C-g}  (\Ctrl+\keystroke{G}).  Além  disso,  você  pode
+passar do \emph{minibuffer} para o \emph{buffer} usando \texttt{C-x o}
+(\Ctrl+\keystroke{X} e em seguida  \texttt{O}). Você pode abrir vários
+\emph{buffers}   de   uma    seção   do   \texttt{emacs}.   Na   Seção
+\ref{sec:emacstricks},  na  Página \pageref{sec:emacstricks},  veremos
+mais sobre  como trabalhar com vários \emph{buffers}  abertos ao mesmo
+tempo. 
+
+Para   salvar  um   arquivo,  utilize   o  comando   \texttt{C-x  C-s}
+(\Ctrl+\keystroke{X}  e \Ctrl+\keystroke{S}).  Se  o \emph{buffer}  em
+questão for  de um  arquivo, ele  irá salvar no  arquivo em  questão o
+conteúdo do  \emph{buffer}. Caso contrário,  ele irá pedir um  nome de
+arquivo ao qual salvar o conteúdo do \emph{buffer}. 
+
+É  possível  salvar  vários   \emph{buffers}  de  uma  vez,  usando-se
+\texttt{C-x s} (\Ctrl+\keystroke{X}  e \keystroke{S}). Ele irá mostrar
+uma mensagem como a seguinte:
+
+\begin{center}
+\begin{Verbatim}
+Save file /mnt/CursoGNU/Linux/cap7.tex? (y, n, !, ., q, C-r, d or C-h)
+\end{Verbatim}
+\end{center}
+
+Onde:
+
+\begin{itemize}
+\item  Pressionar  \Spacebar ou  \keystroke{Y}  salva o  \emph{buffer}
+ atual;
+\item Pressionar \Del ou \keystroke{N} pula o \emph{buffer} atual (não
+ salva o \emph{buffer});
+\item  \keystroke{Q} abandona  o  restante dos  buffers (\emph{não  os
+  salva});
+\item \texttt{C-g}  (\Ctrl + \keystroke{G}) cancela o  comando como um
+ todo, embora não volte atrás nos arquivos que já tenham sido salvos;
+\item \keystroke{!} salva todos os \emph{buffers} ainda não salvos;
+\item \texttt{C-r}  (\Ctrl +  \keystroke{R}) mostra o  \emph{buffer} a
+ ser salvo;
+\item \texttt{d} (\keystroke{d}) gera  um \emph{diff} entre a versão a
+ ser salva e a última versão salva;
+\item \texttt{.}  (\keystroke{.}) salva o \emph{buffer} a  ser salvo e
+ sai do comando;
+\end{itemize}
+
+Para salvar um \emph{buffer}  em outro arquivo, utilize \texttt{C-x w}
+ (\Ctrl +  \keystroke{X} e \keystroke{W}). Esse comando  irá lhe pedir
+ um nome de arquivo no  qual o \emph{buffer} será salvo, podendo pedir
+ uma  confirmação de sobrescrita  caso venha  a ser  necessário. Nesse
+ caso,     responda    \texttt{yes}     (digite     \texttt{yes}    no
+ \emph{minibuffer})    caso    deseje    que   esse    arquivo    seja
+ sobrescrito. Caso contrário, responda \texttt{no}.
+
+Para  fechar  um  \emph{buffer},   utilize  \texttt{C-x  k}  (\Ctrl  +
+ \keystroke{X} e \keystroke{K}).  Esse comando irá fechar \emph{apenas
+   o buffer}.  Se o \emph{buffer}  tiver sido alterado, ele  irá pedir
+ uma  confirmação similar  à mostrada  nos casos  anteriores. Responda
+ \texttt{y} ou \texttt{n} conforme seu desejo.
+
+Para alternar entre \emph{buffers},  você pode utilizar \texttt{C-x b}
+ (\Ctrl  + \keystroke{X}  e \keystroke{B}).  Ele irá  pedir o  nome do
+ \emph{buffer}   para  o   qual   você  deseja   ir,  aceitando   como
+ \emph{default}   o   último    \emph{buffer}   para   o   qual   você
+ alternou. Nesse caso, basta pressionar \Return. De outro modo, digite
+ o  nome do  arquivo  (sem  caminho) que  deseja  visualizar e  aperte
+ \Return. Você pode utilizar \Tab e \emph{completions} normalmente. Se
+ quiser antes confirmar o \emph{buffer} para o qual deseja ir, utilize
+ \texttt{C-x C-b} (\Ctrl + \keystroke{X} e \Ctrl + \keystroke{B}) para
+ exibir   a   lista  de   \emph{buffers}   atualmente  carregados   no
+ \texttt{emacs}.   Nesse  caso,  utilize   \texttt{C-x  1}   (\Ctrl  +
+ \keystroke{X}  e  \Ctrl  +  \keystroke{1})  para fechar  a  lista  de
+ \emph{buffers}.
+
+Para  sair  do  \texttt{emacs},  utilize  \texttt{C-x  C-c}  (\Ctrl  +
+ \keystroke{X}  e  \Ctrl +  \keystroke{C}).   Ele  irá  lhe pedir  uma
+ confirmação   similar  à   do   comando  \texttt{C-x   s}  (\Ctrl   +
+ \keystroke{X}  e  \keystroke{S}),  mas  com uma  diferença:  se  você
+ escolher alguma  das opções de saída, como  \texttt{!} ou \texttt{Q},
+ ele realiza  a operação  e sai do  \texttt{emacs}.  A única  forma de
+ impedir essa saída é com \texttt{C-q} (\Ctrl + \keystroke{Q}).
+
+Para  desfazer  qualquer  alteração,  utilize \texttt{C+\_}  (\Ctrl  +
+\keystroke{\_}).   \emph{Não  utilize o  atalho  normal de  desfazer,}
+\Ctrl+\keystroke{Z}. Esse  comando é  usado para minimizar  janelas no
+X-Windows.
+
+\subsection{Pesquisa e substituição}
+
+Para pesquisar  um determinado trecho de  informação, use \texttt{C-s}
+(\Ctrl  +   \keystroke{S}).  Vai  aparecer   no  \emph{minibuffer}  um
+\emph{prompt}   \texttt{I-search:}.   Em   seguida  digite   o   texto
+digitado. Ele  irá ressaltar o  conteúdo que foi pesquisado  dentro do
+\texttt{I-search:}.   Para   seguir   pesquisando,   tecle   novamente
+\texttt{C-s}  (\Ctrl  +   \keystroke{S}),  até  localizar  o  conteúdo
+desejado. Nesse caso, tecle \Return.
+
+Para   pesquisar   e    substituir,   use   \texttt{M-\%}   (\Ctrl   +
+\keystroke{\%}).  Aparece  no \emph{framebuffer} o  prompt \emph{Query
+  string:}. Digite  o texto a ser  substituido e em seguida  o texto a
+ser colocado no lugar.  Todas as entradas que ``casem'' com o critério
+desejado irão  ser ressaltadas.  Elas  serão selecionadas uma a  uma e
+será  perguntado se  deseja  alterar os  dados.   Para alterar-se  uma
+entrada, digite \texttt{y}, senão utilize \texttt{n}. Para cancelar as
+alterações, utilize \texttt{C-g} (\Ctrl + \keystroke{G}).
+
+\subsection{Cortar, Copiar, Colar e Apagar}
+
+Da mesma forma que o \texttt{vi}, a seleção do texto no \texttt{emacs}
+ não    lembra    em    nada    a   forma    de    selecionar-se    no
+ Windows\texttrademark{}. Mas ela ainda assim  é um tanto melhor que o
+ padrão adotado por programas  mais antigos. Para começar a selecionar
+ um texto, aperte \texttt{C-Espaço} (\Ctrl + \Spacebar) no local aonde
+ ele irá começar a copiar.  O \emph{minibuffer} irá mostrar a mensagem
+ ``\texttt{Mark  set}''. Vá se  movendo até  o final  do trecho  a ser
+copiado (em algumas  versões do EMACS, a seleção tem  sua cor de fundo
+alterada,  mas  não  são  todas).  Use  então  \texttt{C-w}  (\Ctrl  +
+\keystroke{w})  para   recortar  o  texto  e   \texttt{M-w}  (\Meta  +
+\keystroke{w}) para copiar o texto.
+
+Após isso,  vá para a posição  no seu \emph{buffer} atual  ou em outro
+\emph{buffer}  no \texttt{emacs}, e  em alguns  casos até  para outros
+programas no ambiente operacional  aonde o \texttt{emacs} está rodando
+(como o  X-Windows). No  caso do \texttt{emacs},  para colar  o texto,
+basta usar  \texttt{C-x y}(\Ctrl  + \keystroke{X} e  \keystroke{Y}) no
+ponto aonde deseja-se colar o texto.
+
+Para apagar um texto, você pode usar a seleção normalmente, e utilizar
+\Del para apagar a seleção.
+
+\subsection{Truques de edição}
+\label{sec:emacstricks}
+
+O \texttt{emacs}  é extremamente poderoso, tão poderoso  que alguns de
+seus maiores defensores já não o consideram apenas um editor de texto,
+mas  quase um \emph{ambiente  operacional}\footnote{Pode-se considerar
+  um ambiente  operacional como o  local aonde uma pessoa  trabalha no
+  computador.   Nessa   definição,  uma   interface   gráfica  ou   um
+  \emph{shell}  são considerados  ambientes operacionais}.  A poderosa
+linguagem EMACS  LISP ofereceu muitas coisas  interessantes, como GNUS
+(Cliente  de  News),  ERC  (Cliente IRC)  e  Emacs/W3(Navegador  HTTP)
+embutidos  no  EMACS. Se  o  leitor  desejar  saber mais  sobre  esses
+pacotes, a Internet está repleta de documentação sobre eles.
+
+Vamos trabalhar com truques a nível de uso do EMACS.
+
+O  primeiro truque  interessante é  dividir a  janela. Você  pode usar
+\texttt{C-x   2}  (\Ctrl   +  \keystroke{X}   e   \keystroke{2})  para
+``fracionar'' a janela e, com isso, poder trabalhar dois documentos em
+paralelo. Ao dividir a janela, normalmente ela fica as duas ``partes''
+da  janela  no  mesmo  \emph{buffer},  mas  você  pode  alternar  elas
+independentemente  uma da  outra.  Para  alternar entre  ``partes'' da
+janela, use  \texttt {C-x o} (\Ctrl +  \keystroke{X} e \keystroke{O}).
+Nesse caso,  você perceberá que  as janelas divididas são  destacada e
+cada uma possui seu próprio \emph{modeline}. Pode-se dividir uma mesma
+janela várias  vezes, e  também pode-se dividir  a janela  na vertical
+(\texttt{C-x  3} ---  \Ctrl +  \keystroke{X} e  \keystroke{3}). Quando
+você  não quiser  mais as  divisões,  digite \texttt{C-x  1} (\Ctrl  +
+\keystroke{X} e \keystroke{1}) para desfazer as divisões. 
+
+\begin{quotation}
+  \textbf{Atenção:} Quando você  desfizer as divisões, \emph{todas} as
+  divisões  serão  desfeitas.  \emph{Não  é  possível} escolher  quais
+  divisões a serem desfeitas.
+\end{quotation}
+
+Outro truque bastante interessante são os ``comandos longos''.
+
+Como  já foi dito,  o EMACS  utiliza uma  linguagem de  programação de
+\emph{macros} muito poderosa, o EMACS LISP. Na prática, quase todos os
+comandos do  EMACS são também  comandos EMACS LISP. Para  usar-se tais
+comandos, utilize o \emph{minibuffer}. Um  exemplo de comando útil é o
+\texttt{comment-region}.   Selecione  um  trecho  de texto  (no  EMACS
+chamado  de  \emph{region} ---  região)  e  chame o  \emph{minibuffer}
+usando \texttt{M-x}  (\Meta +  \keystroke{X}). Nele, digite  o comando
+\texttt{comment-region}.  Ele irá  comentar o  texto  selecionado para
+você.
+
+Importante   notar  que   pode-se   usar  o   \emph{minibuffer}  e   o
+\emph{completion} para  obter-se uma  listagem de todos  os ``comandos
+longos'' dentro do EMACS. Basta, no \emph{minibuffer}, pressionar \Tab
+duas vezes, o que irá chamar o \emph{completion}.
+
+\subsection{Mudando a codificação do arquivo}
+\label{sec:fileenconde-emacs}
+
+Algumas  vezes, você  terá que  mudar  a codificação  do arquivo  para
+editar arquivos específicos no seu GNU/Linux. Por exemplo, você poderá
+precisar editar um  \emph{script} de \emph{logon} na rede  SaMBa ou um
+arquivo em Unicode  no seu EMACS. Se o arquivo  em questão for aberto,
+não há  problemas: o EMACS  detecta automaticamente a  codificação (ou
+\emph{encoding}) do arquivo. Mas se for um arquivo novo, será um pouco
+mais complicado que isso. 
+
+Para  modificar  a  codificação  do  arquivo,  primeiro  altere  a  do
+\emph{buffer}       em      questão,       usando       o      comando
+\texttt{set-buffer-file-coding-system} no  \emph{minibuffer}, ou então
+use o atalho de teclado  \texttt{C-x RET f} (\Ctrl + \keystroke{X}, em
+seguida \Return  e por  fim \keystroke{F}).  No  \emph{minibuffer} irá
+aparecer a  mensagem \texttt{Coding system for  visited file (default,
+nil):}. Você pode usar o \emph{completion} para procurar a codificação
+desejada.   Em    geral,   no   Brasil    usará-se   as   codificações
+\texttt{iso-latin-1} e  \texttt{utf-8}. Em  ambos os casos,  você pode
+adicionar  à  codificação  os  termos \texttt{dos},  \texttt{unix}  ou
+\texttt{mac} se precisar que o  final de linha e outras especificações
+pessoais de cada sistema operacional sejam respeitadas pelo EMACS.
+
+\subsection{O arquivo \texttt{.emacs}}
+\label{sec:.emacs}
+
+O arquivo \texttt{~{}/.emacs} é o arquivo de configuração do EMACS. Na
+prática, ele  é um  \emph{script} em EMACS  LISP que permite  que você
+ative  recursos   padrões  ou  não.   Um  exemplo  de  código   de  um
+\texttt{~{}/.emacs}   pode    ser   visto   no    Trecho   de   Código
+\ref{code:.emacs}, na Página \pageref{code:.emacs}
+
+\begin{codigo}[htp]   
+\scriptsize
+\begin{Verbatim}[frame=single,commandchars=\@<>]
+
+; Add this to your .emacs or .xemacs/init.el file.
+@ldots
+(autoload 'ruby-mode "ruby-mode" "Ruby editing mode." t)
+(add-to-list 'auto-mode-alist '("\.rb$" . ruby-mode))
+(add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
+(set-default-font "-misc-fixed-medium-r-normal--15-140-75-75-c-90-iso8859-1")
+(defun ruby-eval-buffer () (interactive)
+   "Evaluate the buffer with ruby."
+   (shell-command-on-region (point-min) (point-max) "ruby"))
+@ldots
+(require 'pc-select)
+(require 'delsel)
+@ldots
+(delete-selection-mode +1)
+(pc-selection-mode)
+(setq frame-title-format "Emacs/Linux por Fábio Costa - %b")
+@ldots
+(define-key global-map [end] 'end-of-line)
+(define-key global-map [home] 'beginning-of-line)
+(define-key global-map [C-end] 'end-of-buffer)
+(define-key global-map [C-home] 'beginning-of-buffer)
+(define-key global-map [backspace] 'delete-backward-char)
+(define-key global-map [delete] 'delete-char)
+(global-unset-key "\352")
+(global-unset-key "\343")
+(global-unset-key "\C-j")
+(global-unset-key "\M-f")
+(global-unset-key "\M-r")
+(global-unset-key "\M-s\M-s")
+(global-set-key "\C-l" (quote downcase-word))
+(global-set-key "\M-l" (quote downcase-region))
+(global-set-key "\M-u" (quote upcase-region))
+(global-set-key "\352" (quote set-justification-full))
+(global-set-key "\343" (quote center-line))
+(global-set-key "\C-j" (quote justify-current-line))
+(global-set-key "\M-f" (quote search-forward-regexp))
+(global-set-key "\M-r" (quote replace-regexp))
+(global-set-key "\C-x\M-b" (quote center-block-text))
+(global-set-key "\C-x\C-u" (quote capitalize-word))
+(global-set-key [C-tab] (indent-according-to-mode))
+(tool-bar-mode 1)
+(set-frame-height (selected-frame) 27)
+(set-frame-width (selected-frame) 80)
+(setq w32-use-w32-font-dialog nil)
+(setq line-number-mode t)
+(setq column-number-mode t)
+(setq inhibit-startup-message t)
+(setq comint-completion-addsuffix t)
+(setq kill-emacs-query-functions
+      (cons (lambda () (yes-or-no-p "Deseja Realmente Sair do EMACS? "))
+            kill-emacs-query-functions))
+@ldots
+\end{Verbatim}
+\caption{Exemplo de arquivo \texttt{~/.emacs}}
+\label{code:.emacs}
+\end{codigo}
+
+Na prática, existem dois tipos básicos de configurações: \emph{modos} e
+\emph{variáveis do ambiente}.
+
+A primeira configuração ativa conjuntos de \emph{modos} específicos. No
+EMACS, um modo determina o comportamento que o EMACS irá assumir conforme
+o tipo de arquivo em uso. Determina, entre outras coisas, características
+de realce de sintaxe (\emph{sintax highlight}), tabulação, configurações
+para menus e outras coisas mais.
+
+Normalmente, para ativar um módulo, você invoca o modo como um comando
+LISP, cercado por parênteses (\texttt{()}). Por exemplo, existe um módulo
+muito útil no EMACS, principalmente para aqueles acostumados com o uso da
+seleção como no Windows\texttrademark{}, que é o
+\texttt{pc-selection-mode} (modo de seleção estilo PC). Para ativar esse
+módulo, utilize tanto no \emph{framebuffer} quando no arquivo
+\texttt{~{}/.emacs} o comando citado. No arquivo \texttt{~{}/.emacs},
+utilize \texttt{(pc-selection-mode)}.
+
+Algumas vezes, os comandos de modo, principalmente nos chamados
+\emph{modos menores} (\emph{minor modes}) (módulos que ``apenas'' oferecem
+recursos extras aos modos sem serem elas próprias módulos) podem exigir
+que o modo receba parâmetros. Em EMACS LISP um parâmetro é qualquer coisa
+que não seja um comando e que não esteja cercada por parênteses, o que
+determina uma \emph{lista}. Parâmetros \emph{string} podem ser cercados
+por aspas duplas{``''} normalmente. 
+
+Por exemplo, você pode definir um tamanho padrão para a janela em operação
+usando os comandos \texttt{set-frame-height} e \texttt{set-frame-width},
+colocando como parâmetro uma lista como os \emph{frames} (janelas)
+desejados (ou \texttt{(selected-frame)} para usar a janela selecionada) e
+um tamanho em número de caracteres, como no exemplo abaixo:
+ 
+\begin{center}
+\begin{Verbatim}
+(set-frame-height (selected-frame) 27)
+(set-frame-width (selected-frame) 80)
+\end{Verbatim}
+\end{center}.
+
+Já as \emph{váriaveis de ambiente} são definidas usando \texttt{setq}
+recebendo como parâmetros a variável e seu valor. Por exemplo, o EMACS
+normalmente não mostra, em modo gráfico, um nome de janela muito
+interativo (mostra alguma coisa como \verb|emacs@hufflepuff|). Para
+melhorar, você pode utilizar a variável do ambiente
+\texttt{frame-title-format}, como demonstrado abaixo.
+ 
+\begin{center}
+\begin{Verbatim}
+(setq frame-title-format "Emacs/Linux por Fábio Costa - %b")
+\end{Verbatim}
+\end{center}
+ 
+Essas foram apenas introduções ao uso de editores de texto que permitam ao
+leitor trabalhar confortavelmente em qualquer um deles conforme suas
+necessidades e preferências. O leitor deve, portanto, verificar qual dos
+dois é o que mais se adapta a seu gosto e pesquisar mais profundamente
+sobre eles.
+
+De qualquer modo, creio que nosso objetivo aqui está cumprido. Vamos agora
+abandonar um pouco o modo texto e ver como funciona a Interface Gráfica no
+GNU/Linux.

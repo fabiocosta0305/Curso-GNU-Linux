@@ -1,0 +1,364 @@
+\providecommand{\abntreprintinfo}[1]{%
+ \citeonline{#1}}
+\setlength{\labelsep}{0pt}\begin{thebibliography}{}
+\providecommand{\abntrefinfo}[3]{}
+\providecommand{\abntbstabout}[1]{}
+\abntbstabout{1.52 }
+
+\bibitem[Alecrim 2003]{ALECRIM2003}
+\abntrefinfo{Alecrim}{ALECRIM}{2003}
+{ALECRIM, E. \emph{A história do Linux}. 2003.
+Dispon{\'\i}vel em: $<$http://www.infowester.com/linux5.php$>$. Acesso em: 12
+  de Abril de 2006.}
+
+\bibitem[Arcomano 20002]{WIRELESS2002}
+\abntrefinfo{Arcomano}{ARCOMANO}{20002}
+{ARCOMANO, R. \emph{Linux Wireless {HOWTO}}. The Linux Documentation Project,
+  20002.
+Dispon{\'\i}vel em: $<$http://www.tldp.org/HOWTO/Wireless-HOWTO.html$>$. Acesso
+  em: 23 de Abril de 2006.}
+
+\bibitem[Casha 2001]{CASHA2001}
+\abntrefinfo{Casha}{CASHA}{2001}
+{CASHA, R. \emph{Filesystems for Linux}. 2001.
+Dispon{\'\i}vel em: $<$http://linux.org.mt/article/filesystems$>$. Acesso em:
+  20 de Abril de 2006.}
+
+\bibitem[Castells 2000]{CASTELLS2000}
+\abntrefinfo{Castells}{CASTELLS}{2000}
+{CASTELLS, M. \emph{A Sociedade em Rede}. São Paulo, SP: Paz e Terra, 2000.}
+
+\bibitem[Chassell 2006]{EMACSLISP2006}
+\abntrefinfo{Chassell}{CHASSELL}{2006}
+{CHASSELL, R.~J. \emph{Programming in Emacs Lisp}. Segunda. Boston, USA: GNU
+  Press, 2006. Dispon{\'\i}vel em:
+  $<$http://www.gnu.org/software/emacs/emacs-lisp-intro/emacs-lisp-intro.html$%
+>$. Acesso em: 26 de Abril de 2006.}
+
+\bibitem[Cineiros 2005]{CINEIROS2005}
+\abntrefinfo{Cineiros}{CINEIROS}{2005}
+{CINEIROS, H. \emph{The Linux Manual, versão 4.0}. 2005.
+Dispon{\'\i}vel em: $<$http://www.devin.com.br/eitch/tlm4/$>$. Acesso em: 21 de
+  Abril de 2006.}
+
+\bibitem[Coelho 2003]{COELHO2003}
+\abntrefinfo{Coelho}{COELHO}{2003}
+{COELHO, A. B.~G. \emph{Escalonamento de processos em Linux}. 2003.
+Dispon{\'\i}vel em:
+  $<$http://www.ginux.ufla.br/documentacao/bibginux/Alexandre-Escalonamento.pd%
+f$>$. Acesso em: 23 de Abril de 2006.}
+
+\bibitem[Coelho 2002]{COELHO2002}
+\abntrefinfo{Coelho}{COELHO}{2002}
+{COELHO, R.~S. de A. \emph{Editor \texttt{vi} --- Guia de Consulta Rápida}.
+  S\~ao Paulo, SP: Novatec, 2002.}
+
+\bibitem[Comer 2001]{comer2001}
+\abntrefinfo{Comer}{COMER}{2001}
+{COMER, D.~E. \emph{Interliga\c{c}\~ao em rede com TCP/IP volume 1}. 3rd. ed.
+  S\~ao Paulo: Campus, 2001. 672~p.
+ISBN 85-352-0270-6.}
+
+\bibitem[Deutsch 1996]{GZIP1996}
+\abntrefinfo{Deutsch}{DEUTSCH}{1996a}
+{DEUTSCH, P. \emph{RFC 1950 -- GZIP file format specification version 4.3}.
+  1996.
+Dispon{\'\i}vel em: $<$http://www.ietf.org/rfc/rfc1950.txt$>$. Acesso em: 23 de
+  Abril de 2006.}
+
+\bibitem[Deutsch 1996]{DEFLATE1996}
+\abntrefinfo{Deutsch}{DEUTSCH}{1996b}
+{DEUTSCH, P. \emph{RFC 1951 --- DEFLATE Compressed Data Format Specification
+  version 1.3}. 1996.
+Dispon{\'\i}vel em: $<$http://www.ietf.org/rfc/rfc1951.txt$>$. Acesso em: 23 de
+  Abril de 2006.}
+
+\bibitem[Deutsch e Gailly 1996]{ZLIB1996}
+\abntrefinfo{Deutsch e Gailly}{DEUTSCH; GAILLY}{1996}
+{DEUTSCH, P.; GAILLY, J.-L. \emph{RFC 1950 --- ZLIB Compressed Data Format
+  Specification version 3.3}. 1996.
+Dispon{\'\i}vel em: $<$http://www.ietf.org/rfc/rfc1950.txt$>$. Acesso em: 23 de
+  Abril de 2006.}
+
+\bibitem[Drake 1999]{NET31999}
+\abntrefinfo{Drake}{DRAKE}{1999}
+{DRAKE, J. \emph{Linux Networking {HOWTO}}. The Linux Documentation Project,
+  1999.
+Dispon{\'\i}vel em: $<$http://www.tldp.org/HOWTO/NET3-4-HOWTO.html$>$. Acesso
+  em: 23 de Abril de 2006.}
+
+\bibitem[Ferreira 2003]{FERREIRA2003}
+\abntrefinfo{Ferreira}{FERREIRA}{2003}
+{FERREIRA, R.~E. \emph{Linux: Guia do Administrador do Sistema}. S\~ao Paulo,
+  SP: Novatec, 2003.}
+
+\bibitem[Free Software Foundation 2002]{ELISPMANUAL2002}
+\abntrefinfo{Free Software Foundation}{FREE SOFTWARE FOUNDATION}{2002}
+{FREE SOFTWARE FOUNDATION. \emph{GNU Emacs Lisp Reference Manual}. Boston, USA:
+  GNU Press, 2002. Dispon{\'\i}vel em:
+  $<$http://www.gnu.org/software/emacs/emacs-lisp-intro/emacs-lisp-intro.html$%
+>$. Acesso em: 26 de Abril de 2006.}
+
+\bibitem[Free Software Foundation 2006]{EMACSMANUAL2006}
+\abntrefinfo{Free Software Foundation}{FREE SOFTWARE FOUNDATION}{2006}
+{FREE SOFTWARE FOUNDATION. \emph{GNU Emacs manual}. Boston, USA: GNU Press,
+  2006. Dispon{\'\i}vel em: $<$http://www.gnu.org/software/emacs/manual/$>$.
+  Acesso em: 26 de Abril de 2006.}
+
+\bibitem[Free Standards Group 2004]{FHS2004}
+\abntrefinfo{Free Standards Group}{FREE STANDARDS GROUP}{2004}
+{FREE STANDARDS GROUP. \emph{Filesystem Hierarchy Standard, version 2.3}. 2004.
+Dispon{\'\i}vel em: $<$http://www.pathname.com/fhs/pub/fhs-2.3.html$>$. Acesso
+  em: 18 de Abril de 2006.}
+
+\bibitem[Free Standards Group 2005]{LSB2005}
+\abntrefinfo{Free Standards Group}{FREE STANDARDS GROUP}{2005}
+{FREE STANDARDS GROUP. \emph{Linux Standard Base Core Specification 3.1}. 2005.
+Dispon{\'\i}vel em:
+  $<$http://refspecs.freestandards.org/LSB\_3.1.0/LSB-Core-generic/LSB-Core-ge%
+neric/book1.html$>$. Acesso em: 18 de Abril de 2006.}
+
+\bibitem[Gortmaker 2003]{ETHERNET2003}
+\abntrefinfo{Gortmaker}{GORTMAKER}{2003}
+{GORTMAKER, P. \emph{Linux Ethernet {HOWTO}}. The Linux Documentation Project,
+  2003.
+Dispon{\'\i}vel em: $<$http://www.tldp.org/HOWTO/Ethernet-HOWTO.html$>$. Acesso
+  em: 23 de Abril de 2006.}
+
+\bibitem[Jackson 1996]{SHADOW-HOWTO1996}
+\abntrefinfo{Jackson}{JACKSON}{1996}
+{JACKSON, M.~H. \emph{Linux Shadow Password {HOWTO}}. The Linux Documentation
+  Project, 1996.
+Dispon{\'\i}vel em: $<$http://www.tldp.org/HOWTO/Shadow-Password-HOWTO.html$>$.
+  Acesso em: 21 de Abril de 2006.}
+
+\bibitem[Jargas 2003]{GUIAER2003}
+\abntrefinfo{Jargas}{JARGAS}{2003}
+{JARGAS, A.~M. \emph{Express\~oes Regulares --- Guia de Referência Rápida}.
+  S\~ao Paulo, SP: Novatec, 2003.
+Dispon{\'\i}vel em: $<$http://guia-er.sourceforge.net/$>$. Acesso em: 12 de
+  Abril de 2006.}
+
+\bibitem[Kirch e Dawson 2000]{NAG2000}
+\abntrefinfo{Kirch e Dawson}{KIRCH; DAWSON}{2000}
+{KIRCH, O.; DAWSON, T. \emph{The Linux Network Administrators' Guide, Second
+  Edition}. The Linux Documentation Project, 2000. Dispon{\'\i}vel em:
+  $<$http://www.tldp.org/LDP/nag2/index.html$>$. Acesso em: 23 de Abril de
+  2006.}
+
+\bibitem[Kliger e Craig 1992]{VILEARN1992}
+\abntrefinfo{Kliger e Craig}{KLIGER; CRAIG}{1992}
+{KLIGER, J.; CRAIG, W. \emph{\texttt{vilearn} --- The interactive \texttt{vi}
+  tutorial}. 1992.
+Dispon{\'\i}vel em: $<$http://vilearn.org$>$. Acesso em: 24 de Abril de 2006.}
+
+\bibitem[Linux Documentation Project 1999]{HOWTO2006}
+\abntrefinfo{Linux Documentation Project}{LINUX DOCUMENTATION PROJECT}{1999}
+{LINUX DOCUMENTATION PROJECT. \emph{Linux {HOWTO} Project}. The Linux
+  Documentation Project, 1999.
+Dispon{\'\i}vel em: $<$http://www.tldp.org/HOWTO/NET3-4-HOWTO.html$>$. Acesso
+  em: 23 de Abril de 2006.}
+
+\bibitem[Linux Documentation Project 2006]{LDP2006}
+\abntrefinfo{Linux Documentation Project}{LINUX DOCUMENTATION PROJECT}{2006}
+{LINUX DOCUMENTATION PROJECT. 2006.
+Dispon{\'\i}vel em: $<$http://www.tldp.org$>$. Acesso em: 21 de Abril de 2006.}
+
+\bibitem[Linux sem Mist\'erio 2005]{SUDO2006}
+\abntrefinfo{Linux sem Mist\'erio}{LINUX SEM MIST\'ERIO}{2005}
+{LINUX SEM MIST\'ERIO. \emph{Sudo, o que é isso?} 2005.
+Dispon{\'\i}vel em:
+  $<$http://linux-sem-misterio.blogspot.com/2006/02/sudo-o-que-isso\_27.html$>%
+$. Acesso em: 14 de Abril de 2006.}
+
+\bibitem[Linux Weekly Journal 2006]{LWN2006}
+\abntrefinfo{Linux Weekly Journal}{LINUX WEEKLY JOURNAL}{2006}
+{LINUX WEEKLY JOURNAL. \emph{The {LWN}.net Linux Distribution List}. 2006.
+Dispon{\'\i}vel em: $<$http://lwn.net/Distributions/index.php3$>$. Acesso em:
+  12 de Abril de 2006.}
+
+\bibitem[Moolenaar 2003]{VIHELP2003}
+\abntrefinfo{Moolenaar}{MOOLENAAR}{2003}
+{MOOLENAAR, B. \emph{\texttt{vim} User Manual}. [s.n.], 2003. Dispon{\'\i}vel
+  em: $<$http://vimdoc.sourceforge.net/htmldoc/usr\_toc.html$>$. Acesso em: 26
+  de Abril de 2006.}
+
+\bibitem[Morimoto 2005]{MORIMOTO2005}
+\abntrefinfo{Morimoto}{MORIMOTO}{2005}
+{MORIMOTO, C.~E. \emph{Entendendo e Dominando o Linux --- 7\textordfeminine
+  Edi\c c\~ao}. São Paulo, SP: Guia do Hardware.net Press, 2005.
+  Dispon{\'\i}vel em: $<$http://www.guiadohardware.net/ebooks/linux/$>$. Acesso
+  em: 22 de Abril de 2006.}
+
+\bibitem[Morimoto 2006]{MORIMOTO2006}
+\abntrefinfo{Morimoto}{MORIMOTO}{2006}
+{MORIMOTO, C.~E. \emph{Linux: Redes e servidores, Guia Prático ---
+  2\textordfeminine Edi\c c\~ao}. Porto Alegre, RS: Sul Editores, 2006.}
+
+\bibitem[Projeto bzip2 2005]{BZIP2005}
+\abntrefinfo{Projeto bzip2}{PROJETO BZIP2}{2005}
+{PROJETO BZIP2. 2005.
+Dispon{\'\i}vel em: $<$http://www.bzip.org/$>$. Acesso em: 23 de Abril de
+  2006.}
+
+\bibitem[Projeto {GNU} 2006]{INFO2006}
+\abntrefinfo{Projeto {GNU}}{PROJETO {GNU}}{2006a}
+{PROJETO {GNU}. \emph{GNU Info Manual 4.8}. 2006.
+Dispon{\'\i}vel em: $<$http://www.gnu.org/software/texinfo/$>$. Acesso em: 12
+  de Abril de 2006.}
+
+\bibitem[Projeto {GNU} 2006]{GNU2006}
+\abntrefinfo{Projeto {GNU}}{PROJETO {GNU}}{2006b}
+{PROJETO {GNU}. \emph{{GNU} não é Unix!} 2006.
+Dispon{\'\i}vel em: $<$http://www.gnu.org/home.pt.html$>$. Acesso em: 12 de
+  Abril de 2006.}
+
+\bibitem[Projeto gzip 2003]{GZIP2003}
+\abntrefinfo{Projeto gzip}{PROJETO GZIP}{2003}
+{PROJETO GZIP. 2003.
+Dispon{\'\i}vel em: $<$http://www.gzip.org/$>$. Acesso em: 23 de Abril de
+  2006.}
+
+\bibitem[Raymond 2000]{ESR2006}
+\abntrefinfo{Raymond}{RAYMOND}{2000}
+{RAYMOND, E.~S. \emph{The Cathedral and the Bazaar}. Sebastopol, USA: O'Reilly,
+  2000. Dispon{\'\i}vel em:
+  $<$http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/$>$.
+  Acesso em: 12 de Abril de 2006.}
+
+\bibitem[Raymond 2003]{ESR2003}
+\abntrefinfo{Raymond}{RAYMOND}{2003}
+{RAYMOND, E.~S. \emph{Jargon File --- The New Hacker's Dictionary (version
+  4.4.7)}. Sebastopol, USA: O'Reilly, 2003. Dispon{\'\i}vel em:
+  $<$http://www.catb.org/~esr/jargon/html/frames.html$>$. Acesso em: 26 de
+  Abril de 2006.}
+
+\bibitem[Raymond 2006]{JARGON2006}
+\abntrefinfo{Raymond}{RAYMOND}{2006}
+{RAYMOND, E.~S. \emph{Jargon File}. 2006.
+Dispon{\'\i}vel em: $<$http://www.catb.org/~esr/jargon/$>$. Acesso em: 12 de
+  Abril de 2006.}
+
+\bibitem[Set{UID}.org 2006]{SUID2006}
+\abntrefinfo{Set{UID}.org}{SET{UID}.ORG}{2006}
+{SET{UID}.ORG. 2006.
+Dispon{\'\i}vel em: $<$http://setuid.org/$>$. Acesso em: 14 de Abril de 2006.}
+
+\bibitem[Silva 2005]{FOCALINUX2005}
+\abntrefinfo{Silva}{SILVA}{2005a}
+{SILVA, G.~M. da. \emph{Guia FOCA GNU/Linux}. 2005.
+Dispon{\'\i}vel em: $<$http://focalinux.cipsga.org.br/$>$. Acesso em: 14 de
+  Abril de 2006.}
+
+\bibitem[Silva 2005]{FOCALINUX-ADV2005}
+\abntrefinfo{Silva}{SILVA}{2005b}
+{SILVA, G.~M. da. \emph{Guia FOCA GNU/Linux Nível Avançado}. 2005.
+Dispon{\'\i}vel em:
+  $<$http://focalinux.cipsga.org.br/guia/avancado/index.htm$>$. Acesso em: 14
+  de Abril de 2006.}
+
+\bibitem[Stallman 1983]{STALLMAN1983}
+\abntrefinfo{Stallman}{STALLMAN}{1983}
+{STALLMAN, R. \emph{Anúncio Inicial do Projeto {GNU}}. 1983.
+Dispon{\'\i}vel em: $<$http://www.gnu.org/gnu/initial-announcement.pt.html$>$.
+  Acesso em: 12 de Abril de 2006.}
+
+\bibitem[Stallman 1999]{STALLMAN-OPS1999}
+\abntrefinfo{Stallman}{STALLMAN}{1999}
+{STALLMAN, R. The {GNU} operating system and the free software movement.
+In:  \underline{\ \ \ \ \ \ \ \ }. \emph{Open Sources : Voices from the Open
+  Source Revolution}. Sebastopol, USA: O'Reilly, 1999.
+Dispon{\'\i}vel em:
+  $<$http://www.oreilly.com/catalog/opensources/book/stallman.html$>$. Acesso
+  em: 12 de Abril de 2006.}
+
+\bibitem[Stevens 1999]{STEVENS1999}
+\abntrefinfo{Stevens}{STEVENS}{1999}
+{STEVENS, W.~R. \emph{TCP/IP Illustrated, Volume 1 - The Protocols}. [S.l.]:
+  Addison Wesley, 1999.
+576~p.}
+
+\bibitem[The Internet Engineering Task Force 1980]{RFC1980}
+\abntrefinfo{IETF}{IETF}{1980}
+{THE INTERNET ENGINEERING TASK FORCE. \emph{Request for Comments 761 --
+  Transmission Control Protocol}. 1980.
+Dispon{\'\i}vel em: $<$http://www.ietf.org/rfc/rfc0761.txt$>$. Acesso em: 2 de
+  Maio de 2006.}
+
+\bibitem[The Internet Engineering Task Force 1981]{RFC1981}
+\abntrefinfo{IETF}{IETF}{1981}
+{THE INTERNET ENGINEERING TASK FORCE. \emph{Request for Comments 791 --
+  Internet Protocol}. 1981.
+Dispon{\'\i}vel em: $<$http://www.ietf.org/rfc/rfc0791.txt$>$. Acesso em: 2 de
+  Maio de 2006.}
+
+\bibitem[The Internet Engineering Task Force 1996]{RFC1996}
+\abntrefinfo{IETF}{IETF}{1996}
+{THE INTERNET ENGINEERING TASK FORCE. \emph{Request for Comments 1918 --
+  Address Allocation for Private Internets}. 1996.
+Dispon{\'\i}vel em: $<$http://www.ietf.org/rfc/rfc1918.txt$>$. Acesso em: 4 de
+  Maio de 2006.}
+
+\bibitem[The Open Group 1997]{REGEX1997}
+\abntrefinfo{The Open Group}{THE OPEN GROUP}{1997}
+{THE OPEN GROUP. \emph{Regular Expression}. 1997.
+Dispon{\'\i}vel em:
+  $<$http://www.opengroup.org/onlinepubs/007908799/xbd/re.html$>$. Acesso em:
+  12 de Abril de 2006.}
+
+\bibitem[The Open Group 2006]{SUS2006}
+\abntrefinfo{The Open Group}{THE OPEN GROUP}{2006}
+{THE OPEN GROUP. \emph{The Single UNIX Specification}. 2006.
+Dispon{\'\i}vel em:
+  $<$http://www.unix.org/what\_is\_unix/single\_unix\_specification.html$>$.
+  Acesso em: 24 de Abril de 2006.}
+
+\bibitem[Ubuntu Linux 2006]{UBUNTU2006}
+\abntrefinfo{Ubuntu Linux}{UBUNTU LINUX}{2006}
+{UBUNTU LINUX. \emph{Ubuntu Linux}. 2006.
+Dispon{\'\i}vel em: $<$http://www.ubuntu.com/$>$. Acesso em: 12 de Abril de
+  2006.}
+
+\bibitem[Unix for Advanced Users 2006]{SB2006}
+\abntrefinfo{Unix for Advanced Users}{UNIX FOR ADVANCED USERS}{2006}
+{UNIX FOR ADVANCED USERS. \emph{Manipulating Files -- What's the sticky bit?}
+  2006.
+Dispon{\'\i}vel em: $<$http://www.ussg.iu.edu/UAU/files/sticky.html$>$. Acesso
+  em: 14 de Abril de 2006.}
+
+\bibitem[Wikipedia em Portugu\^es 2006]{WIKIPEDIA-USENET2006}
+\abntrefinfo{Wikipedia em Portugu\^es}{WIKIPEDIA EM PORTUGU\^ES}{2006}
+{WIKIPEDIA EM PORTUGU\^ES. \emph{Usenet}. 2006.
+Dispon{\'\i}vel em: $<$http://pt.wikipedia.org/wiki/Usenet$>$. Acesso em: 12 de
+  Abril de 2006.}
+
+\bibitem[Willians 2002]{WILLIANS2002}
+\abntrefinfo{Willians}{WILLIANS}{2002}
+{WILLIANS, S. \emph{Free as in Freedom - Richard Stallman's Crusade for Free
+  Software}. Sebastopol, USA: O'Reilly, 2002. Dispon{\'\i}vel em:
+  $<$http://www.oreilly.com/openbook/freedom/$>$. Acesso em: 12 de Abril de
+  2006.}
+
+\bibitem[Wirzenius \emph{et al.} 2005]{NEWUSER-SAG2005}
+\abntrefinfo{Wirzenius \emph{et al.}}{WIRZENIUS \emph{et al.}}{2005a}
+{WIRZENIUS, L. \emph{et al.} Creating a user.
+In:  \underline{\ \ \ \ \ \ \ \ }. The Linux Documentation Project, 2005.
+  cap.~11.
+Dispon{\'\i}vel em: $<$http://www.tldp.org/LDP/sag/html/adduser.html$>$. Acesso
+  em: 21 de Abril de 2006.}
+
+\bibitem[Wirzenius \emph{et al.} 2005]{SAG2005}
+\abntrefinfo{Wirzenius \emph{et al.}}{WIRZENIUS \emph{et al.}}{2005b}
+{WIRZENIUS, L. \emph{et al.} (Ed.). \emph{The Linux System Administrators'
+  Guide, version 0.9}. The Linux Documentation Project, 2005. Dispon{\'\i}vel
+  em: $<$http://www.tldp.org/LDP/sag/html/index.html$>$. Acesso em: 21 de Abril
+  de 2006.}
+
+\bibitem[Zago 2006]{ZAGO2006}
+\abntrefinfo{Zago}{ZAGO}{2006}
+{ZAGO, A.~F. \emph{{FAQ} sobre processos em geral, prioridades, como iniciar e
+  parar, logs\ldots}. 2006.
+Dispon{\'\i}vel em: $<$http://www.zago.eti.br/processos.txt$>$. Acesso em: 22
+  de Abril de 2006.}
+
+\end{thebibliography}

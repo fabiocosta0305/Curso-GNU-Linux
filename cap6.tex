@@ -1,0 +1,2839 @@
+\chapter{Rede e Internet}
+
+Nos nossos tempos modernos de  globalização e troca de informações, ou
+``Sociedade  da Informação'',  como  os sociólogos  vêm nomeando  essa
+nossa   nova  era\cite{CASTELLS2000},   um  computador   isolado,  sem
+conectividade  em  rede   é  pouco  mais  útil  que   uma  máquina  de
+escrever.  Na realidade, é  impossível pensar  em uma  sociedade aonde
+sejamos   cada   vez   mais    dependentes   do   computador   e   das
+TIC\footnote{Tecnologias  da Informação  e Comunicação}.  Mesmo  com a
+baixa  quantidade  de  usuários  relativos  a  outras  tecnologias,  a
+conectividade em rede vem provocando muito mais impactos (e porque não
+dizer,  estragos) na sociedade  mundial do  que outras  tecnologias de
+informação. 
+
+Essa introdução visa dar ao leitor  uma idéia da importância que tem o
+tópico administração de redes em  um sistema atual.  Na prática, quase
+sempre estamos  administrando uma rede  de alguma forma, nem  que seja
+realizando algumas configurações para conectarmo-nos à Internet. 
+
+De  qualquer  forma,  o  que  veremos aqui,  assim  como  no  Capítulo
+anterior,  é   apenas  a  introdução   à  administração  de   redes  e
+Internet.  Na prática,  como o  GNU/Linux,  assim como  a maioria  dos
+sistema baseados em Unix tem seus serviços de rede baseados em TCP/IP,
+tanto a  conectividade local quanto  a de/para a Internet  é oferecido
+pelos mesmos  comandos. Para  maiores informações, um  documento muito
+interessante  a  ser  consultado  (apesar  de um  tanto  antigo)  é  o
+\emph{The  Linux  Network   Administrators'  Guide,  Second  Edition},
+de  \citeonline{NAG2000}.  Embora  antigo  e  não  falando  de  alguns
+assuntos interessantes, como a  configuração de certos servidores, ele
+oferece bases reforçadas aqueles que quiserem aprender de maneira mais
+aprofundada o assunto de redes em GNU/Linux.
+
+Além disso,  o projeto \emph{Linux  HOWTO Project}\cite{HOWTO2006} tem
+vários  documentos interessantes na  questão de  redes. Entre  eles os
+principais  são  o  \emph{Linux  Network  HOWTO}\cite{NET31999},  que,
+embora antigo  e sem manutenção  ainda pode conter  várias informações
+úteis; e  o par  \emph{Linux Ethernet HOWTO}\cite{ETHERNET2003},  e o
+\emph{Linux    Wireless    HOWTO}\cite{WIRELESS2002},   que    mostram
+informações sobre as principais tecnologias de rede da atualidade.
+
+\begin{quotation}
+\textbf{Atenção:}  Não  falaremos nesse  documento  sobre  a parte  de
+detecção  de \emph{hardware}, pois  a maioria  das distros  contam com
+bons sistemas de configuração e até mesmo com tecnologias de conexão à
+quente, como \texttt{hotplug}  e \texttt{kudzu}.  Vamos nos concentrar
+na questão da base lógica.  Os documentos já citados poderão ajudar na
+questão de configuração de \emph{kernel}.
+\end{quotation}
+
+\section{Bases do TCP/IP}
+
+Nessa  seção falaremos  um  pouco  de teorias  importantes  no uso  do
+TCP/IP.  No caso,  ainda não  entraremos nos  detalhes  específicos do
+GNU/Linux  em  relação  ao  TCP/IP,  sendo uma  introdução  rápida  ao
+funcionamento do TCP/IP.
+
+\subsection{História da Internet e do TCP/IP}
+
+O  TCP/IP é  um protocolo  de  rede criado  pela DARPA  (\emph{Defense
+  Advanced Research  Projects Agency} ---  \textbf{Agência de Projetos
+  de Pesquisa de Defesa Avançada}) no  ano de 1958.  No auge da Guerra
+  fria,   o    projeto   da    DARPA   era   desenvolver    uma   rede
+  \emph{não-hierárquica}, que,  em caso de  guerra, pudesse permanecer
+  operacional mesmo  com a destruição  de um ou  mais nós da  rede. Na
+  prática, não existiam na época  redes \emph{em malha}, aonde cada nó
+  se comunicava  de maneira  não-hierárquica com os  demais, existindo
+  apenas redes hierárquicas. Em redes  desse porte, o elo mais fraco é
+  o  servidor: elimine-o  da rede  e  todo o  resto da  mesma para  de
+  funcionar. Foi  então desenvolvida uma estrutura  de redes conhecida
+  como ARPAnet, aonde normalmente cada nó se comunicava com pelo menos
+  outros dois. 
+
+Com  o   tempo,  o   protocolo  original  da   rede  ARPAnet,   o  NCP
+(\emph{Network Control  Protocol} ---  Protocolo de Controle  de Rede)
+foi  demonstrando suas  fraquezas, sendo  que  em 1979  começou a  ser
+planejado  um  novo protocolo  para  a  ARPAnet.   Em 1980,  parte  da
+arquitetura   foi   alterada   com    o   surgimento   da   RFC   761,
+``\emph{Transmission  Control Protocol}''\cite{RFC1980}  Em  1981, foi
+completada a pilha  de protocolos TCP/IP, no caso  com a publicação da
+RFC   791,   ``\emph{Internet   Protocol}''\cite{RFC1981}.  Sendo   um
+protocolo  simples  e  rapidamente   implementado  em  vários  SOs.  A
+principal implementação  é a  BSD, que pode  ser encontrada  em vários
+tipos de ambientes tanto livres quanto proprietários. 
+
+Com o  surgimento da \emph{World-Wide Web}, a  Internet se popularizou
+rapidamente. Mas  para os ambientes baseados em  Unix (GNU/Linux entre
+eles), o TCP/IP é a fonte fundamental de conectividade e transferência
+de  informações, por  meio de  serviços  como Telnet\footnote{Terminal
+Remoto}, FTP\footnote{\emph{File  Transfer Protocol} ---  Protocolo de
+Transferência  de  Arquivos},  NIS\footnote{\emph{Network  Information
+Services}    ---    Serviços     de    Informações    em    Rede}    e
+NFS\footnote{\emph{Network  Filesystem}  ---  Sitema  de  Arquivos  em
+Rede}. Portanto, mais  do que apenas um sistema  de conexão com outros
+ambientes  de   rede,  o  TCP/IP   no  GNU/Linux  é   a  \emph{própria
+conectividade    em   rede}.    Diferentemente,   por    exemplo,   do
+Windows\texttrademark{},  que   originalmente  usava  (e   ainda  usa)
+NetBIOS, ou do Novell Netware\texttrademark{}, que usava originalmente
+o  IPX/SPX, no  GNU/Linux o  TCP/IP é  presente desde  as  raízes como
+protocolo de rede.
+
+\subsection{Definindo um IP}
+
+Na prática, normalmente o IP é  definido pelo seu Provedor de acesso à
+Internet que determina  o valor do IP que você  deverá utilizar em sua
+máquina  (ao  menos,  naquela(s)   que  tiver(em)  comunicação  com  a
+Internet). Isso principalmente pelo fato de que não há IPs suficientes
+para  todas as  máquinas  conectadas  à Internet  no  mundo, então  os
+provedores utilizam-se  de combinações de elementos  para "fingir" que
+existem IPs suficientes  para todos os usuários da  Internet no mundo,
+principalmente   por    meio   do   DHCP\footnote{\emph{Dynamic   Host
+Configuration  Protocol}  --- Protocolo  de  Configuração Dinâmica  do
+Host,  aonde o  servidor  envia  à máquina  que  deseja estabelecer  a
+conexão com a Internet um IP  de uma pilha existente no servidor} e do
+NAT\footnote{\emph{Network   Address  Translation}  ---   Tradução  do
+Endereço  de Rede,  também conhecido  como \emph{IP  Masquarading} ---
+mascaramento de  IP, técninca onde o servidor  ``traduz'' os endereços
+internos da  rede em endereços externos via  Internet, pela combinação
+de endereços  IP e  portas TCP}. No  caso, esses mecanismos  não serão
+estudados nessa apostila, mas  farta documentação sobre eles podem ser
+encontrados na Internet.
+
+Um  IP  é  um  endereço  numérico de  32  bits  ($2^{32}$  combinações
+existentes) que costuma  ser representado em quatro grupos  de 8 bits,
+representados  por 4  números decimais  separados por  pontos (notação
+essa  chamada   de  \emph{quad-dotted  octects}   ---  quatro  octetos
+separados por  pontos). Esses números são  seqüencialmente definidos a
+partir  de  um valor  colocado  em cada  um  dos  seus quatro  octetos
+(variando de  0 a 255)  que são colocados,  e uma rede é  composta, em
+geral, por IPs cuja numeração seja contínua (por exemplo: todos os IPs
+de 10.0.0.1  a 10.0.0.255)  são considerados uma  rede. Na  verdade, a
+Internet não  possui o conceito  de redes isoladas: embora  na prática
+seja o conjunto de redes,  para a Internet não existem redes isoladas.
+Com o  tempo isso provocou lentidão  e falhas sérias  de segurança nas
+trocas de  informações dentro da  Internet (por exemplo,  obrigando um
+pacote de informação a sair de  dentro da rede à qual ia se destinar).
+Isso veio a  provocar a criação de um  mecanismo de ``isolamento'', as
+máscaras de sub-rede.
+
+\subsection{Definindo máscara de sub-rede}
+
+Conceitualmente,   uma  máscara   de  sub-rede   (chamada   também  de
+\emph{subnetwork mask} ou \emph{netmask}) é  um valor que é usado para
+separar  o endereço  de uma  rede  do endereço  do \emph{host}  dentro
+daquela  rede. Esse  mecanismo permite  dividir a  rede  em estruturas
+lógicas chamadas \emph{sub-redes}.
+
+Uma máscara de  subrede, da mesma forma que um  endereço IP, é formada
+por  um   número  binário  de   32  bits.  Porém,  sua   construção  é
+diferenciada: para criar-se a máscara de sub-rede, você deverá definir
+em 1 todos os  bits que irão indicar o endereço da  rede, do digíto de
+maior ordem até o dígito de  menor ordem. Esses bits definem dentro da
+máscara qual é o endereço da rede. Os endereços do \emph{host} na rede
+são determinados pelos bits restantes. 
+
+Na prática  isso funciona basicamente assim: imagine  que você utilize
+um  IP 192.168.10.4,  com uma  máscara  de rede  de 16  bits (16  bits
+setados em 1). Seu endereço pode ser representado por
+192.168.10.4/16 (ao que chamamos de endereçamento
+CIDR\footnote{\emph{Classless Inter-Domain Routing} --- Roteamento
+entre domínios sem uso de Classes}),sendo que a subrede também pode
+ser representada por 255.255.0.0. 
+
+Perceba que a máscara ficaria assim em binário o endereço de subrede. 
+%\begin{center}
+\texttt{11111111111111110000000000000000}
+%\end{center}
+
+Utilizando então  uma operação AND (E) bit a bit, temos o endereço
+da rede:
+
+%\begin{center}
+\begin{center}
+\begin{verbatim}
+    11000000101010000000101000000010
+AND 11111111111111110000000000000000
+------------------------------------
+    11000000101010000000000000000000
+\end{verbatim}
+\end{center}
+
+No  caso,  se  dividirmos o  bloco  em  quatro  octetos e  fizermos  a
+conversão decimal, obteremos 192.168.0.0.
+
+Utilizando um AND bit-a-bit contra a máscara \emph{invertida}, podemos
+obter o \emph{endereço do host na rede}:
+
+
+\begin{center}
+\begin{verbatim}
+    11000000101010000000101000000010
+AND 00000000000000001111111111111111
+------------------------------------
+    00000000000000000000101000000010
+\end{verbatim}
+\end{center}
+
+Se convertermos o bloco para a notação de quatro octetos separados por
+pontos, teremos o endereço 0.0.10.4
+
+Nesse exemplo, foi  muito fácil separar a rede  do \emph{host} através
+da  \emph{netmask}, embora na  prática a  complexidade pode  ser alta,
+pois você  pode dividir  sua rede fora  dos limites dos  octetos. Nada
+impede, por  exemplo, que você  utilize 20 bits de  \emph{netmask}. Na
+realidade,   esse   exemplo  foi   construído   para  ser   facilmente
+compreensível em relação ao seu funcionamento. 
+
+\subsection{Endereços especiais}
+
+A  máscara de subrede  é importante  de ser  entendida pois,  a partir
+dela, definem-se  dois endereços importantes,  o endereço da rede  e o
+endereço  de  \emph{broadcast}.   O  endereço  da rede  é  usado  como
+identificação  da rede  como  um todo  e  é definido  por um  endereço
+especial  aonde todos os  bits da  seção do  \emph{host} (os  bits que
+ficam em \texttt{0} no \emph{netmask}) são zerados.  No exemplo citado
+anteriormente,  podemos dizer  que o  endereço  da rede  em questão  é
+192.168.0.0.
+
+O  endereços de \emph{broadcast}  é um  endereço que  qualquer máquina
+deve escutar.  Normalmente é um  endereço aonde todos os bits da seção
+do  \emph{host} (os bits  que ficam  em \texttt{0}  no \emph{netmask})
+estão definidos em 1. Por exemplo,  se você definir como 1 todos os 16
+bits equivalentes ao endereço do \emph{host} na rede, você obterá como
+endereço 192.168.255.255. 
+
+Perceba  que  esses  endereços  \emph{não  podem}  (ou  ao  menos  não
+deveriam)  ser usados  como endereços  de \emph{hosts}  na  rede, para
+evitar problemas de funcionamento incorreto da rede.
+
+Além  disso,  existe  um  endereço  fixo  chamado  de  \emph{loopback}
+(retorno),  que  referencia  permanentemente  a mesma  máquina.   Esse
+endereço  é usado  principalmente  em  testes de  sistemas  de rede  e
+operações que  poderiam ser feitas  em rede, mas  aonde o cliente  e o
+servidor das operações estão na mesma máquina. Esse endereço é chamado
+normalmente   de   \emph{localhost}   e   é   referenciado   pelo   IP
+\texttt{127.0.0.1}. 
+
+Além  disso, todos os  IPs que  com o  primeiro octeto  \texttt{0} são
+\emph{reservados} como referência rápida a IPs dentro da mesma subrede
+do  \emph{host}.  O  mesmo  vale  para  os  IPs  com  primeiro  octeto
+\texttt{127} e alguns IPs mais altos.
+
+\subsection{Classes de rede}
+
+A importância das máscaras de  rede surge quando você passa a entender
+as \emph{classes de rede}. 
+
+No começo  da Internet, uma organização  chamada ICANN (\emph{Internet
+Corporation  for Assigned  Names and  Numbers} ---  Corporação  para a
+determinação de  nomes e números  da Internet) era a  responsável pela
+administração  dos  endereços  de   IP  que  eram  atribuídos  a  cada
+corporação ou entidade que desejava se conectar à Internet. Para isso,
+usando as máscaras  de subrede e determinadas faixas  de endereço, ela
+criou  as  Classes  de   Rede.  Essas  Classes  permitiam  uma  melhor
+distribuição  dos  endereços  de   IP  conforme  as  necessidades  das
+entidades envolvidas. 
+
+Por esse método, as Classes de Redes são divididas em: 
+
+\begin{itemize}
+  \item  \textbf{Classe  A:} São  todos  os  endereços  cujo bit  mais
+    significativo dentro  do endereço  de rede é  \texttt{0} (cobrindo
+    todos os  IPs de \texttt{1.0.0.0}  a \texttt{127.255.255.255}). Na
+    prática, existem  126 redes de Classe A,  com $2^{24}-2$ endereços
+    de host por  rede (lembrando de remover os endereços  de rede e de
+    \emph{broadcast} que  são reservados), usando  \emph{netmask} de 8
+    bits (\texttt{255.0.0.0}). Normalmente grandes corporações como GE
+    e Citibank eram as principais favorecidas ao receber IPs da Classe
+    A,   além  dos   provedores  de   \emph{backbone}   \emph{tier  1}
+    (provedores da conectividade  internacional pesada) ou universades
+    muito grandes, como a Universidade da Califórnia;
+  \item \textbf{Classe B:} São endereços cujo bit mais significativo é
+    \texttt{1} e o bit seguinte é \texttt{0} (cobrindo todos os IPs de
+    \texttt{128.0.0.0} a  \texttt{191.255.255.255}).  A \emph{netmask}
+    padrão  nesse caso é  \texttt{255.255.0.0} (16  bits). A  classe B
+    possui $2^{15}$  redes, cada uma contendo  $2^{16}-2$ endereços de
+    \emph{hosts} para as redes.  Normalmente, os endreços B são usados
+    em corporações médias ou em governos. Além disso, os provedores de
+    \emph{backbone}  de \emph{tier  2}.  Algumas  faculdades  de porte
+    médio  a  nível mundial  (como  a  UniCamp)  também costumam  usar
+    endereços de Classe B;
+  \item \textbf{Classe  C:} é a  classe mais usada de  endereços. Seus
+    IPs são aquelas aonde os dois bits de maior ordem são \texttt{1} e
+    o bit de terceira maior  ordem é \texttt{0} (cobrindo todos os IPs
+    de  \texttt{192.0.0.0}   a  \texttt{223.255.255.255}).   Tem  como
+    \emph{netmask}  padrão \texttt{255.255.255.0}  (24 bits)  e possui
+    $2^{22}$  redes disponíveis, com  254 \emph{hosts}  por rede.  É o
+    mais comum e é usado em  geral por todo tipo de provedor de acesso
+    à  Internet e  pequenas empresas  e instituições.   Algumas vezes,
+    usuários caseiros podem  ter eles próprios um ou  mais IPs válidos
+    dentro dessa faixa;
+\end{itemize}
+
+Além dessas, existem duas outras classes de IP que não são usadas
+normalmente, sendo reservadas para usos especiais:
+
+\begin{itemize}
+  \item \textbf{Classe  D:} Os  endereços de Classe  D começam  com os
+    três primeiros bits  de maior ordem com \texttt{1}  e o quarto bit
+    de  maior   ordem  em   \texttt{0}.   Eles  são   utilizados  para
+    \emph{multicast}, sendo  que o  endereço indica um  \emph{grupo de
+    \emph{hosts}} que  irão receber  a mensagem enviada.   Perceba que
+    isso é diferente de \emph{broadcast}, pois no \emph{multicast} não
+    são todas  as máquinas que  irão receber a informação  em questão.
+    Os    IPs   da    Classe   D    são   de    \texttt{224.0.0.0}   a
+    \texttt{239.255.255.255};
+  \item \textbf{Classe  E:} Reservada para fins  experimentais, tem os
+    quatro primeiros  bits de maior  ordem em \texttt{1}. No  caso, os
+    IPs     dessa     faixa     são    de     \texttt{240.0.0.0}     a
+    \texttt{255.255.255.254}.   O    IP   \texttt{255.255.255.255}   é
+    reservado para \emph{broadcast} na rede do \emph{host};
+\end{itemize}
+
+\subsection{IPs privativos ou ``inválidos''}
+
+Aparentemente existem muitos IPs  em cada classe. Porém, existem muito
+mais usuários na Internet. Para isso, criou-se várias técnicas, como o
+uso de \emph{netmasks} que não  fixam-se aos limites dos octetos do IP
+(CIDR  ---   \emph{Classless  Inter-Domain  Routing}   ---  Roteamento
+Interdomínio  sem  classes) e  o  uso  de  NAT (\emph{Network  Address
+Translation}  ---  Tradução  de  Endereços  de  Rede),  de  maneira  a
+aproveitar ao máximo os IPs disponíveis. Para facilitar isso, tomou-se
+uma decisão  aparentemente contrária ao objetivo delineado,  que foi a
+separação  de  faixas de  IPs  como  de  \emph{uso privativo}  (também
+chamados de IPs ``inválidos'').
+
+Esses IPs são utilizados principalmente  em combinação ao NAT. A idéia
+é  que   a  Internet  enxergue   apenas  uma  pequena   quantidade  de
+\emph{hosts} de  uma instituição (podendo  ser até mesmo apenas  um IP
+por instituição), e dentro  dela várias máquinas usando IPs privativos
+façam a comunicação. No caso, fica a cargo de um computador chamado de
+\emph{gateway} o  uso do  NAT, ou  seja, a tradução  da chamada  de IP
+interno para  a de um IP  externo. Esse repassa as  requisições para a
+Internet  e gerencia  o recebimento  da informação  externa de  modo a
+determinar quem  solicitou o quê e  para quem deve  ir qual informação
+recebida\footnote{Na prática a  idéia é um pouco mais  complexa, mas a
+parte básica pode ser compreendida como demonstrada. O NAT utiliza, na
+verdade, uma  combinação das  portas TCP com  os endereços de  IP para
+criar a  conectividade desejada}. O diagrama  da Figura \ref{fig:nat},
+na Página \pageref{fig:nat}, dá uma idéia de como funciona o NAT.
+
+\begin{figure}
+\begin{displaymath}
+\xymatrix{
+& & &  & & & \texttt{host 1}(\texttt{10.0.0.1}) \\
+& & & & & & \texttt{host 2}(\texttt{10.0.0.2}) \\
+Internet & & & \ar@{<->}[lll]^{\txt{\texttt{200.0.5.72}}}
+\txt{\emph{gateway}} \ar@{<->}[uurrr]\ar@{<->}[urrr]\ar@{<->}[rrr]\ar@{<->}[drrr]\ar@{<->}[ddrrr] & & & \texttt{host 3} (\texttt{10.0.0.3})\\
+& & & & & & \texttt{host 4}(\texttt{10.0.0.4})\\
+& & & & & & \texttt{\ldots}
+}
+\end{displaymath}
+\caption{NAT e IPs privativos}
+\label{fig:nat}
+\end{figure}
+
+Para permitir  isso, a \emph{Internet Engeneering Task  Force} criou a
+idéia  dos IPs  privativos, normalizada  na RFC  1918, ``\emph{Address
+Allocation for  Private Internets}''\cite{RFC1996}, aonde  ela definiu
+as faixas  de IPs  reservados como IP  privativos, mostrado  na Tabela
+\ref{table:privateip},   na   Página   \pageref{table:privateip}.   Na
+prática, espera-se  que roteadores da  Internet não roteem  tráfego de
+IPs privativos, exceto  se forem da rede à  qual o roteador pertencem.
+Também é importante isso como política de \emph{firewall} não permitir
+que pacotes  que proveiam  da Internet mas  que, por  qualquer motivo,
+tenha sido endereçado com IP  privativos sejam roteados para dentro da
+rede.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+{\centering \textbf{\textsc{Classe}}} & {\centering
+  \textbf{\textsc{Faixa de IP}}} & {\centering
+  \textbf{\textsc{Número de redes}}}\\
+\hline\hline
+A & 10.0.0.0 --- 10.255.255.255 & 1 \\
+B & 172.16.0.0 --- 172.31.255.255 & 16  \\
+C & 192.168.0.0 --- 192.168.255.255 & 256 \\
+\hline
+\end{tabular}
+\caption{Tabela de IPs privativos}
+\label{table:privateip}
+\end{center}
+\end{table}
+
+Perceba que  existe apenas  uma rede privativa  de Classe  A, enquanto
+existem 256 redes privativas de  Classe C. Porém, perceba que \emph{na
+realidade}, podemos ter tantas redes privativas de um determinado tipo
+quanto desejarmos, desde  que a isolemos atrás de um  IP válido para a
+Internet. Por  exemplo, duas empresas  podem usar redes  privativas de
+Classe A (\texttt{10.0.0.0}) normalmente, mas para se comunicar, devem
+fazê-lo  por  meio  de  IPs  válidos  via  Internet.  Não  é  possível
+comunicar-se diretamente  com redes privativas  isoladas diferentes da
+originária do pacote, \emph{mesmo que o IP das duas sejam idênticas}.
+
+Isso deve ser teoria suficiente para podermos seguir adiante em nossos
+estudos. Se desejar, procure  mais informações sobre TCP/IP na própria
+Internet,   ou   consulte   livros   especializados,   como   ``TCP/IP
+Illustrated,  Volume  1  -  The  Protocols''\cite{STEVENS1999},  ou  o
+``Interligação em rede com TCP/IP volume 1''\cite{comer2001}.
+
+Agora que  já temos  a teoria  para formar base,  vamos ao  assunto em
+questão, que é a configuração da rede TCP/IP em redes GNU/Linux.
+
+\begin{quotation}
+  \textbf{Atenção:} Como já dissemos anteriormente, vamos apenas falar
+  aqui da parte relacionada à  estrutura lógica ca da conectividade em
+  rede, e  não da parte  relacionada à parte  física, como a  carga de
+  módulos de  \emph{kernel}, principalmente  porque a maior  parte das
+  distros   GNU/Linux   possuem   recursos   para   auto-detecção   de
+  \emph{hardware}  em geral  e de  rede  em particular.   No caso,  no
+  início desse  capítulo foi  colocado determinados recursos  que você
+  pode  consultar caso precise  de mais  informações nesse  assunto em
+  especial.
+\end{quotation}
+
+\begin{quotation}
+   \textbf{Atenção:} Os  comandos que serão vistos a  seguir devem ser
+   usados como  \texttt{root}, pois eles lidam com  o funcionamento do
+   \emph{kernel} Linux. O mesmo  vale para os arquivos de configuração
+   que serão mencionados.
+\end{quotation}
+
+\section{Conectando uma máquina a uma rede IP: os comandos
+\texttt{ifconfig} e \texttt{route}}
+
+Tudo  tendo corrido  bem na  instalação da  sua distro  GNU/Linux, sua
+placa de  rede estará com seu  \emph{driver} (ou, como  é mais correto
+dizer,   \emph{módulo    do   kernel})   carregado.    Portanto,   sua
+\emph{interface} de rede  estará \emph{levantada} (carregada), mas ela
+poderá \emph{não estar} habilitada  para trabalhar em rede. Para poder
+trabalhar em rede, será necessário  definir um endereço de rede dentro
+da rede em questão.  Para isso, utilizamos o comando \texttt{ifconfig}
+(\emph{interface  configuration} ---  configuração da  Interface). Ele
+permite  configurar parâmetros  diversos da  interface de  rede, entre
+eles o endereçamento IP da sua placa.
+
+\begin{quotation}
+   \textbf{Observação:} Para  certos tipos de  \emph{hardware}, certos
+   parâmetros devem ser configurados  com outros comandos. Por exemplo,
+   para configurar  informações como o ESSID,  o canal de  acesso ou a
+   senha WEP\footnote{\emph{Wireless Encryption Password} --- Senha de
+   Criptografia Sem-Fio} de uma placa  de rede Wi-Fi (802.11) você irá
+   utilizar o comando  \texttt{iwconfig}. Não trataremos desse assunto
+   aqui,  mas  documentação suficiente  sobre  esse  assunto pode  ser
+   encontrada  na  Internet, principalmente  em  documentos  como o  o
+   \emph{Linux Wireless HOWTO}\cite{WIRELESS2002}.
+\end{quotation}
+
+Como  de costume,  aconselhamos que  se consulte  a  \emph{manpage} do
+comando  em  caso  de   dúvidas.  No  caso,  usamos  a  \emph{manpage}
+\texttt{ifconfig(8)}.
+
+\subsection{Explicando o comando \texttt{ifconfig}}
+
+A sintaxe mais normal do \texttt{ifconfig} é:
+
+\begin{center}
+\begin{verbatim}
+ifconfig <interface> [add|del] <address> hw <classe> 
+netmask <mascara> broadcast <broad> [up|down]
+\end{verbatim}
+\end{center}
+
+A interface segue um nomeamento padronizado no GNU/Linux, no qual cada
+interface começa com  um prefixo específico do tipo  de dispositivo em
+questão e é  completada por um número que  indica sua ordem (começando
+por \texttt{0}.  Por exemplo, a primeira interface de rede Ethernet (a
+mais   tradicional)   é   indicado   por  \texttt{eth0}.    A   Tabela
+\ref{table:netdevice},  na   Página  \pageref{table:netdevice}  mostra
+alguns prefixos comuns de dispositivos de rede.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+{\centering \textbf{\textsc{Prefixo}}} & {\centering
+  \textbf{\textsc{Dispositivo}}}
+\\
+\hline\hline
+\texttt{eth} & dispositivos de rede Ethernet\\
+\texttt{wlan} & dispositivos Wi-Fi \\
+\texttt{ppp} & dispositivos com conexão PPP (\emph{Point-to-Point Protocol}) \\
+& Normalmente dispostivos de \emph{modems} \emph{dial-up} e ADSL\\
+\hline
+\end{tabular}
+\caption{Prefixos de Dispositivos de Rede}
+\label{table:netdevice}
+\end{center}
+\end{table}
+
+As opções em seguida,  \texttt{add} e \texttt{del}, permitem adicionar
+ou remover  um determinado endereço  que o \emph{hardware}  em questão
+irá ``escutar''. Isso  permite servidores com vários IPs  em uma única
+interface  de  rede,  atráves   de  \emph{alias}  (apelidos)  para  as
+interfaces  em questão. Não  falaremos mais  sobre esse  assunto nesse
+documento, mas  uma pesquisa na  Internet poderá revelar mais  sobre o
+assunto aos interessados.
+
+A opção \texttt{hw}  indica o tipo de \emph{hardware}  que será usado.
+Pode ser  usada para  alguns tipos de  \emph {hardware} que  exijam um
+endereçamento físico  fixo determinado pelo usuário,  como redes Token
+Ring  ou redes  em sistemas  Dec ou  AppleTalk. Para  as  redes comuns
+Ethernet, isso não é necessário uma vez que:
+
+\begin{enumerate}
+   \item    O    comando    \texttt{ifconfig}   consegue    determinar
+     ``automagicamente''  o tipo  de \emph{hardware}  em  questão pelo
+     nome do dispositivo e;
+   \item Nas redes Ethernet, em geral o endereçamento físico é gravado
+     na própria placa, não sendo exigida intervenção do usuário.
+\end{enumerate}
+
+\begin{quotation}
+   \textbf{Atenção:}   Um   dos   motivos   pelos  quais   o   comando
+     \texttt{ifconfig} só  pode ser  utilizado pelo \texttt{root}  é o
+     fato  de  que  é   possível  utilizar-se  ele  para  adulterar  o
+     endereçamento   MAC\footnote{\emph{Media   Access  Control}   ---
+     Controle de Acesso ao Meio} de uma placa de rede comum baseada em
+     Ethernet ou  em redes que utilizem esse  esquema de endereçamento
+     (como redes  WiFi).  Se esse endereço for  adulterado, essa placa
+     passará a  receber \emph{todos}  os dados direcionados  à máquina
+     cuja qual os  dados foram enviados. Na prática,  chama-se isso de
+     \emph{MAC hijacking} (seqüestro de  MAC) e é utilizado para casos
+     aonde o atacante precisa  clonar uma determinada máquina, como em
+     ataques  do   tipo  \emph{man-in-the-middle}  (homem   do  meio),
+     principalmente  para o  farejamento (\emph{sniffing})  ou  para a
+     enganação (\emph{spoofing}) de  redes, principalmente aquelas com
+     esquemas de segurança baseados no endereçamento MAC.
+\end{quotation}
+
+\texttt{netmask} é uma opção que  permite configurar a máscara de rede
+no esquema  \emph{quad-dotted octets}. Se você utilizar  CIDR ou então
+trabalhar com as máscaras padrão  da faixa do IP utilizado, essa opção
+não é necessária.
+
+\texttt{broadcast} permite estabelecer um endereço de \emph{broadcast}
+que o sistema utilizará para mandar  pacotes para a rede como um todo.
+Essa opção é  desnecessária se você fornecer um IP  CIDR ou oferecer a
+\emph{netmask}  correta  de sua  rede,  ``automagicamente'' gerando  o
+endereço para você.
+
+As  opções  \texttt{up}   e  \texttt{down}  ativam  (``levantam'')  ou
+desativam (``derrubam'') a interface de rede em questão.
+
+Mas configurar o  IP pode não ser o  suficiente, principalmente se for
+necessário conectar o equipamento em questão à Internet. Nesse caso, é
+necessário  definir   ao  sistema   como  buscar  uma   conexão.  Mais
+exatamente,   definir   o   \emph{gateway}\footnote{uma   máquina   ou
+equipamento especial  de rede  que conecta uma  determinada rede  IP a
+outra} por onde o sistema deve buscar sua conexão com a Internet. Para
+isso, utiliza-se o comando \texttt{route}.
+
+\subsection{Explicando o comando \texttt{route}}
+
+O comando \texttt{route(8)} é um comando que permite que você manipule
+a \emph{tabela de  roteamento IP} do sistema. Essa  tabela permite que
+uma máquina, chamada \emph{gateway},  retransmita os dados de máquinas
+de uma rede para as de  outra rede (desde que essa máquina pertença às
+duas \emph{ou}  saiba como repassar  os dados adiante). Sua  sintaxe é
+basicamente a seguinte:
+
+\begin{center}
+\begin{verbatim}
+route [add|del] [-net|-host|default] <target> [gw GW]
+[[dev] <if>]
+\end{verbatim}
+\end{center}
+
+\texttt{add}    e   \texttt{del}   funcionam    como   no    caso   de
+\texttt{ifconfig}.
+
+\texttt{-net}  e  \texttt{-host} permite  indicar  uma  rota para  uma
+determinada  rede ou \emph{host}.  Para indicar  a rota  para qualquer
+pacote  que não  seja local  (ou seja,  seja de  outra  rede), utilize
+\texttt{default}.    Nesse   caso,    \emph{não   indique}    o   alvo
+(\texttt{<target>}).
+
+\texttt{gw} faz com que você indique qual a máquina que irá atuar como
+\emph{gateway}. Pode receber tanto um IP quanto um nome de máquina.
+
+\texttt{dev}  permite que  você  indique qual  interface  de rede  que
+deverá  ser usada  para rotear  os dados.  Caso não  seja  indicado, o
+sistema irá tentar determinar qual a interface a ser usada para rotear
+os dados  (na maioria  dos casos com  sucesso). Pode  ser interessante
+definir essa  interface para algum  ganho em desempenho, mas  isso não
+chega a ser obrigatório.
+
+\subsection{Um exemplo de configuração de rede}
+
+Vamos imaginar  a seguinte rede  de exemplo: no  caso, o nome  da rede
+será   \texttt{hogwarts}.   As   máquinas   são   \texttt{gryffindor},
+\texttt{hufflepuff},  \texttt{ravenclaw} e \texttt{slytherin}.  A rede
+\texttt{hogwarts}  usa  o endereço  de  rede \texttt{10.0.0.0/8},  com
+\emph{netmask} padrão Classe  A (\texttt{255.0.0.0}). Elas se conectam
+à Internet  por meio da  máquina \texttt{dumbledore}, que  possui duas
+interfaces de rede: uma com um  IP ``normal'' para a rede em questão e
+outra com  um IP válido para a  Internet, \texttt{200.126.15.2/24} (ou
+seja,       IP       \texttt{200.126.15.2}      e       \emph{netmask}
+\texttt{255.255.255.0}).  A  estrutura  da  rede  em  questão  ficaria
+similar  à  do  diagram  da Figura  \ref{fig:nethogwarts},  na  Página
+\pageref{fig:nethogwarts}. Não consideraremos  (ainda) coisas como NAT
+ou \emph{firewalls}, deixando isso para mais adiante.
+ 
+\begin{figure}
+\includegraphics[scale=.5]{HogwartsNet}
+\caption{Rede exemplo \texttt{hogwarts}}
+\label{fig:nethogwarts}
+\end{figure}
+
+No caso, imaginemos que  você está configurando inicialmente a máquina
+\texttt{hufflepuff}.  Como  \texttt{root},   você  deverá  utilizar  o
+comando:
+
+\begin{center}
+\begin{verbatim}
+ifconfig eth0 10.0.0.2 netmask 255.0.0.0 broadcast 10.0.0.255 up
+\end{verbatim}
+\end{center}
+
+Perceba que falamos que ele utiliza o \emph{netmask} padrão para a sua
+Classe IP. Além  disso, em geral o \emph{broadcast}  pode ser definido
+conforme a necessidade pelo \texttt{ifconifg}. Nesse caso, se desejar,
+você pode definir a interface com o seguinte comando.
+
+\begin{center}
+\begin{verbatim}
+ifconfig eth0 10.0.0.2 up
+\end{verbatim}
+\end{center}
+
+Além   disso   normalmente    o   \texttt{ifconfig}   já   conseguiria
+automaticamente  estabelecer um  roteamento  de rede  normal. Se  você
+preferir,  sempre  pode-se  usar  \texttt{route} para  estabelecer  um
+roteamento manual,  sendo que isso é útil  principalmente para pacotes
+IPs para \emph{fora} da rede  interna (por exemplo, para a Internet ou
+para uma  VPN\footnote{\emph{Virtual Private Network}  -- Rede Privada
+Virtual}). Por  exemplo, imaginando que queremos  estabelecer uma rota
+padrão por  \texttt{dumbledore} para \emph{todos} os  pacotes da rede,
+usamos o comando:
+
+\begin{center}
+\begin{verbatim}
+route add default gw 10.0.0.254
+\end{verbatim}
+\end{center}
+
+O  próprio  \texttt{route} se  configura:  o  \emph{The Linux  Network
+Administrators'   Guide,  Second  Edition},   de  \citeonline{NAG2000}
+explica que o  \emph{kernel} do Linux checa a  tabela de interfaces de
+rede  configuradas, de modo  a rotear  para uma  interface configurada
+para mandar os pacotes de um  IP parte da mesma rede do \emph{gateway}
+e define essa interface como a interface de saída dos dados.
+
+\section{Arquivos de informações sobre redes}
+
+Como  você   deve  ter  notado,  trabalhamos  muito   com  números  de
+IPs. Porém, embora IPs sejam  fundamentais para o funcionamento de uma
+rede, é  muito difícil  para uma  pessoa comum decorar  os IPs  de uma
+rede, exceto por redes  pequenas e triviais, o que \emph{dificilmente}
+é a  realidade de um  ambiente de redes tradicional,  onde normalmente
+temos  uma grande quantidade  de IPs  para os  mais diversos  tipos de
+recursos e  máquinas, tanto \emph{hosts} quanto  terminais.  Por isso,
+diversos  esquemas   de  criar-se  nomes  simples   de  máquina  foram
+desenvolvidos com o tempo. 
+
+Embora existam  esquemas como DNS\footnote{\emph{Domain  Name Service}
+  -- Serviço de  Nomes de Domínio}  e DDNS\footnote{\emph{Dynamic DNS}
+  -- DNS dinâmico}(também conhecido como \emph{Bonjour}), em redes não
+muito grandes, principalmente redes internas, pode-se adotar o esquema
+tradicional por  arquivos do  Linux. Esse esquema  envolve basicamente
+quatro    arquivos:    \texttt{/etc/hosts},    \texttt{/etc/networks},
+\texttt{/etc/HOSTNAME} e \texttt{/etc/resolv.conf}.
+
+\subsection{\texttt{/etc/HOSTNAME}}
+
+O arquivo \texttt{/etc/HOSTNAME}  permite configurar-se o nome interno
+da máquina.  Isso  é muito útil em alguns casos,  mas nas versões mais
+atuais do Linux o uso  do \texttt{/etc/HOSTNAME} vem caindo por terra,
+na realidade o \texttt{/etc/HOSTNAME} contem apenas uma linha, como no
+caso   do    Trecho   de   Código    \ref{fig:hostname},   na   Página
+\pageref{fig:hostname}. O  primeiro nome é o nome  simples da máquina,
+acessável a todos os usuários da rede em questão, enquanto o segundo é
+um FQDN\footnote{\emph{Fully Qualified Domain Name} -- Nome de Domínio
+Totalmente  Descrito} da  máquina em  questão.  Normalmente  ele seria
+alguma coisa  do tipo \texttt{www.google.com},  mas, principalmente em
+máquinas  em  intranets, nada  impede  que se  adote  um  FQDN como  o
+descrito anteriormente, ou seja, \texttt{hufflepuff.hogwarts}.
+
+\begin{codigo}
+\begin{center}
+\begin{verbatim}
+hufflepuff      hufflepuff.hogwarts
+\end{verbatim}
+\caption{Exemplo de \texttt{/etc/HOSTNAME}}
+\label{fig:hostname}
+\end{center}
+\end{codigo}
+
+Nas  versões  mais  atuais   do  \emph{kernel}  do  Linux,  o  arquivo
+\texttt{/etc/HOSTNAME} acabou caindo  por terra, sendo substituido por
+uma  combinação  do comando  \texttt{hostname}  (para configuração  em
+\emph{runtime})  e do  arquivo \texttt{/etc/hosts}  (para configuração
+persistente). 
+
+\subsection{\texttt{/etc/hosts}}
+
+Na verdade, o \texttt{/etc/hosts} é o arquivo que contem as definições
+dos nomes de \emph{hosts} de uma  rede. Sua origem remonta a origem da
+Internet,   quando   um   arquivo   \emph{hosts}  era   mantido   pela
+IANA\footnote{\emph{Internet Assigned Names  and Addresses} -- Nomes e
+  Endereços  distribuídos  pela  Internet:  organização que  mantêm  a
+  distribuição  dos IPs  de  uma rede}  e  redistribuído conforme  era
+atualizado na Internet. Com o tempo, esse esquema deu lugar a esquemas
+como o  DNS, mas  sua utilidade  para redes de  porte pequeno  a médio
+continuou bastante válida. 
+
+O arquivo  \texttt{/etc/hosts} é  similar em funcionamento  ao arquivo
+\texttt{/etc/HOSTNAME}, mas com uma linha por IP.  Além disso, cada IP
+pode  ter,  além  dos  nomes  de  máquina  e  dos  FQDN,  um  ou  mais
+\emph{alias} (apelidos) para as  mesmas estabelecidos. Por exemplo, na
+Trecho de Código  \ref{fig:hosts}, Página \pageref{fig:hosts}, vemos a
+lista   de  \emph{hosts}   da  Figura   \ref{fig:nethogwarts},  Página
+\pageref{fig:nethogwarts}. Além  isso, cada domínio possui  um ou mais
+\emph{alias}, como  o caso, por exemplo, de  \texttt{supercomp}, que é
+um \emph{alias} para \texttt{hufflepuff}.
+
+\begin{codigo}
+\begin{center}
+\begin{verbatim}
+127.0.0.1     localhost localhost.localdomain
+10.0.0.1      gryffindor gryffindor.hogwarts security security.hogwarts
+10.0.0.2      hufflepuff hufflepuff.hogwarts supercomp supercomp.hogwarts
+10.0.0.3      ravenclaw ravenclaw.hogwarts data data.hogwarts
+10.0.0.4      slytherin slytherin.hogwarts cert cert.hogwarts
+10.0.0.254    dumbledore dumbledore.hogwarts proxy proxy.hogwarts
+\end{verbatim}
+\caption{Exemplo de \texttt{/etc/hosts}}
+\label{fig:hosts}
+\end{center}
+\end{codigo}
+
+Algumas   instalações  ou   administradores   preferem  separar   cada
+\emph{alias} e  FQDN por linha, repetindo  o IP na  primeira coluna do
+arquivo.     O    Trecho    de   Código    \ref{fig:hosts2},    Página
+\pageref{fig:hosts2},  apresenta  um  exemplo  de  \texttt{/etc/hosts}
+dividido por linha como o exemplo do Trecho de Código \ref{fig:hosts},
+Página  \pageref{fig:hosts}.  Essa  disposição é  herança  dos padrões
+antigos  do Unix\texttrademark,  e continua  sendo usado  no Microsoft
+Windows\texttrademark.  A  adoção desse padrão nos  Unix mais modernos
+no Linux  fica a critério  do administrador do sistema,  conforme suas
+necessidade. Pode-se  inclusive usar uma versão separando  os nomes de
+máquinas  e  os de  \emph{alias}  Trecho  de Código  \ref{fig:hosts3},
+Página \pageref{fig:hosts3}.  O esquema  a ser adotado fica a critério
+do próprio  desenvolvedor.  De qualquer forma, uma  sugestão é colocar
+comentários (que começam com \texttt{\#}) explicando seu padrão.
+
+\begin{codigo}
+\begin{ttfamily}
+127.0.0.1     localhost localhost.localdomain
+
+10.0.0.1      gryffindor 
+
+10.0.0.1      gryffindor.hogwarts 
+
+10.0.0.1      security 
+
+10.0.0.1      security.hogwarts
+
+\vdots
+
+10.0.0.254    dumbledore 
+
+10.0.0.254    dumbledore.hogwarts 
+
+10.0.0.254    proxy 
+
+10.0.0.254    proxy.hogwarts
+\end{ttfamily}
+\begin{center}
+\caption{Exemplo de \texttt{/etc/hosts} separado por linhas}
+\label{fig:hosts2}
+\end{center}
+\end{codigo}
+
+\begin{codigo}
+\begin{center}
+\begin{verbatim}
+127.0.0.1     localhost localhost.localdomain
+10.0.0.1      gryffindor gryffindor.hogwarts 
+10.0.0.1      security security.hogwarts
+10.0.0.2      hufflepuff hufflepuff.hogwarts
+10.0.0.2      supercomp supercomp.hogwarts
+10.0.0.3      ravenclaw ravenclaw.hogwarts
+10.0.0.3      data data.hogwarts
+10.0.0.4      slytherin slytherin.hogwarts 
+10.0.0.4      cert cert.hogwarts
+10.0.0.254    dumbledore dumbledore.hogwarts 
+10.0.0.254    proxy proxy.hogwarts
+\end{verbatim}
+\caption{Exemplo de \texttt{/etc/hosts} separando nomes de máquina e \emph{aliases}}
+\label{fig:hosts3}
+\end{center}
+\end{codigo}
+
+Perceba,  por  fim,  que  em  \emph{todos}  os  exemplos,  existe  uma
+definição  para  o \emph{localhost}.  Isso  é  importante pois  alguns
+serviços,  como  a  interface  gráfica  X,  dependem  de  uma  entrada
+\emph{localhost} para localizar corretamente  os servidores e dados na
+máquina   local.   Nunca,  \emph{jamais},   apague   a  definição   do
+\emph{localhost},  ou crie  um \texttt{/etc/hosts}  sem a  mesma, pois
+isso pode resultar em problemas de comportamento do sistema. 
+
+\subsection{\texttt{/etc/networks}}
+
+\texttt{/etc/networks} auxilia  a administração  das redes às  quais o
+sistema pode acessar diretamente, assim  como ao nomeamento de redes e
+equipamentos.  Seu  principal  uso   é  facilitar  o  uso  do  comando
+\texttt{route}, ao desobrigar o administrador de decorar IPs de rede. 
+
+
+\begin{figure}
+\includegraphics[angle=90,scale=.33]{HogwartsNet2}
+\caption{Redes exemplo \texttt{hogwarts}, \texttt{durmstrang} e \texttt{beauxbatons}}
+\label{fig:nethogwarts2}
+\end{figure}
+
+Vejamos agora um exemplo que nos auxilie a entender: imaginemos a rede
+da  Figura  \ref{fig:nethogwarts} (Página  \pageref{fig:nethogwarts}).
+Agora,  imaginemos  que  a  rede  \texttt{hogwarts}  comece  a  prover
+serviços    para   duas    outras   redes,    \texttt{beauxbatons}   e
+\texttt{durmstrang},      conforme      apresentado     na      Figura
+\ref{fig:nethogwarts2} (Página  \pageref{fig:nethogwarts2}). Como você
+pode perceber, as  máquinas \texttt{durmstrang} e \texttt{beauxbatons}
+não possuem  acesso via Internet  direto, precisando passar  pela rede
+\texttt{hogwarts}.   Para isso,  é necessário  fazer o  roteamento dos
+pacotes     IPs     de    suas     redes     através    da     máquina
+\texttt{dumbledore.hogwarts}.   Para isso,  tem que  editar  o arquivo
+\texttt{/etc/networks} e configurar corretamente as redes. Em todos as
+estações   com  roteamento   (no   caso  \texttt{dumbledore.hogwarts},
+\texttt{maxime.beauxbatons},  \texttt{karkaroff.durmstrang}) o arquivo
+\texttt{/etc/network}  deverá ser  definido como  no Trecho  de Código
+\ref{fig:network}, Página \pageref{fig:network}
+
+\begin{codigo}
+\begin{center}
+\begin{verbatim}
+hogwarts          10.0.0.0
+beauxbatons    192.168.0.0
+durmstrang    192.168.10.0
+\end{verbatim}
+\caption{Exemplo de \texttt{/etc/network} para a rede da Figura \ref{fig:nethogwarts2}}
+\label{fig:network}
+\end{center}
+\end{codigo}
+
+Bem,  você  deve  estar  perguntando \emph{``qual  a  diferença  nisso
+tudo??''}.    Na    verdade,   da   mesma   forma    que   o   arquivo
+\texttt{/etc/hosts},  o \texttt{/etc/network} auxilia  na configuração
+de  rede  por comandos.  No  caso,  ele  facilita a  configuração  via
+\texttt{route}.  No  caso, ambas as  redes podem ser  configuradas por
+meio do comando \texttt{route add default gateway dumbledore.hogwarts}
+e  \texttt{route   add  -net  beauxbatons}(por   exemplo,  na  máquina
+\texttt{fleur.beauxbatons}). 
+
+Na verdade, existem sempre os  mecanismos de DNS que podem valer muito
+mais a pena,  mas esse sistema, para redes pequenas  e médias deve ser
+mais do que o suficiente. 
+
+\begin{codigo}
+\begin{center}
+\begin{verbatim}
+127.0.0.1     localhost localhost.localdomain
+10.0.0.1      gryffindor gryffindor.hogwarts 
+10.0.0.2      hufflepuff hufflepuff.hogwarts
+10.0.0.3      ravenclaw ravenclaw.hogwarts
+10.0.0.4      slytherin slytherin.hogwarts 
+10.0.0.254    dumbledore dumbledore.hogwarts 
+192.168.10.1  karkaroff karkaroff.durmstrang
+192.168.10.2  krum krum.durmstrang
+192.168.10.3  poliakoff poliakoff.durmstrang
+192.168.0.1   maxime maxime.beauxbatons
+192.168.0.2   fleur fleur.beauxbatons
+192.168.0.3   gabrielle gabrielle.beauxbatons
+\end{verbatim}
+\caption{Exemplo de \texttt{/etc/hosts} para a rede da Figura \ref{fig:nethogwarts2}}
+\label{fig:hosts4}
+\end{center}
+\end{codigo}
+
+\begin{quotation}
+  \textbf{Nota:} como  conselho, cada máquina conectada  a um ambiente
+  como  o  da  Figura  \ref{fig:nethogwarts2},  deve  ter  um  arquivo
+  \texttt{/etc/hosts}  como  o do  Trecho  de Código  \ref{fig:hosts4}
+  (Página  \pageref{fig:hosts4}), para que  o mesmo  consiga localizar
+  corretamente todas as máquinas.
+\end{quotation}
+
+\section{Arquivos de \emph{resolver}}
+
+Uma parte  importante das funcionalidades  de rede do Linux  involve o
+\emph{resolver}.  Esse componente  interno ao  \emph{kernel}  do Linux
+permite que  o sistema resolva  os nomes de  máquina, ou seja,  faça a
+conversão do nome de máquina ou do FQDN para IPs. 
+
+Como  foi  dito, os  nomes  de  máquina/\emph{alias}/FQDNs são  apenas
+formas  de tornar  ao  usuário mais  simples  o acesso  a máquinas  ou
+recursos  da mesma.  Para o  computador, ele  \emph{continua  usando o
+  IP}.  Esse  entendimento  ajuda   a  compreender  a  importância  do
+\emph{resolver}.  Na prática, ele  utiliza todos  os mecanismos  que o
+\emph{kernel}  conhecer para \emph{resolver  o IP},  ou seja,  pegar o
+nome fornecido pela aplicação  do usuário, ``traduzir'' esse nome para
+um valor  de IP que  o sistema possa  usar na transmissão via  rede, e
+usá-lo para  conectar a máquina  cliente ao \emph{host} com  o serviço
+desejado. 
+
+Para  configurar  como o  \emph{resolver}  do  ambiente  Linux irá  se
+comportar,  são usados  dois arquivos,  o \texttt{/etc/host.conf}  e o
+\texttt{/etc/resolv.conf}.
+
+\subsection{O arquivo \texttt{/etc/host.conf}}
+
+O  arquivo   \texttt{/etc/host.conf}  configura  o   comportamento  do
+\emph{resolver}. Em  geral ele  vai ter apenas  algumas configurações,
+sempre linha por linha. 
+
+A primeira opção é \texttt{order}, que configura a seqüência na qual o
+\emph{resolver} tentará resolver  o nome de máquina passado  a ele. Os
+valores dele são:
+
+\begin{itemize}
+  \item  \texttt{bind} ---  esse parâmetro  indica que  o  sistema irá
+    recorrer ao sistema de DNS para resolver o nome de máquina;
+  \item  \texttt{hosts}  --- esse  parâmetro  faz  com  que o  sistema
+    utilize o esquema tradicional,  que é através dos arquivos citados
+    anteriormente, como \texttt{/etc/hosts} e \texttt{/etc/network};
+  \item \texttt{nis} --- esse  parâmetro permite que o sistema resolva
+    o nome  de máquina pelo sistema de  NIS (\emph{Network Information
+    Service}   --  Serviço   de  Informação   de  Rede),   um  sistema
+    originalmente da  Sun Microsystems que  é muito usado  em ambiente
+    exclusivamente Unix, como no caso de redes \emph{cluster}, por sua
+    simplicidade e leveza comparada com outros sistemas;
+\end{itemize}
+
+Essa opção não  possui valor único, podendo ser  inseridas todas essas
+opções sem problemas. No caso, cada opção deve ser separada das demais
+com  uma vírgula, como  no caso  de \texttt{order  bind, hosts},  e as
+opções devem ser colocadas na seqüência de prioridade à qual o sistema
+irá  recorrer na  resolução  do  nome. Nesse  exemplo,  o sistema  irá
+recorrer  primeiro ao  DNS  e  em seguida  ao  sistema tradicional  de
+arquivos do Unix.
+
+Outra  opção  importante  é  \texttt{multi}, aonde  o  \emph{resolver}
+responde à  requisição do sistema recuperando  \emph{todos} os valores
+IP que  ele puder  resolver para o  nome de máquina  oferecido. Embora
+isso  ocasionalmente possa  provocar conflitos,  é  muito interessante
+manter em \texttt{on} permitindo, por  exemplo, que no caso de mudança
+de IP não aja problemas na resolução de um \emph{site}. Agora, no caso
+de ambientes  internos simples,  pode ser interessante  desativar essa
+opção com \texttt{off}. 
+
+Uma opção de segurança na resolução de IP é \texttt{nospoof}. Ativando
+essa  opção  em  \texttt{on},   o  sistema  irá,  após  uma  resolução
+(principalmente   para   \emph{remote   shell},   \texttt{telnet},   e
+\emph{secure   shell})  executá-la  novamente.    Se  os   valores  de
+\emph{ambas} as  resoluções não casarem, isso  significa uma tentativa
+de       \emph{spoof}      por      técnicas       como      \emph{DNS
+poisoning}\footnote{\emph{DNS poisoning}  é uma técnica  que envolve a
+substituição de  valores DNS  legítimos por valores  falsificados, por
+meio de substituições na seqüência  em que os servidores são chamados,
+literalmente  ``envenenando''  o \emph{cache}  de  DNS  do sistema}  e
+similares,  o que  o  sistema irá  automaticamente ``cortar''.  Porém,
+saiba que isso com certeza  irá reduzir a performance do sistema, pois
+ele  deverá  realizar   \emph{duas}  resoluções  de  nome  \textbf{por
+  vez}. Portanto, use com cautela essa opção.
+
+A opção anterior  pode ter seu nível de  segurança ampliado ainda mais
+por meio de outra opção, que é a opção \texttt{spoofalert}, também com
+valores \texttt{on} e \texttt{off}. No caso, se \emph{ambas} as opções
+\texttt{nospoof}    e     \texttt{spoofalert}    estiverem    ativadas
+(\texttt{on}), uma mensagem de erro do \emph{resolver} será enviada ao
+\emph{syslog}, o registro de informações (\emph{log}) do sistema. Para
+mais   informações   sobre   o   \emph{syslog},   consulte   a   Seção
+\ref{sec:syslog}, na Página \pageref{sec:syslog}.
+
+Isso deve  ser o suficiente sobre  \texttt{/etc/host.conf}. Um exemplo
+desse   arquivo   pode   ser    encontrado   no   Trecho   de   Código
+\ref{fig:hostsconf}, Página \pageref{fig:hostsconf}.
+
+\begin{codigo}
+\begin{center}
+\begin{verbatim}
+order hosts,bind
+multi on
+\end{verbatim}
+\caption{Exemplo de \texttt{/etc/hosts.conf}}
+\label{fig:hostsconf}
+\end{center}
+\end{codigo}
+
+\subsection{O arquivo \texttt{/etc/resolv.conf}}
+
+O  segundo  arquivo  que  podemos  dizer  que  é  de  configuração  do
+\emph{resolver}  é o  \texttt{/etc/resolv.conf}. Esse  arquivo permite
+configurar corretamente o \emph{resolver} em como ele irá se comportar
+no  caso das  opções estabelecidas  no  \texttt{/etc/hosts.conf}.  Ele
+armazena  informações  sobre  quais  servidores de  nome  deverão  ser
+procurados  e em que  seqüência. Perceba  que quando  é usado  o termo
+servidor   de  nome   (\emph{nameserver})  nesse   arquivo,  \emph{não
+diferenciariamos} servidores de nome dos diversos modelos, como NIS ou
+DNS.  A  responsabilidade quanto a  isso deve ser  do \emph{resolver},
+baseando-se no esquema definido no arquivo \texttt{/etc/hosts.conf}.
+
+É  importante deixar claro  que \emph{não  é necessário}  configurar o
+\emph{resolver}  em uma  máquina  que  tenha um  servidor  DNS ou  NIS
+próprio rodando, ou que ainda  necessite apenas de informações de nome
+de \emph{hosts} em rede vindas do \texttt{/etc/hosts}.  A configuração
+do  \emph{resolver}  só é  necessária  se  o  sistema precisar  buscar
+servidores  de   nome  remotos.  Se   um  servidor  de   nome  estiver
+configurado,  o \emph{resolver}  poderá ser  desativado,  deixando por
+conta  do servidor  de nomes  local da  máquina a  responsabilidade de
+resolver o  nome de  máquina ao servidor  local. Isso só  é necessário
+quando um sistema precisar de um  servidor de nomes remoto, como em um
+\emph{desktop} conectada à Internet sem nenhum servidor de nomes local
+ativo.
+
+O   \texttt{/etc/resolv.conf}  é  construído   de  forma   similar  ao
+\texttt{/etc/hosts.conf}, ou seja, com uma opção por linha de texto no
+arquivo. Suas principais opções são:
+
+\begin{itemize}
+  \item \textbf{\texttt{nameserver:}} essa  opção permite configurar o
+    IP  de uma  máquina remota  que servirá  a resolução  de  nomes de
+    máquina. Perceba que \emph{não é necessário determinar qual o tipo
+    de sistema de nome adotado}, NIS, DNS ou qualquer outro. Isso fica
+    a cargo do próprio \emph{resolver} determinar;
+  \item  \textbf{\texttt{domain:}} essa  opção ajuda  a  identificar o
+    domínio ao qual  a máquina configurada pertence, de  maneira que o
+    sistema   de  consulta   de  nome   de  domínio   possa  trabalhar
+    adequadamente  na  resolução  de  nomes curtos  ou  \emph{aliases}
+    passados.    Isso  é   feito  por   meio  da   expansão   do  nome
+    curto/\emph{alias} para o FQDN apropriado. Por exemplo, imaginemos
+    que  a máquina  \texttt{fleur} do  arquivo  \texttt{/etc/hosts} do
+    Trecho  de Código  \ref{fig:hosts4}  (Página \pageref{fig:hosts4})
+    esteja buscando o servidor \texttt{hufflepuff.hogwarts}.  Ela pode
+    utilizar o  nome curto \texttt{hufflepuff},  mas o \emph{resolver}
+    em sua máquina está  configurado para ``expandir'' os nomes curtos
+    de máquina usando \texttt{beauxbatons}  como nome curto.  No caso,
+    o primeiro servidor que ela irá procurar será o ``expandido'', que
+    será determinado  como \texttt{hufflepuff.beauxbatons}.  Como essa
+    máquina não existe, ele tentará localizar \texttt{hufflepuff}, sem
+    nenhum nome de domínio. Essa  máquina também não existe, o que irá
+    provocar a falha na pesquisa.
+
+    Essa  opção  pode  receber   até  seis  domínios  diferentes  para
+  ``expansão'' dos nomes curtos e \emph{aliases} oferecidos, sendo que
+    o número  de caracteres nessas seis opções  \emph{juntas} não pode
+    superar 256 caracteres.
+\end{itemize}
+
+\begin{codigo}
+\begin{center}
+\begin{verbatim}
+nameserver 200.167.20.5
+nameserver 200.176.2.10
+# nameserver 192.168.20.2
+
+# ppp temp entry
+\end{verbatim}
+\caption{Exemplo de \texttt{/etc/resolv.conf}}
+\label{fig:resolvconf}
+\end{center}
+\end{codigo}
+
+Existem   outras  tantas   opções,  que   podem  ser   consultadas  na
+\emph{manpage}   \texttt{resolv.conf}(8).     O   Trecho   de   Código
+\ref{fig:resolvconf}, na Página \pageref{fig:resolvconf}, apresenta um
+exemplo de configuração de \texttt{/etc/resolv.conf}.
+
+\section{\sloppy{O  arquivo   \texttt{/etc/rc.d/init.d/network}  e  o  arquivo
+  \texttt{/etc/sysconfig/network}}}
+
+\fussy
+
+Uma  pergunta que deve  estar passando  por sua  cabeça é  ``tudo bem,
+entendi tudo  isso. Mas como a  máquina sabe qual é  a configuração de
+rede que ele deve ter?''
+
+Na  realidade,   como  na   maioria  dos  sistemas   operacionais,  as
+configurações  no Linux  são \emph{transientes},  ou seja,  elas estão
+ativas enquanto  o sistema estiver no  ar. Uma vez que  o sistema seja
+retirado do ar, as configurações desaparecem. 
+
+Isso  parece uma  tolice, mas  a realidade  é que  o  funcionamento da
+maioria dos  sistemas é  esse. Porém, assim  como outros  sistemas com
+essa  característica,  o Linux  oferece  um  mecanismo  que permite  a
+permanência  dessas  configurações. No  caso,  a  maioria das  distros
+GNU/Linux  possuem  algum  tipo  de \emph{shell  script}  que  permite
+carregar  e  configurar  as  informações  das interfaces  de  rede  no
+\emph{boot} da  máquina.  Nos  sistemas baseados em  System V  Unix (a
+grande         maioria),        esse        arquivo         é        o
+\texttt{/etc/rc.d/init.d/network}.  Em  outras  distros,  baseadas  no
+modelo    BSD     (como    o    Slackware),    o     arquivo    é    o
+\texttt{/etc/rc.d/rc.inet1}. Veremos  mais sobre os  vários modelos de
+inicialização na Seção \ref{cap:sysv}, Página \pageref{cap:sysv}. 
+
+No caso, não há muito a se  dizer sobre o arquivo em questão: ele é um
+\emph{shell  script}  pré-construído   de  fábrica,  que  permite  sua
+configuração por  outros caminhos. A título de  configuração, o Trecho
+de   Código  \ref{fig:rcdnetwork}  a   \ref{fig:rcdnetwork6},  Páginas
+\pageref{fig:rcdnetwork}  a   \pageref{fig:rcdnetwork6},  apresenta  o
+\texttt{/etc/rc.d/init.d/network}   da  distribuição   Mandriva  Linux
+2006.0 Free. 
+
+\begin{codigo}
+\begin{center}
+\begin{scriptsize}
+\begin{verbatim}
+#! /bin/bash
+#
+# network       Bring up/down networking
+#
+# chkconfig: 2345 10 90
+# description: Activates/Deactivates all network interfaces configured to \
+#              start at boot time.
+# probe: false
+### BEGIN INIT INFO
+# Provides: $network
+### END INIT INFO
+
+# Source function library.
+. /etc/init.d/functions
+
+if [ ! -f /etc/sysconfig/network ]; then
+    echo "NETWORKING=no" > /etc/sysconfig/network
+    exit 0
+fi
+
+. /etc/sysconfig/network
+
+if [ -f /etc/sysconfig/pcmcia ]; then
+	. /etc/sysconfig/pcmcia
+fi
+
+
+# Check that networking is up.
+[ "${NETWORKING}" = "no" ] && exit 0
+
+# if the ip configuration utility isn't around we can't function.
+[ -x /sbin/ip ] || exit 1
+
+# Even if IPX is configured, without the utilities we can't do much
+[ ! -x /sbin/ipx_internal_net -o ! -x /sbin/ipx_configure ] && IPX=
+
+# Even if VLAN is configured, without the utility we can't do much
+[ ! -x /sbin/vconfig ] && VLAN=
+
+# If IPv6 is explicitly configured, make sure it's available.
+if [ -n "$NETWORKING_IPV6" ]; then
+    alias=`modprobe -c | awk '/^alias net-pf-10 / { print $3; exit }'`
+    if [ "$NETWORKING_IPV6" = "yes" ]; then
+	new_alias=ipv6
+    fi
+    if [ "$NETWORKING_IPV6" = "no" ]; then
+	new_alias=off
+    fi
+    if [ -n "$new_alias" ]; then
+	if [ "$alias" != "$new_alias" -a ! -f /proc/net/if_inet6 ]; then
+		case "$(modprobe -V 2>/dev/null)" in
+			modprobe* )
+				echo "alias net-pf-10 $new_alias" >> /etc/modules.conf
+			;;
+			module-init-tools* )
+				echo "alias net-pf-10 $new_alias" >> /etc/modprobe.conf
+			;;
+		esac
+	fi
+    fi
+fi
+
+\end{verbatim}
+\end{scriptsize}
+\caption{Exemplo de \texttt{/etc/rc.d/init.d/network}}
+\label{fig:rcdnetwork}
+\end{center}
+\end{codigo}
+
+\begin{codigo}
+\begin{center}
+\begin{scriptsize}
+\begin{verbatim}
+CWD=`pwd`
+cd /etc/sysconfig/network-scripts
+
+. network-functions
+
+# find all the interfaces besides loopback.
+# ignore aliases, alternative configurations, and editor backup files
+interfaces=`ls ifcfg* | LANG=C egrep -v '(ifcfg-lo|:|rpmsave|rpmorig|rpmnew)' | \
+	    LANG=C egrep -v '(~|\.bak)$' | \
+            LANG=C egrep 'ifcfg-[A-Za-z0-9\._-]+$' | \
+            sed 's/^ifcfg-//g' |
+            sed 's/[0-9]/ &/' | LANG=C sort -k 1,1 -k 2n | sed 's/ //'`
+
+boot=boot
+
+# See how we were called.
+case "$1" in
+  start)
+	# IPv6 hook (pre IPv4 start)
+	if [ "$NETWORKING_IPV6" = "yes" ]; then
+		if [ -x /etc/sysconfig/network-scripts/init.ipv6-global ]; then
+			/etc/sysconfig/network-scripts/init.ipv6-global start pre
+		fi
+	fi
+  
+  	action "Setting network parameters: " sysctl -e -p /etc/sysctl.conf
+
+	if [ -r /etc/ethers -a -x /sbin/arp ]; then
+	    action "Storing ARP mapping" /sbin/arp -f /etc/ethers
+	fi
+	
+	# bring up loopback interface
+	action "Bringing up loopback interface: " ./ifup ifcfg-lo
+
+	case "$IPX" in
+	  yes|true)
+	    /sbin/ipx_configure --auto_primary=$IPXAUTOPRIMARY \
+				   --auto_interface=$IPXAUTOFRAME
+	    if [ "$IPXINTERNALNETNUM" != "0" ]; then
+	       /sbin/ipx_internal_net add $IPXINTERNALNETNUM $IPXINTERNALNODENUM
+	    fi
+	    ;;
+	esac
+	# depreciated but we still use it.
+	if [ -f /proc/sys/net/ipv4/ip_forward ] && [[ "$FORWARD_IPV4" = "yes" || "$FORWARD_IPV4" = "true" ]]; 
+	    then
+		action "Enabling IPv4 packet forwarding" sysctl -n -w net.ipv4.ip_forward=1
+	fi
+
+	case "$VLAN" in
+	  yes)
+	    if [ -d /proc/net/vlan ] || modprobe 8021q >/dev/null 2>&1 ; then
+		action "Setting 802.1Q VLAN parameters: " /sbin/vconfig set_name_type DEV_PLUS_VID_NO_PAD
+	    else
+		gprintf "No 802.1Q VLAN support available in kernel.\n"
+	    fi
+	    ;;
+	esac
+
+	vlaninterfaces=""
+	cipeinterfaces=""
+	xdslinterfaces=""
+	bridgeinterfaces=""
+\end{verbatim}
+\end{scriptsize}
+\caption{Exemplo de \texttt{/etc/rc.d/init.d/network}(Continuação)}
+\label{fig:rcdnetwork2}
+\end{center}
+\end{codigo}
+
+\begin{codigo}
+\begin{center}
+\begin{scriptsize}
+\begin{verbatim}
+	# bring up all other interfaces configured to come up at boot time
+	for i in $interfaces; do
+		eval $(LANG=C fgrep "DEVICE=" ifcfg-$i)
+		eval $(LANG=C fgrep "TYPE=" ifcfg-$i)
+		eval $(LANG=C fgrep "SLAVE=" ifcfg-$i)
+		eval $(LANG=C fgrep "BRIDGE=" ifcfg-$i)
+		
+		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
+
+		if [ "${DEVICE##cipcb}" != "$DEVICE" ] ; then
+			cipeinterfaces="$cipeinterfaces $i"
+			unset DEVICE TYPE SLAVE BRIDGE
+			continue
+		fi
+		if [ "$TYPE" = "xDSL" -o "$TYPE" = "ADSL" ]; then
+		        xdslinterfaces="$xdslinterfaces $i"
+			unset DEVICE TYPE SLAVE BRIDGE
+			continue
+		fi
+		
+		if [ -n "$BRIDGE" ]; then
+			is_available $i
+		        bridgeinterfaces="$bridgeinterfaces $i"
+			unset DEVICE TYPE SLAVE BRIDGE
+			continue
+		fi
+
+		if [ "${DEVICE%%.*}" != "$DEVICE" ] ; then
+			vlaninterfaces="$vlaninterfaces $i"
+			unset DEVICE TYPE SLAVE BRIDGE
+			continue
+		fi
+		
+		if [ "$SLAVE" = "yes" ]; then
+			unset DEVICE TYPE SLAVE BRIDGE
+			continue
+		fi
+	
+		if LANG=C egrep -q "^ONBOOT=['\"]?[Nn][Oo]['\"]?" ifcfg-$i; then
+			continue
+		fi
+		# If we're in confirmation mode, get user confirmation.
+		[ -f /var/run/confirm ] && 
+			{ 
+			    confirm $i
+			    case $? in
+				0)
+				    :
+				;;
+				2)
+				    CONFIRM=
+				;;
+				*)
+				    continue
+				;;
+			    esac 
+		}
+		action "Bringing up interface %s: " $i ./ifup $DEVICE $boot
+	done
+\end{verbatim}
+\end{scriptsize}
+\caption{Exemplo de \texttt{/etc/rc.d/init.d/network}(Continuação)}
+\label{fig:rcdnetwork3}
+\end{center}
+\end{codigo}
+
+\begin{codigo}
+\begin{center}
+\begin{scriptsize}
+\begin{verbatim}
+	# Bring up xDSL and CIPE interfaces
+	for i in $vlaninterfaces $bridgeinterfaces $xdslinterfaces $cipeinterfaces ; do 
+            if ! LANG=C egrep -q "^ONBOOT=['\"]?[Nn][Oo]['\"]?" ifcfg-$i; then
+		# If we're in confirmation mode, get user confirmation.
+		if [ -f /var/run/confirm ]; then
+			confirm $i
+			test $? = 1 && continue
+		fi
+		action "Bringing up interface %s: " $i ./ifup $i boot
+	    fi
+        done
+
+	# Add non interface-specific static-routes.
+	if [ -f /etc/sysconfig/static-routes ]; then
+	   grep "^any" /etc/sysconfig/static-routes | while read ignore args ; do
+              /sbin/route add -$args
+	   done
+	fi    
+
+ 	# IPv6 hook (post IPv4 start)
+ 	if [ "$NETWORKING_IPV6" = "yes" ]; then
+ 		if [ -x /etc/sysconfig/network-scripts/init.ipv6-global ]; then
+ 			/etc/sysconfig/network-scripts/init.ipv6-global start post
+ 		fi
+ 	fi
+	
+        touch /var/lock/subsys/network
+        ;;
+  stop)
+  	# If this is a final shutdown/halt, check for network FS,
+	# and unmount them even if the user didn't turn on netfs
+	
+	if [ "$RUNLEVEL" = "6" -o "$RUNLEVEL" = "0" -o "$RUNLEVEL" = "1" ]; then
+		NFSMTAB=`LC_ALL=C awk '!/^#/ && $3  ~ /^nfs/ { print $2 }' /proc/mounts`
+		SMBMTAB=`LC_ALL=C awk '!/^#/ && $3 == "smbfs" { print $2 }' /proc/mounts`
+		NCPMTAB=`LC_ALL=C awk '!/^#/ && $3 == "ncpfs" { print $2 }' /proc/mounts`
+		if [ -n "$NFSMTAB" -o -n "$SMBMTAB" -o -n "$NCPMTAB" ] ; then
+			/etc/init.d/netfs stop
+		fi
+	fi
+	
+ 	# IPv6 hook (pre IPv4 stop)
+ 	if [ "$NETWORKING_IPV6" = "yes" ]; then
+ 		if [ -x /etc/sysconfig/network-scripts/init.ipv6-global ]; then
+ 			/etc/sysconfig/network-scripts/init.ipv6-global stop pre
+ 		fi
+ 	fi
+ 
+	vlaninterfaces=""
+	cipeinterfaces=""
+	xdslinterfaces=""
+	bridgeinterfaces=""
+	remaining=""
+
+	# get list of bonding, cipe, and xdsl interfaces
+	for i in $interfaces; do
+		eval $(LANG=C fgrep "DEVICE=" ifcfg-$i)
+		eval $(LANG=C fgrep "TYPE=" ifcfg-$i)
+		eval $(LANG=C fgrep "BRIDGE=" ifcfg-$i)
+		
+		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
+\end{verbatim}
+\end{scriptsize}
+\caption{Exemplo de \texttt{/etc/rc.d/init.d/network}(Continuação)}
+\label{fig:rcdnetwork4}
+\end{center}
+\end{codigo}
+
+\begin{codigo}
+\begin{center}
+\begin{scriptsize}
+\begin{verbatim}
+		if [ "${DEVICE##cipcb}" != "$DEVICE" ] ; then
+			cipeinterfaces="$cipeinterfaces $i"
+			unset DEVICE TYPE BRIDGE
+			continue
+		fi
+		if [ -n "$BRIDGE" ]; then
+		        bridgeinterfaces="$bridgeinterfaces $i"
+			unset DEVICE TYPE BRIDGE
+		        continue
+		fi
+		if [ "$TYPE" = "xDSL"  -o "$TYPE" = "ADSL" ]; then
+		        xdslinterfaces="$xdslinterfaces $i"
+			unset DEVICE TYPE BRIDGE
+			continue
+		fi
+
+		if [ "${DEVICE%%.*}" != "$DEVICE" ] ; then
+			vlaninterfaces="$vlaninterfaces $i"
+			unset DEVICE TYPE SLAVE BRIDGE
+			continue
+		fi
+		remaining="$remaining $i"
+		unset DEVICE TYPE BRIDGE
+	done
+	
+	for i in $cipeinterfaces $xdslinterfaces $bridgeinterfaces $vlaninterfaces; do
+		eval $(fgrep "DEVICE=" ifcfg-$i)
+		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
+
+		if ! check_device_down $DEVICE; then
+		   action "Shutting down interface %s: " $i ./ifdown $i boot
+		fi
+	done
+	
+	# shut down all interfaces (other than loopback)
+	for i in $remaining ; do
+		eval $(fgrep "DEVICE=" ifcfg-$i)
+		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
+
+		if ! check_device_down $DEVICE; then
+		   action "Shutting down interface %s: " $i ./ifdown $i boot
+		fi
+	done
+
+	case "$IPX" in
+	  yes|true)
+	    if [ "$IPXINTERNALNETNUM" != "0" ]; then
+	       /sbin/ipx_internal_net del
+	    fi
+	    ;;
+	esac
+\end{verbatim}
+\end{scriptsize}
+\caption{Exemplo de \texttt{/etc/rc.d/init.d/network}(Continuação)}
+\label{fig:rcdnetwork5}
+\end{center}
+\end{codigo}
+
+\begin{codigo}
+\begin{center}
+\begin{scriptsize}
+\begin{verbatim}	
+	action "Shutting down loopback interface: " ./ifdown ifcfg-lo
+
+	if [ -d /proc/sys/net/ipv4 ]; then
+	  if [ -f /proc/sys/net/ipv4/ip_forward ]; then
+		if [ `cat /proc/sys/net/ipv4/ip_forward` != 0 ]; then
+			action "Disabling IPv4 packet forwarding: " sysctl -n -w net.ipv4.ip_forward=0
+		fi
+	  fi
+	  if [ -f /proc/sys/net/ipv4/ip_always_defrag ]; then
+	        if [ `cat /proc/sys/net/ipv4/ip_always_defrag` != 0 ]; then
+		        action "Disabling IPv4 automatic defragmentation: " sysctl -n -w net.ipv4.ip_always_defrag=0
+		fi
+	  fi
+	fi
+	if [ -f /proc/sys/net/ipv4/tcp_syncookies ];then
+	        if [ `cat /proc/sys/net/ipv4/tcp_syncookies` != 0 ]; then
+		    sysctl -n -w net.ipv4.tcp_syncookies=0
+		fi
+	fi
+
+	# IPv6 hook (post IPv4 stop)
+	if [ "$NETWORKING_IPV6" = "yes" ]; then
+		if [ -x /etc/sysconfig/network-scripts/init.ipv6-global ]; then
+			/etc/sysconfig/network-scripts/init.ipv6-global stop post
+		fi
+	fi
+
+        rm -f /var/lock/subsys/network
+        ;;
+  status)
+	gprintf "Configured devices:\n"
+	echo lo $interfaces
+
+	gprintf "Currently active devices:\n"
+	echo `/sbin/ip -o link show | awk -F ": " '/UP>/ { print $2 }'`
+	;;
+  restart|reload)
+        cd "$CWD"
+	$0 stop
+	interfaces="$active"
+	boot=""
+	$0 start
+	;;
+  *)
+        gprintf "Usage: %s\n" "$(basename $0) {start|stop|restart|reload|status}"
+        exit 1
+esac
+
+exit 0
+\end{verbatim}
+\end{scriptsize}
+\caption{Exemplo de \texttt{/etc/rc.d/init.d/network}(Continuação)}
+\label{fig:rcdnetwork6}
+\end{center}
+\end{codigo}
+
+
+\begin{codigo}
+\begin{center}
+\begin{scriptsize}
+\begin{verbatim}
+HOSTNAME=hufflepuff
+NETWORKING=yes
+GATEWAY=192.168.20.1
+\end{verbatim}
+\end{scriptsize}
+\caption{Exemplo de \texttt{/etc/sysconfig/network}}
+\label{fig:scdnetwork}
+\end{center}
+\end{codigo}
+
+
+Como   podemos  ver,   trata-se  de   um   \emph{script}  extremamente
+complicado,  sendo que  nenhuma  de suas  vertentes  são simples,  não
+importa a distro.
+
+Por isso mesmo, as distros ``isolam'' a parte de configuração da parte
+das  funcionalidades do  \emph{script} da  parte de  configuração. Nas
+distros     baseadas     em      System     V,     o     arquivo     é
+\texttt{/etc/sysconfig/network},  enquanto o  arquivo para  as distros
+baseadas           em            BSD           normalmente           é
+\texttt{/etc/rc.d/rc.inet1.conf}. No  caso, vamos falar  do arquivo em
+sua vertente System  V. As versões BSD costumam  se comportar da mesma
+forma, com pequenas e perceptíveis diferenças. 
+
+Da  mesma forma que  os outros  arquivos de  configuração apresentados
+anteriormente,  esse arquivo é  composto de  linhas com  parâmetros de
+configuração do  sistema. O Trecho de  Código \ref{fig:scdnetwork}, da
+Página  \pageref{fig:scdnetwork},  mostram  o  arquivo  na  versão  do
+Mandriva  Linux 2006.0  Free.   Como podemos  perceber,  é um  arquivo
+extremamente  simples. Cada  linha é  de  um parâmetro,  sendo que  os
+valores são  indicados adiante. Não  vou comentar os  parâmetros, pois
+creio   que  são  extremamente   auto-explicativos.   Então,   não  há
+necessidade  de muitas  explicações.  Procure  apenas perceber  como o
+arquivo funciona.   Os parâmetros podem variar de  distro para distro,
+mas em geral  são sempre auto-explicativos.  Dê uma  boa olhada no seu
+sistema  e  verifique  como  você   entende  eles.  Isso  deve  ser  o
+suficiente.
+
+
+\section{Alguns sistemas de troca de arquivos}
+
+Existem  muitas funções  importantes no  uso de  servidores, inclusive
+como banco de dados e servidores  de Web, mas em um ambiente ``comum''
+de empresa ou de escola, uma  das maiores, senão a maior, utilidade de
+um servidor é como um  servidor de arquivos.  Portanto, falaremos mais
+sobre isso  nesse capítulo.  Para  aqueles interessados em  mais sobre
+servidores em  ambientes Linux, o  livro ``Linux: Redes  e servidores,
+Guia      Prático     ---      2\textordfeminine      Edição'',     de
+\citeonline{MORIMOTO2006}  possui  MUITA  informação sobre  o  assunto
+servidores, e tudo de maneira bastante prática, o que torna muito mais
+simples para você aprender. 
+
+A idéia principal  por trás de um servidor de  arquivos é que monta-se
+uma  estrutura centralizada  onde arquivos  importantes dentro  de uma
+empresa possam ser armazenados. Isso provê as seguintes vantagens:
+
+\begin{enumerate}
+  \item \textbf{\emph{Backup} centralizado:} com essa estrutura, todos
+    os  arquivos  importantes  são   centralizados,  de  forma  que  é
+    necessário fazer  o \emph{backup} de apenas  \emph{uma} ou algumas
+    poucas  unidades   de  disco,  o   que  facilita  muito   tanto  o
+    planejamento   quanto   a   execução  de   \emph{backups}   quanto
+    restauração;
+  \item   \textbf{Evitar  redundância:}   como  todos   os  principais
+    documentos estão  dentro do  servidor de arquivos,  pode-se evitar
+    redundâncias  em arquivos  sensíveis, como  planilhas de  custo ou
+    folhas de pagamento. Combinando  uma boa estrutura de segurança de
+    dados,  como a  oferecida pelo  GNU/Linux, e  o uso  de aplicações
+    específicos, você  terá uma boa infraestrutura de  dados, segura e
+    efetiva;
+  \item  \textbf{Facilidade na  colaboração:}  no caso,  o  uso de  um
+    servidor centralizado de arquivos  permite que a colaboração entre
+    os funcionários seja muito  fácil. Ao invés de transferir arquivos
+    via  \emph{email} ou  mesmo  usando DPL/DPC\footnote{``Protocolo''
+    usado  quando  não  haviam   redes  de  computadores,  chamado  de
+    \emph{Disquete pra  lá/Disquete pra cá}}, você tem  um local aonde
+    os documentos  poderão ser  obtidos e editados  quando necessário,
+    aumentando a colaboração e a eficiência dos sistemas;
+\end{enumerate}
+
+No caso, veremos três  dos principais sistemas servidores de arquivos:
+o NFS (\emph{Network  FileSystem} --- Sistema de arquivos  em rede), o
+FTP (\emph{File  Transfer Protocol} --- Protocolo  de Transferência de
+Arquivos) e o SMB (\emph{Server  Message Block} --- Servidor de Blocos
+de Mensagem),  utilizado no Windows\texttrademark{}  e implementado no
+GNU/Linux  por  meio de  protocolos  do  \emph{kernel}  e pelo  SaMBa,
+servidor de arquivos para Unix/Linux.
+
+\subsection{NFS}
+
+O NFS (\emph{Network FileSystem} --- Sistema de Arquivos em Rede) é um
+servidor  que foi  criado  pela  Sun Microsystems  como  parte de  seu
+sistema  NIS   (\emph{Network  Information  System}   ---  Sistema  de
+Informações de Rede).  Embora \emph{extremamente} inseguro (possui uma
+quantidade enorme de falhas  de segurança), possui uma grande vantagem
+no  compartilhamento de  arquivos no  ambiente Unix,  que é  ser muito
+rápido  quando compartilha-se  arquivos  Unix/Unix.  O  uso de  outros
+compartilhamentos, como o SaMBa,  na mesma situação, causa uma redução
+violenta de \emph{performance}, embora,  por incrível que pareça, seja
+muito   rápido   em   transferências   Windows\texttrademark/Linux   e
+\emph{vice-versa}. 
+
+A  estrutura do  NFS  é baseada  em  um módulo  de \emph{kernel}  para
+cliente/servidor  NFS,  outro  para  montagem  de volumes  NFS,  e  um
+servidor real,  o \texttt{portmap}, que faz a  tradução de requisições
+RPC  (\emph{Remote  Procedure  Call}  ---  Chamadas  de  Procedimentos
+Remotos) em  informações transmitidas  via Internet. Isso  é utilizado
+pelo  sistema  para traduzir  os  pedidos  de  dados e  transferir  os
+resultados.  Normalmente,  são instalados  por pacotes com  nomes como
+\texttt{nfs} ou \texttt{portmap},  conforme a sua distribuição. Cheque
+a  documentação  de sua  distribuição  para  maiores informações.   Os
+serviços NFS  são inicializados (ou  ``levantados'', como é  chamado o
+processo  no jargão  do  mundo  Unix).  Veremos  um  pouco mais  sobre
+inicialização  no  Capítulo \ref{cap:servicos},  na  verdade na  Seção
+\ref{sec:servicos}, na Página \pageref{sec:servicos}. 
+
+\subsubsection{Configurando um \emph{share} NFS}
+
+A  configuração de um  compartilhamento, ou  \emph{share}, é  feita de
+maneira   muito    simples,   envolvendo   apenas    um   arquivo,   o
+\texttt{/etc/exports}. 
+
+Vamos nos  pegar novamente da Figura  \ref{fig:nethogwarts}, tendo sua
+estrutura  descrita na  forma  de um  \texttt{/etc/hosts} indicado  na
+Figura      \ref{fig:hosts3}.      Como     visto,      o     servidor
+\texttt{ravenclaw.hogwarts}   também  tem   um   \emph{alias}  chamado
+\texttt{data.hogwarts}.   No caso, imaginemos  que o  administrador da
+rede   libere   uma  pasta   em   \texttt{/home/arquivos}  dentro   de
+\texttt{ravenclaw.hogwarts}  como um  \emph{share}  NFS acessível  por
+todos  os   \emph{hosts}  da  rede   \texttt{hogwarts}.   Nesse  caso,
+utilizamos uma linha simples no arquivo \texttt{/etc/exports}:
+
+\begin{verbatim}
+/home/arquivos 10.0.0.*(rw)
+\end{verbatim}
+
+Essa linha também poderia ser escrita assim:
+
+\begin{verbatim}
+/home/arquivos *.hogwarts(rw)
+\end{verbatim}
+
+Claro,  considerando  que   o  arquivo  \texttt{/etc/networks}  esteja
+corretamente configurado. 
+
+A  entrada  é   descrita  por  \textbf{(1)}  diretório  compartilhado,
+\textbf{(2)} redes ou \emph{hosts} que podem acessar o \emph{share} em
+questão e \textbf{(3)} opções. 
+
+Por  exemplo, imaginemos  que  a máquina  \texttt{dumbledore.hogwarts}
+deseja compartilhar  uma pasta \texttt{/etc/info}, mas  de maneira que
+ninguém escreva  no diretório em questão  por meio do  NFS. Para isso,
+ele utiliza a seguinte entrada em seu \texttt{/etc/exports}:
+
+\begin{verbatim}
+/etc/info *.hogwarts(ro)
+\end{verbatim}
+
+Algumas  opções  úteis,  sendo  que  você sempre  poderá  consultar  a
+\emph{manpage} \texttt{exports(5)}, são:
+
+\begin{itemize}
+  \item \textbf{\texttt{async}}:  essa opção  faz com que  os arquivos
+    sejam transmitidos  de maneira assíncrona,  aproveitando melhor os
+    momentos de rede ociosa, otimizando  o uso de rede, mas incorrendo
+    no  risco de  corrupção de  arquivos. \emph{Shares}  de  disco com
+    apenas-leitura  (\texttt{ro}) ou em  redes de  alta confiabilidade
+    são bons lugares para o uso de \texttt{async};
+  \item \textbf{\texttt{root\_squash}}: em ambientes com acesso remoto
+    via  rede,  um   dos  maiores  riscos  do  acesso   via  NFS  é  a
+    característica do NFS de mapear  os acesssos de arquivo em relação
+    ao usuário \emph{local},  de modo que as permissões  de acesso aos
+    arquivos remotos  são baseados no usuário e  grupo \emph{local} do
+    usuário.   Se você  imaginar uma  partição \emph{root}(\texttt{/})
+    compartilhada  e acessada  por  um usuário  remoto  logado em  sua
+    máquina  local  como  \texttt{root}  dá  margem  a  todo  tipo  de
+    problemas de segurança, como roubos de senhas, violações de acesso
+    e   afins.     Para   esses   caso,   o   NFS    prevê   a   opção
+    \texttt{root\_squash},  que  ``transforma''  o \emph{root}  em  um
+    usuário comum chamado \emph{anonymous}, do grupo \emph{anonymous},
+    o que impede  o acesso a arquivos com  permissões restritas por um
+    \emph{root} remoto;
+  \item      \textbf{\texttt{all\_squash}}:      é      similar      a
+    \texttt{root\_squash}, mas com  maior amplitude, onde \emph{todos}
+    os  usuários remotos  que acessam  arquivos via  NFS passam  a ser
+    considerados \emph{anonymous};
+  \item  \textbf{\texttt{anonuid}} e  \textbf{\texttt{anongid}}: essas
+    opções  são  interessantes  para  os  casos de  usar  opções  como
+    \texttt{root\_squash}   e   \texttt{all\_squash},   pois   permite
+    configurar   quais  são  os   usuários  \emph{locais}   que  serão
+    utilizados  pelos usuários remotos  que caiam  em ambas  as opções
+    para o compartilhamento em questão.
+
+Isso  pode  ser útil  para  facilitar  a  administração de  ambientes,
+principalmente no caso de \emph{shares} para compartilhamento conjunto
+de  dados.  Isso  porque  o  NFS continua  a  obedecer  as  permissões
+definidas para  os arquivos  no acesso remoto.  Ou seja, se  o usuário
+remoto não tiver acesso aos arquivos compartilhados após a tradução de
+usuário, ele não irá acessar os arquivos. Definindo \texttt{anonuid} e
+\texttt{anongid} e configurando corretamente as permissões de arquivo,
+você garante que os arquivos serão acessados corretamente por qualquer
+um no caso dos compartilhamenos públicos.
+\end{itemize}
+
+Uma vez tudo configurado, utilize o comando \texttt{exportfs -av} para
+liberar   os    \emph{share}   definidos   sem    precisar   reiniciar
+(fisicamente!!)    o   servidor   de    arquivos   ou    reiniciar   o
+\texttt{portmap}.  Outro  comando  útil  é o  \texttt{showmount},  que
+mostra  quais são  os \emph{shares}  que estão  sendo acessados  e por
+quem.  Ele   não  mantem  registros   históricos,  mas  nada   que  um
+\emph{script}  não resolva.
+
+\subsubsection{Acessando um \emph{share} NFS}
+
+Para  acessar o  \emph{share} remoto,  é  muito simples:  basta que  o
+\emph{kernel}  tenha habilitado dentro  dele o  \emph{filesystem} NFS,
+seja  internamente   ou  na   forma  de  módulo   e  usar   o  comando
+\texttt{mount}, indicando  o IP do  \emph{host} que está  oferecendo o
+\emph{share} e o diretório do \emph{share} em questão. Por exemplo, se
+quiseremos  acessar o \emph{share}  que foi  configurado anteriormente
+em \texttt{ravenclaw.hogwarts}, podemos usar o comando:
+
+\begin{center}
+\begin{verbatim}
+mount -t nfs 10.0.0.3:/home/arquivos /mnt/share_nfs
+\end{verbatim}
+
+ou 
+
+\begin{verbatim}
+mount -t nfs ravenclaw.hogwarts:/home/arquivos /mnt/share_nfs
+\end{verbatim}
+\end{center}
+
+Considerando as  mesmas regras para qualquer  montagem de dispositivo,
+como  ter o  diretório do  ponto  de montagem  criado e  que os  dados
+naquele arquivo  estarão indisponíveis enquanto  o dispositivo montado
+estiver montado, sendo liberado  após a desmontagem do \emph{share}. A
+desmontagem é simples, usando o comando \texttt{umount}. 
+
+Algumas  opções  na  montagem,  como \texttt{users},  \texttt{auto}  e
+\texttt{exec}  estão  disponíveis,  o   que  torna  o  NFS  útil  para
+compartilhamento  de   sistemas  grandes,  como   \TeX{},  \LaTeX{}  e
+EMACS. Algumas opções úteis e específicas para o NFS são:
+
+\begin{itemize}
+  \item \textbf{\texttt{soft}}: essa opção não ``trava'' o programa no
+    caso de um  acesso a um \emph{share} cujo  servidor esteja fora do
+    ar ou com os serviços  ``derrubados'' (não carregados). No caso de
+    acontecer   isso  em   um   \emph{share}  montado   com  a   opção
+    \texttt{soft}, o  sistema irá enviar mensagens  como ``arquvio não
+    localizado'' e afins.
+  \item \textbf{\texttt{rsize}}: Aumenta o \emph{buffer} de leitura do
+    NFS. Essa opção causa problemas  em \emph{shares} com NFS versão 2
+    como  servidor,  mas  nos  \emph{shares}  com NFS  versão  1  pode
+    aumentar a \emph{performance} do ambiente.
+  \item \textbf{\texttt{wsize}}: Aumenta o \emph{buffer} de escrita do
+    NFS. Essa opção causa problemas  em \emph{shares} com NFS versão 2
+    como  servidor,  mas  nos  \emph{shares}  com NFS  versão  1  pode
+    aumentar a \emph{performance} do ambiente.
+\end{itemize}
+
+Aqui é  importante uma  ressalva: da mesma  forma como o  de quaisquer
+dispositivos montados por meio do \texttt{mount}, as configurações dos
+\emph{shares}  pode  ser   gravado  no  \texttt{/etc/fstab},  conforme
+mostrado       na        Seção       \ref{sec:etc-fstab},       Página
+\pageref{sec:etc-fstab}. Por exemplo,  se quisermos que o \emph{share}
+de  \texttt{ravenclaw.hogwarts}   definido  anteriormente,  sendo  que
+poderá  ser montado automaticamente  no \emph{boot}  e com  acesso por
+usuários,  evitando problemas de  localização de  arquivos no  caso de
+queda  do servidor  NFS,  basta inserir  a  seguinte linha  de NFS  no
+\texttt{/etc/fstab}:
+
+\begin{verbatim}
+10.0.0.3:/home/arquivos /mnt/share_nfs nfs users,auto,soft 0 0 
+\end{verbatim}
+
+Isso é  o suficiente  sobre NFS nesse  documento. Uma boa  pesquisa na
+Internet poderá fornecer muito mais explicações sobre o NFS.
+
+\subsection{FTP}
+
+O  NFS  é  um  bom  sistema  para  ambientes  Unix  quando  precisa-se
+compartilhar arquivos  remotos para acesso imediato (ou  seja, tem que
+estar disponível de maneira automática). Mas existe alguns problemas:
+
+\begin{enumerate}
+  \item   O   NFS   não   é   normalmente   acessível   via   sistemas
+    Windows\texttrademark{},  sendo normalmente  exigidos  produtos de
+    terceiros para  habilitar essa funcionalidade  no mesmo (ambientes
+    MacOS  também sofrem  desse  problemas nas  versões anteriores  ao
+    MacOS X);
+  \item Como dito, o NFS  é \emph{muito} inseguro, além de ter algumas
+    complexidades  na questão  de configuração  dos ambientes  local e
+    remoto e o acesso às permissões de arquivo;
+  \item  Algumas vezes,  não  é necessário  manter-se um  \emph{share}
+    montado  permanentemente, principalmente no  caso de  arquivos que
+    são copiados de/para a máquina local para serem trabalhados;
+\end{enumerate}
+
+Para isso, existem sistemas  como o FTP (\emph{File Transfer Protocol}
+--- Protocolo de Transferência de Arquivos), que permitem que arquivos
+sejam  deslocados  de/para  máquinas  remotas  antes/depois  de  serem
+trabalhados na máquina local. A  principal utilidade disso é manter um
+\emph{backup}  remoto que  possa  ser acessado  quando necessário,  ao
+mesmo  tempo sem precisar  de uma  conexão permanente,  aproveitando a
+rede o melhor possível. 
+
+Uma  vantagem  é   a  questão  de  que,  como   os  comandos  FTP  são
+configuráveis,    pode-se   definir   \emph{scripts}    que   realizem
+\emph{backup} de arquivos  de uma máquina local sem  a intervenção (ou
+mesmo  sem  conhecimento)   do  usuário,  principalmente  no  ambiente
+Unix/Linux,  com   a  combinação   de  \emph{scripts}  e   do  sistema
+\texttt{cron} para execução de tarefas agendadas. 
+
+Outra  vantagem é  que quase  todos os  sistemas  operacionais possuem
+tanto clientes quanto servidores  FTP em suas plataformas. No Windows,
+o  próprio  Windows  Explorer  pode  ser usado  como  um  cliente  FTP
+rudimentar.  Uma  sugestão melhor  são clientes especializados  como o
+CuteFTP e \emph{plugins}  como o FireFTP, que transforma  o Firefox em
+cliente  FTP. Para  servidor,  pode-se usar  o  FileZilla, um  projeto
+\emph{free software}  que oferece um servidor simples  de configurar e
+usar para o ambiente Windows\texttrademark{}.
+
+No  caso  do  Unix/Linux,  você  pode  usar  como  cliente  o  comando
+\texttt{ftp}, que é parte dos  comandos do padrão POSIX (ou seja, deve
+ser incluído em qualquer Unix ``de respeito''). Como servidor, existem
+vários,  sendo que  no caso  iremos falar  do ProFTPD,  aproveitando o
+material incluído em \citeonline{MORIMOTO2006}. No caso da maioria das
+distribuições,  o servidor  pode  ser implementado  usando os  pacotes
+\texttt{proftpd}  incluídos com  elas.  Cheque a  documentação de  sua
+distribuição para  maiores informações, ou  dê uma olhada  no Capítulo
+\ref{sec:install}, na Página \pageref{sec:install}. 
+
+A maioria  das distros configura o  ambiente do ProFTPD  para rodar em
+modo \emph{standalone}. Ele é considerado mais seguro, pois o servidor
+fica ativo o  tempo todo. Outra opção é  utilizar o ``super-servidor''
+\texttt{inetd}, que permite que \textbf{(1)} o servidor seja carregado
+apenas quando  necessário e  que \textbf{(2)} no  caso de  suspeita de
+invasão,  possa-se usar \emph{wrappers}  que chequem  o tipo  de dados
+trafegado por meio da conexão FTP.
+
+A grande  desvantagem do FTP, sem sombra  de dúvidas, é o  fato de ele
+ser um verdadeiro pesadelo  para a configuração de um \emph{firewall},
+uma vez que,  na verdade, o FTP mantem DUAS  conexões abertas ao mesmo
+tempo, uma conexão chamada de \emph{conexão de controle}, que acessa o
+servidor pela porta normal, e  a outra, a \emph{conexão de dados}, que
+é negociada e estabelecida no momento em que o servidor FTP confirma a
+conexão  com  o  cliente  FTP.   Veremos  mais  sobre  isso  na  Seção
+\ref{sec:firewall},  na  Página  \pageref{sec:firewall}, portanto  não
+iremos discutir isso aqui.
+
+Outra desvantagem é que o  FTP é bastante inseguro se mal configurado.
+A maioria  dos servidores roda em  um ambiente aberto,  aonde a pessoa
+pode copiar  e acessar arquivos  em qualquer lugar dentro  do servidor
+(desde  que ele  possua  permissões  normais).  Isso  não  é lá  muito
+seguro,   principalmente  considerando-se   falhas   de  escalada   de
+privilégios\footnote{falhas  de segurança que  permitem que  o usuário
+dispare comandos arbitrários ou consiga uma \emph{shell} de um usuário
+privilegiado,  normalmente o  \emph{root}}. Existem  várias  formas de
+configurar-se    um   bom   ambiente    FTP,   usando    um   ambiente
+\texttt{chroot}\footnote{O  nome  deriva  do comando  \texttt{chroot},
+criando  uma  estrutura  à  parte,  onde um  determinado  diretório  é
+definido como o \emph{root}(\texttt{/}) do ambiente, sendo que no caso
+do FTP apenas utilitários e arquivos abaixo do diretório definido como
+\emph{root} podem ser acessados pelo  usuário no FTP}, mas eles exigem
+alguma   preparação,  principalmente  quanto   a  arquivos   locais  e
+espelhamento de diretórios e não  iremos tratar sobre isso aqui, sendo
+que  existem  muitos  tutoriais   na  Internet  sobre  isso.   Algumas
+informações   básicas   podem   ser  encontrado   na   \emph{infopage}
+\texttt{coreutils},   no  \emph{node}   \texttt{chroot}  (\texttt{info
+coreutils chroot}). 
+
+Bem,  esclarecido  isso,  vamos  passar  à configuração  e  acesso  do
+servidor FTP.
+
+\subsubsection{Configurando um servidor FTP}
+
+\sloppy
+A   configuração  do   ProFTPD  é   acessado  por   meio   do  arquivo
+\texttt{/etc/proftpd.conf}.  Esse  arquivo de configuração  é simples,
+sendo    apresentado    um     exemplo    no    Trecho    de    Código
+\ref{fig:proftpdconf},  na Página  \pageref{fig:proftpdconf},  sendo o
+exemplo baseado em \citeonline{MORIMOTO2006}.
+
+\fussy
+\begin{codigo}
+\begin{center}
+\begin{verbatim}
+Port                                21
+MaxInstances                        30
+DefaultRoot                         ~
+TransferRate                RETR    8:10
+<Anonymous ~ftp>
+   User                             ftp
+   Group                            nogroup
+   UserAlias                        anonymous ftp
+   DirFakeUser              on      ftp
+   DirFakeGroup             on      ftp
+   RequireValidShell                off
+   MaxClients                       20
+   DisplayLogin                     welcome.msg
+   DisplayFirstChdir                .message
+   <Directory *>
+      <Limit WRITE>
+         DenyAll
+      </Limit>
+   </Directory>
+   <Directory incoming>
+      Umask                         022  022
+      <Limit READ WRITE>
+         DenyAll
+      </Limit>
+      <Limit STOR>
+         AllowAll
+      </Limit>
+   </Directory>
+</Anonymous>
+\end{verbatim}
+\caption{Exemplo de \texttt{/etc/proftpd.conf}}
+\label{fig:proftpdconf}
+\end{center}
+\end{codigo}
+
+Vamos   analisar   o   arquivo    com   calma.   A   primeira   linha,
+\textbf{\texttt{Port}},  indica a porta  que o  FTP vai  ``ouvir'' (ou
+seja, atender  requisições). O  padrão oficial é  21/TCP (porta  21 em
+protocolo  TCP), mas  muitos  provedores de  acesso  à Internet  podem
+bloquear  essas portas  para  seus  clientes, de  modo  que estes  não
+mantenham servidores. Nesses casos, mude  a porta padrão nessa linha e
+lembre-se de a indicar na conexão.
+
+A  linha seguinte,  \textbf{\texttt{MaxInstances}}, permite  limitar o
+número  de conexões  simultâneas ao  servidor FTP.  Em conjunto  com a
+opção \textbf{\texttt{TransferRate}}  mostrada pouco abaixo  da mesma,
+permite controlar o uso de banda pelas conexões. 
+
+O uso da linha \textbf{\texttt{DefaultRoot}} indica que os usuários do
+FTP só poderão acessar seus  diretórios \emph{home}, de forma que esse
+comando atua como um \textbf{\texttt{chroot}} bastante flexível, o que
+impede,  além  de usuários  acessar  arquivos  sensíveis do  servidor,
+que usuários  acessem arquivos  de outros usuários.  De certo  modo, a
+única  forma de ``violar''  essa opção  é mediante  o uso  de ligações
+\emph{hard}, mas mesmo isso deve ser evitado.
+
+A opção \textbf{\texttt{TransferRate}} permite que seja estabelecido o
+tamanho de  banda de passagem a  ser usada por  conexão FTP, \emph{por
+usuário}. No exemplo em questão, o \textbf{\texttt{TransferRate}} é de
+8 KB/s  por usuário, se  imaginarmos as 30 conexões,  conseguiremos um
+consumo total de banda de 240 KB/s. 
+
+A   estrutura   \textbf{\texttt{<Anonymous   \~ftp>}}  estabelece   um
+diretório  para  \emph{login}  FTP  anônimo. No  caso,  optou-se  pelo
+\emph{home} do  usuário \texttt{ftp}, o que  permite uma administração
+facilitada.    As     linhas    abaixo,    \textbf{\texttt{User}}    e
+\textbf{\texttt{Group}},  define  qual  o  usuário e  grupo  que  será
+tratado a conexão  anônima para efeito de permissões  de arquivos.  No
+caso,  utiliza-se \textbf{\texttt{User  ftp}}  e \textbf{\texttt{Group
+nogroup}}, que são uma boa combinação de usuário e grupo anônimos para
+efeito   de   FTP,  além   de   permitir   uma  fácil   administração,
+principalmente no quesito permissões de arquivo.
+
+A linha \textbf{\texttt{UserAlias}} indica  apelidos a serem usados na
+conexão   remota  anônima.   Na   verdade,  podemos   dizer  que   são
+\emph{pseudos-usuários}  que  serão roteados  à  conexão anônima  pelo
+servidor FTP. Esses pseudos-usuários não precisam estar cadastrados no
+sistema. 
+
+A  linha  \textbf{\texttt{RequireValidShell}}  obriga ou  desobriga  o
+usuário das conexões anônimas (no  caso, \texttt{ftp}). No caso, com a
+\textbf{\texttt{RequireValidShell  off}}  desobrigamos  o  usuário  em
+questão de ter um \emph{shell} válido, o que é uma forma de aumentar a
+segurança:  caso um  invasor consiga,  por algum  motivo,  ``vazar'' o
+\texttt{chroot} e conseguir o arquivo  de senhas do servidor, e tentar
+se conectar por outros serviços, um \emph{shell} especial, falso, pode
+ser  associado   tranquilamente  o  usuário   \texttt{ftp},  impedindo
+potenciais ataques.
+
+A  linha \textbf{\texttt{MaxClients}} determina  o número  de conexões
+simultâneas que  o sistema pode  atender naquele tipo de  conexão. Por
+exemplo,     \textbf{\texttt{MaxClients    20}}    para     a    seção
+\textbf{\texttt{<Anonymous>}}  indica   que  no  máximo   20  conexões
+anônimas  poderão  ser  estabelecidas.   Esse  número  de  conexões  é
+independente  de   \textbf{\texttt{MaxInstances}},  sendo  normalmente
+menor   (até    porque   ele    irá   recusar   mais    conexões   que
+\textbf{\texttt{MaxInstances}},  independente  do  que aconteça).  Uma
+sugestão é deixar algumas  conexões extras para usuários não-anônimos,
+caso seu FTP venha a ter essa funcionalidade. 
+
+A linha \textbf{\texttt{DisplayLogin}} indica  um arquivo de texto que
+será exibido para  o usuário como mensagem de  boas vindas. Ele sempre
+fica     dentro     do    diretório     em     questão    (no     caso
+\textbf{\texttt{/home/ftp}})  e  seu nome  é  sempre  relativo a  esse
+diretório.   Por  exemplo  \textbf{\texttt{DisplayLogin  welcome.msg}}
+mostra o arquivo \texttt{/home/ftp/welcome.msg}.
+
+A seguir, temos as seções \textbf{\texttt{<Directory>}}, e dentro dele
+as seções  \textbf{\texttt{<Limit>}}. Essas seções  permitem que sejam
+configuradas  restrições para  acesso conforme  o tipo  de  acesso. Os
+tipos  em questão normalmente  são READ  (leitura), WRITE  (escrita) e
+STOR (armazenagem remota).  Em geral,  as permissões por padrão são as
+mesmas  do  sistema  de   arquivos,  mas  podem  ser  modificadas  por
+\textbf{\texttt{DenyAll}}    (negando    para    todos).   Na    seção
+\textbf{\texttt{<Directory  incoming>}}, porém,  ele  já autoriza  com
+\textbf{\texttt{<Limit  STOR>}}   e  \textbf{\texttt{<AllowAll>}}  que
+qualquer  um  grave  arquivos  nesse  diretório,  embora  ele  vá  com
+permissão para  que apenas  o usuário do  FTP consiga  escrever nesses
+arquivos. Esse  é um bom  esquema de \emph{backup}, permitindo  que os
+usuários depositem  arquivos que sejam importantes  dentro do servidor
+de  forma que  processos de  \emph{backup} em  fitas ou  outras mídias
+específicas precisem recorrer a apenas um local para acesso. 
+
+Essa é uma  configuração simples e rápida de  servidor FTP ProFTPD. Na
+Internet você  poderá obter informações  mais especializadas, conforme
+suas necessidades.  Além disso, \citeonline{MORIMOTO2006}  é uma ótima
+referência para isso.
+
+\subsubsection{Acessando um servidor FTP}
+
+Diferentemente do  caso do  NFS e do  SaMBa, no FTP  você \textbf{não}
+consegue  montar um  FTP  como um  dispositivo.  Em compensação,  você
+consegue acessar o  servidor FTP com clientes disponíveis  em todas as
+plataformas  e  modo, seja  gráfico  ou  texto.  É possível  inclusive
+utilizar-se o FTP  por meio de um \emph{script}  e automatizar tarefas
+de \emph{backup}. 
+
+Por  exemplo, você  pode  usar  o \emph{script}  do  Trecho de  Código
+\ref{fig:ftpscript},    na   Página    \pageref{fig:ftpscript},   para
+automatizar  o  ``upload''  de  um arquivo  de  \emph{backup}  chamado
+\texttt{/usr/backup/backup.tar.bz2} no  servidor \texttt{myserver}, na
+porta 2121, usando um  usuário genérico \emph{backup-client} com senha
+\emph{backup}, previamente configurado. 
+
+\begin{codigo}
+\begin{center}
+\begin{verbatim}
+#!/bin/bash
+
+ftp <<<ENDFTP
+open myserver 2121
+backup-client
+backup
+lcd /usr/backup
+cd /backup
+binary
+put backup.tar.bz2
+bye
+ENDFTP
+\end{verbatim}
+\caption{Exemplo de \emph{script} com conexão FTP}
+\label{fig:ftpscript}
+\end{center}
+\end{codigo}
+
+Esse tipo de \emph{backup} pode  ser configurado com facilidade, o que
+ajuda bastante  a administração. O  \emph{script} do Trecho  de Código
+\ref{fig:ftpscript},  na   Página  \pageref{fig:ftpscript},  pode  ser
+facilmente corrigido para buscar arquivos de \emph{backup} previamente
+gerados   por  outros   \emph{scripts}  e   enviado  ao   servidor  em
+questão. 
+
+Você também pode  recorrer a clientes como o  FireFTP, o CuteFTP (para
+Windows) e o Midnight Commander,  um gerenciador de arquivos para Unix
+com possibilidade de  acessos FTP. Procure se informar  conforme a sua
+plataforma. Todos os clientes permitem ``subir'' e ``descer'' arquivos
+para o servidor, conforme as configurações e permissões do servidor. 
+
+Porém, o mais interessante é conectar-se via modo texto. Para isso, em
+um \emph{shell} ou  Terminal (no Unix) ou em um  Prompt de Comando (no
+Windows  XP\texttrademark{})  chamando  o comando  \texttt{ftp}.  Você
+normalmente receberar um \emph{prompt} como o seguinte:
+
+\texttt{ftp>}
+
+Uma  vez nele,  basta utiliza  o comando  \texttt{open},  seguido pelo
+servidor e  porta para  estabelecer a conexão.   Depois, basta  dar um
+\emph{login} e senha específico no servidor, ou então utilizar a senha
+\emph{anonymous}  ou  \emph{guest} tendo  como  senha um  \emph{email}
+válido (qualquer um) para entrar no FTP. Dentro dele, você poderá usar
+os    comandos    da    Tabela   \ref{table:ftpcomms},    na    Página
+\pageref{table:ftpcomms}. Esses comandos podem ser usados em quaisquer
+clientes texto de FTP, e  também podem ser usados em \emph{scripts} de
+automação  de \emph{backup}  usando FTP,  como o  do Trecho  de Código
+\ref{fig:ftpscript}, na Página \pageref{fig:ftpscript}.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c|l|}
+\hline
+{\centering \textbf{\textsc{Comandos}}} & {\centering
+  \textbf{\textsc{O que faz?}}} \\
+\hline\hline
+\texttt{open} & Não é \emph{realmente} enviado ao servidor remoto, sendo na \\
+            & realidade uma solicitação para uma abertura de conexão \\
+            & ao servidor dado como parâmetro e (caso passado) à \\
+            & porta TCP desejada \\
+\texttt{ls} & Mostra os arquivos dentro do diretório remoto onde a \\
+            & pessoa se encontra \\
+\texttt{pwd} & Informa o diretório onde o usuário se encontra no servidor \\
+\texttt{cd} & Entra em um diretório no servidor remoto \\
+\texttt{lcd} & Muda o diretório na máquina local \\
+\texttt{get} & Copia o arquivo da máquina remota para a máquina local \\
+\texttt{mget} & Copia vários arquivos da máquina remota  \\
+\texttt{put} & Copia o arquivo da máquina local para a máquina remota  \\
+\texttt{mput} & Copia vários arquivos para máquina remota  \\
+\texttt{binary} & Define o modo de tranferência binário  (Importante para\\
+                & garantir que o arquivo não seja corrompido)   \\
+\texttt{ascii} & Define o modo de tranferência de texto puro (Importante\\
+               &  para garantir que o arquivo não seja corrompido)   \\
+\texttt{bye} & Desconecta-se do servidor remoto  \\
+\hline
+\end{tabular}
+\caption{Comandos FTP}
+\label{table:ftpcomms}
+\end{center}
+\end{table}
+
+\subsubsection{Modos de transferência no FTP}
+
+Existe uma pegadinha \emph{muito} séria no FTP: antigamente, as linhas
+de transmissão  de dados eram  \textbf{muito} lentas, sendo  que mesmo
+grandes faculdades tinham \emph{links}  dedicados de por volta de 1200
+bps. Nesses casos, transferir  documentos de texto era pouco eficiente
+sem uma compressão decente. 
+
+Para facilitar isso, o FTP  estabeleceu dois modos, o \emph{ASCII} e o
+\emph{binário}.   No  modo  \emph{ASCII},  o  \emph{hardware}  e/ou  o
+servidor   realizam  uma   compressão  de   dados   eliminando  alguns
+\emph{bits}  normalmente não  importantes em  arquivos de  texto puro,
+além de interpretar certos \emph{bits} e caracteres como de controle.
+
+A pergunta  que você pode  estar se fazendo  é: \emph{``e no  que isso
+pode afetar a transferência de dados?''}  Em tranferências de arquivos
+ASCII que não possuam acentos  ou caracteres especiais, como o símbolo
+de Euro  (chamados de ASCII  7-bit, por seus caracteres  estarem todos
+incluídos nos primeiros 7 bits da tabela ASCII --- caracteres ASCII de
+0   a  127),  na   verdade  nada,   e  aumenta   significativamente  a
+transferência. 
+
+Mas  no  caso  de dados  binários  e  de  arquivos ASCII  que  possuam
+caracteres  acentuados as coisas  começam a  ficar sérias,  pois, caso
+hajam  \emph{bytes}  no  arquivo  que possam  ser  interpretados  como
+caracteres  de  controle,  existe   uma  grande  chance  de  ocorrerem
+situações   imprevisíveis   na  transferência   do   arquivo,  o   que
+\emph{invariavelmente} irá resultar em corrupção de dados!
+
+Nesse   caso,  se   desejar   maior  segurança,   antes  de   qualquer
+transferências   de/para   o   servidor   FTP,   utilize   o   comando
+\texttt{binary}  para definir  a transferência  como modo  binário. Se
+tiver certeza de estar enviando apenas arquivos de texto \emph{ASCII-7
+bit}, utilize  o comando \texttt{ascii} para  acelerar a transferência
+de dados. 
+
+Se você tiver  dúvidas, você pode recorrer a  duas opções: a primeira,
+válida em qualquer cliente/servidor FTP, é definir o modo para binário
+com o comando \texttt{binary}. Você vai ``perder'' performance no caso
+dos arquivos que  poderiam ser transmitidos com segurança  por meio do
+modo ASCII,  mas irá  garantir que não  irá ter problemas.  A segunda,
+aceita pela maioria (mas não  por todos) os clientes/servidores FTP, é
+utilizar  um modo  automático, onde  o  cliente irá  se encarregar  de
+detectar a presença de caracteres  estranhos e irá ele próprio decidir
+qual  o melhor  modo de  transferência.  Se seu  cliente possuir  essa
+opção, mantenha-a ativa, para evitar dores de cabeça. 
+
+Isso  deve ser  o  suficiente sobre  FTP.  Passemos a  um servidor  de
+arquivos  muito  importante  no  mundo GNU/Linux,  paradoxalmente  por
+permitir  a  comunicação  com  servidores  do  mundo  proprietário  do
+Windows: o SaMBa.
+
+\subsection{SMB (SaMBa)}
+
+Já  vimos  o  NFS  e  o  FTP.  Mas  uma  das  principais  soluções  de
+compartilhamento  de arquivos nos  ambientes de  rede atualmente,  é o
+sistema de  compartilhamentos (\emph{shares}) Windows\texttrademark{},
+até mesmo  devido à popularidade\footnote{\textbf{N.A.:}  Não entrarei
+no mérito  de se  a mesma é  válida ou  não, justa ou  não, preferindo
+apenas  reconhecer  sua  popularidade.}  pela  alta  penetração  desse
+sistema  operacional.   Esse tipo  de  compartilhamento é  normalmente
+ativado em clientes Windows 9x ou melhor, além de clientes Windows for
+Workgroups  3.11  (caso encontre  algum).   Ele  utiliza um  protocolo
+conhecido como SMB (\emph{Server  Message Block} --- Servidor de Bloco
+de  Mensagens), desenvolvido para  atuar em  cima do  antigo protocolo
+NetBIOS. Nas  versões mais atuais, a  partir do Windows 9x,  o SMB foi
+adaptado para  trabalhar com  o TCP/IP.  Devido  à alta  penetração do
+SMB,  ficou  claro  que   grandes  instalações  baseadas  em  ambiente
+heterogêneo  poderiam utilizar  o  SMB como  um  protocolo comum  para
+compartilhamento de arquivos nos moldes do NFS.
+
+O protocolo SMB,  porém, é de propriedade da  Microsoft, sendo que seu
+suporte a Unix  era caro e restrito a alguns  de seus ``sabores''. Com
+isso, Andrew  Tridgell desenvolveu  um pacote GPL  de suporte  ao SMB,
+chamado SaMBa. Originalmente foi  desenvolvido para Solaris, sendo que
+com o passar do tempo, ele  foi portado para o Linux. O SaMBa consegue
+emular  perfeitamente  um servidor  Windows  para compartilhamento  de
+arquivos   e  autenticação   em  redes   Windows\texttrademark{}.  Sua
+popularidade aumentou rapidamente baseado em  seu custo baixo e na sua
+velocidade, em vários casos, maior que a dos servidores Windows reais.
+
+Em sua versão mais estável,  o SaMBa ainda possui problemas para atuar
+como     um    servidor     parte     da    estrutura     \emph{Active
+Directory}\texttrademark{}.   Na   versão   4.0,  está   prometida   a
+possibilidade  do SaMBa  atuar  como parte  da estrutura  \emph{Active
+Directory}\texttrademark{}, através  de um mini-servidor LDAP/Kerberos
+capaz de emular  o servidor \emph{Active Directory}\texttrademark{} do
+sistema.
+
+\subsubsection{Configurando um \emph{share} SaMBa}
+
+Você irá  precisar de  dois pacotes, o  \texttt{samba} (ocasionalmente
+chamado    de   \texttt{samba-server}),    e    o   \texttt{smbclient}
+(ocasionalmente chamado de  \texttt{samba-client}). Além deles, outros
+pacotes  úteis são o  \texttt{samba-doc} (documentação  do SaMBa)  e o
+\texttt{swat},  uma ferramenta  gráfica de  configuração do  SaMBa via
+Web.   Cheque   a  documentação  de  sua   distribuição  para  maiores
+informações, ou dê uma olhada no Capítulo \ref{sec:install}, na Página
+\pageref{sec:install}.
+
+Esses   pacotes   poderão   forçar   a   instalação   de   um   pacote
+\texttt{samba-common}, com arquivos e  configurações comuns a todos os
+pacotes do SaMBa.  Não se preocupe, pois isso  é necessário. Você pode
+se   interessar   pelo  \emph{Samba   Web   Administration  Tool},   o
+\texttt{swat}, uma ferramenta \emph{web-based} que poderá lhe auxiliar
+na   administração  do  SaMBa.   Procure  por   pacotes  com   o  nome
+\texttt{swat}  ou  \texttt{samba-swat}.  Se  você tiver  sorte  e  sua
+distribuição  trazer  a  mais  nova  versão do  SaMBa,  não  precisará
+instalar manualmente o  \texttt{swat}, já que ele faz  parte do pacote
+básico do SaMBa em sua mais nova versão. 
+
+\begin{codigo}
+\begin{center}
+\begin{scriptsize}
+\begin{verbatim}	
+[global]
+   workgroup = mygroup
+   netbios name = myserver
+   server string = Samba Server %v
+   announce as = NT Server
+   message command = /usr/bin/linpopup "%f" "%m" %s; rm %s
+   log file = /var/log/samba/%m.log
+   max log size = 50
+   map to guest = bad user
+   security = user
+   encrypt passwords = yes
+   smb passwd file = /etc/samba/smbpasswd
+   unix password sync = Yes
+   pam password change = yes
+   passwd chat = *New*UNIX*password* %n\n *Re*ype*new*UNIX*password* %n\n \
+*passwd:*all*authentication*tokens*updated*successfully*
+   username map = /etc/samba/smbusers
+   socket options = TCP_NODELAY SO_RCVBUF=8192 SO_SNDBUF=8192
+   dns proxy = no 
+   logon drive=H:
+   logon home=\\%L\%U\.profiles
+   logon path=\\%L\profiles\%U
+   logon script=%U.bat
+[homes]
+   comment = Home Directories
+   browseable = no
+   writable = yes
+[netlogon]
+   comment = Network Logon Service
+   browseable = no
+   path = /var/samba/netlogon
+   public = no
+   guest ok = no
+   writeable = no
+   shareable = no
+   share modes = no
+   availble = yes
+[public]
+   comment = Public Stuff
+   path = /home/samba/public
+   public = yes
+   writable = no
+   write list = @staff
+[fredsdir]
+   comment = Fred's Service
+   path = /usr/somewhere/private
+   valid users = fred
+   public = no
+   writable = yes
+   printable = no
+[myshare]
+   comment = Mary's and Fred's stuff
+   path = /usr/somewhere/shared
+   valid users = mary fred
+   public = no
+   writable = yes
+   printable = no
+   create mask = 0765
+\end{verbatim}
+\end{scriptsize}
+\caption{Exemplo de \texttt{/etc/samba/smb.conf}}
+\label{fig:smbconf}
+\end{center}
+\end{codigo}
+
+\sloppy 
+
+Uma  vez  instalado  os  pacotes,  você  precisará  editar  o  arquivo
+\texttt{/etc/samba/smb.conf}.  Muitas distros  trazem um arquivo que é
+parte  dos exemplos do  SaMBa, e  que tende  a ser  \textbf{muito bem}
+documentado, além  da grande  quantidade de tutoriais  e configurações
+possíveis  de  serem  encontradas   na  Internet  ou  em  livros  como
+\citeonline{MORIMOTO2006},   inclusive  passando   para   o  SaMBa   a
+possibilidade de  atuar como um PDC  (\emph{Primary Domain Controller}
+--- Controlador Primário de Domínio),  e com isso oferecer um ambiente
+de \emph{login} de redes  Windows centralizado, com alta performance e
+baixo custo.   Vamos portanto nos deter em  alguma configuração básica
+como  fizemos no  caso do  NFS.  Vamos  estudar rapidamente  o arquivo
+exemplo   do   Trecho   de   Código   \ref{fig:smbconf},   da   Página
+\pageref{fig:smbconf},          livremente         adaptado         de
+\citeonline{MORIMOTO2006} e \citeonline{FERREIRA2003}.
+
+\fussy A primeira  coisa a notar é que o  arquivo possui uma estrutura
+similar à  dos arquivos \texttt{.ini}  do Windows, dividido  em seções
+indicadas  pelo  nome dentro  de  colchetes  (\texttt{[]}),  e que  os
+valores são colocados linha por linha, com o nome do atributo separado
+do valor por  iguais (\texttt{=}). Além disso, existem  duas formas de
+comentar linhas nesse arquivo,  para desativar opções ou para escrever
+documentações  internas   no  arquivo:   a  forma  Windows,   onde  os
+comentários são  marcados por ponto-e-vírgula (\texttt{;}),  e a forma
+Unix/Linux, usando  a cerquilha ou  \emph{sharp} (\texttt{\#}). Agora,
+vamos   começar   a  analisar   o   exemplo   do   Trecho  de   Código
+\ref{fig:smbconf}, da Página  \pageref{fig:smbconf}. Esse arquivo está
+\emph{sem} opções para compartilhamento de impressoras, pois isso foge
+do  assunto desse  capítulo.  Consulte  \citeonline{MORIMOTO2006} para
+maiores  informações  sobre   o  compartilhamento  de  impressoras  no
+Linux.  \citeonline{FERREIRA2003}  traz  também  um capítulo  sobre  a
+configuração do SaMBa, inclusive  com detalhes sobre como o configurar
+como  PDC, BDC  (\emph{Backup  Domain Controller}  --- Controlador  de
+Domínio Secundário)
+
+\subsubsection{A seção \texttt{[global]}}
+
+A  primeira seção  em  qualquer arquivo  \texttt{smb.conf}  é a  seção
+\texttt{[global]},  onde  uma  série  de configurações-padrão  para  o
+servidor SaMBa  são implementadas. Nessa seção, a  primeira linha deve
+ser \texttt{workgroup}, que indica o grupo de trabalho/domínio ao qual
+o servidor  faz parte. Se um  ambiente DNS estiver  configurado e essa
+linha não estiver presente,  o grupo de trabalho/domínio será definido
+por \emph{default} no SaMBa como o  nome de domínio DNS do servidor em
+questão  (por  exemplo \texttt{hogwarts},  se  imaginarmos  a rede  da
+Figura \ref{fig:nethogwarts}, Página \pageref{fig:nethogwarts}). 
+
+Outra opção importante é a \texttt{netbios name}, que indica o nome da
+máquina  em questão  dentro do  grupo de  trabalho/domínio  em questão
+(passaremos a usar o termo  grupo de trabalho ou \emph{workgroup} para
+facilitar  a vida).   Essa linha  indica  como o  servidor SaMBa  será
+conhecido  dentro  de  uma   rede  Windows.   Perceba  que  esse  nome
+\textbf{pode  ser  diferente do  \emph{hostname}  da GNU/Linux}.   Por
+\emph{default}, ele  passa a  ter o mesmo  nome do  \emph{hostname} da
+máquina (a parte inicial  do FQDN da máquina, como \texttt{hufflepuff}
+em  \texttt{hufflepuff.hogwarts},  se  imaginarmos  a rede  da  Figura
+\ref{fig:nethogwarts}, Página \pageref{fig:nethogwarts}), mas pode ser
+configurado  para qualquer  nome  desejado.  Isso  é  muito útil  para
+migrações onde  deseja-se que  o sistema continue  sendo ``enxergado''
+normalmente após migrar-se um \emph{host} Windows para o GNU/Linux com
+SaMBa:  basta mudar  o \texttt{netbios  name} para  o mesmo  da antiga
+máquina. 
+
+\begin{quotation}
+  \textbf{Atenção:}   Isso  deve   ser  feito   \emph{apenas}   com  o
+  \emph{host} Windows  desconectado da rede, senão  haverá um conflito
+  de nomes NetBIOS (nome dos servidores na rede Windows) que provocará
+  instabilidades e poderá (e provavelmente irá) retirar a rede Windows
+  (ou ao menos os servidores em questão) do ar.
+\end{quotation}
+
+A opção \texttt{server string} é apenas uma descrição que será exibida
+sobre aquele servidor no ``Meus locais de rede'' no Windows e na lista
+de  impressorars.  Pode  ser   configurada  para  qualquer  texto  sem
+problemas, conforme suas necessidades,  como ``Servidor de Arquivos do
+Departamento  Financeiro''  ou  ``Impressoras corporativas  de  grande
+porte'' sem problema algum.
+
+A  opção  \texttt{announce  as}  indica  como o  servidor  SaMBa  será
+``reconhecido''  na rede  heterogênea. Como  conselho,  é interessante
+manter essa opção em seu padrão, \texttt{NT Server}, e apenas utilizar
+outras   opções  se   for  adotar   a  opção   \texttt{security}  como
+\texttt{share}  (mais  sobre  isso  adiante). Nesse  caso,  você  pode
+colocar essa opção em \texttt{Win95} que deve ser o suficiente. Outras
+opções  são  \texttt{NT   Workstation}  e  \texttt{WfW}  (Windows  for
+Workgroups).   Essa  opção, se  fora  do  seu  padrão, irá  impedir  o
+servidor SaMBa de ser enxergado como um servidor SMB.
+
+A  linha \texttt{message  command} indica  um comando  que  deverá ser
+executado  localmente quando  o  servidor receber  uma mensagem  pelas
+Notificações do Windows (\emph{WinPopup}). Segundo a \emph{manpage} do
+arquivo de configuração  do SaMBa ele deixa claro  que \emph{o comando
+deverá retornar imediatamente}, sem ``trancar terminal''. Por isso, em
+comandos que  envolvam interface gráfica,  é importante colocar  o ``E
+comercial''  (\texttt{\&}). Caso contrátio,  você poderá  congelar seu
+sistema.  Para mais sobre  isso, a  documentação na  \emph{manpage} do
+arquivo \texttt{/etc/smb.conf(5)} possui muitas orientações. 
+
+A linha \texttt{log file} determina  o local aonde ficarão gravadas as
+informações de \emph{log} do sistema.  No caso, perceba que a opção no
+nosso      arquivo     de      exemplo     está      definida     como
+\texttt{/var/log/samba/\%m.log}.   O \texttt{\%m} é  ``parseado'' para
+(ou  seja, equivale  ao) o  nome  da máquina  cliente. Portanto,  cada
+máquina da rede tem um \emph{log} diferente no SaMBa. 
+
+A opção  \texttt{map to  guest} é  uma forma que  o SaMBa  encontra de
+mapear   usuários   que   tenham   entrado  \emph{logins}   e   senhas
+inválidas. Para  isso, ele utiliza uma  conta especial \texttt{guest},
+com baixas  permissões, da  mesma forma  que no caso  do FTP.  A opção
+\emph{default} no SaMBa é  \texttt{never} (ou seja, nunca permitir que
+usuários com \emph{login} ou  senha inválidos acessem os \emph{shares}
+do  servidor), mas  um mapeamento  \emph{bad  user} pode  ser uma  boa
+estratégia em servidores sem informações críticas. Nessa opção, caso o
+usuário tenha um  \emph{login} ou senha inválidos, ele  é mapeado para
+esse usuário  \texttt{guest}, o  que pode ser  útil para  ambientes de
+recuperação e/ou acesso público. 
+
+A  opção seguinte,  \texttt{security}, é  \emph{a mais  importante} do
+SaMBa. Ela  define como o  SaMBa irá tratar  a segurança de  acesso do
+sistema.  Nas   versões  acima  da  2.0,  o   valor  \emph{default}  é
+\texttt{user}.  Nas  versões abaixo  da  2.0,  o  padrão (na  verdade,
+\emph{o único modo disponível} é \texttt{share}). 
+
+Existem basicamente 4 valores diferentes nessa opção:
+
+\begin{itemize}
+  \item \textbf{\texttt{share}(Compartilhamento):} o \emph{login} fica
+    basicamente    definido    por    senhas   especiais    em    cada
+    compartilhamento, definidas na  descrição dos \emph{share}. Embora
+    tenha  caído em  desuso,  pode ser  útil  para \emph{shares}  cujo
+    acesso público,  embora restrito, possa ser útil  (por exemplo, um
+    local com  instaladores e  \emph{updates} de programas  usados nas
+    estações que possa ser acessado pelas equipes de manutenção);
+  \item   \textbf{\texttt{user}(Usuário):}  o  \emph{login}   é  feito
+    baseando-se em usuários, da mesma  maneira que é feita em pequenas
+    redes Windows 98  ou XP. É o  padrão do SaMBa 3.0 e  permite que o
+    SaMBa possa atuar como um PDC  ou BDC.  Uma nota importante aqui é
+    que cada usuário do SaMBa  deve ter um usuário no GNU/Linux.  Esse
+    usuário,  porém, \emph{poderá  ter senha  travada} para  impedir o
+    \emph{login} remotos via terminais,  se necessário, uma vez que as
+    senhas do SaMBa  ficam em outro arquivo. Isso  apenas é necessário
+    porque  o SaMBa  utiliza  a  estrutura de  acesso  de arquivos  do
+    Unix/Linux. Isso  vale para \textbf{todos} os modos,  mesmo para o
+    modo \texttt{share};
+  \item  \textbf{\texttt{domain}(Domínio):}   nesse  padrão,  o  SaMBa
+    torna-se de certa forma dependente  de um PDC, atuando apenas como
+    servidor  de arquivos  e  repassando as  autenticações de  usuário
+    (parte do processo de acesso a arquivos do SaMBa) para o PDC;
+  \item   \textbf{\texttt{server}(Servidor):}  Ele  mistura   os  dois
+    modelos de  segurança anterior: primeiro,  ele verifica se  um PDC
+    está  ativo na  rede  Windows.  Se tiver,  ele  irá utilizar  esse
+    servidor para realizar a  autenticação do usuário. Caso contrário,
+    ele assume a responsabilidade de fazer a autenticação de rede;
+\end{itemize}
+
+A opção seguinte, \texttt{encrypt  passwords} é usada quando desejamos
+que as senhas do SaMBa circulem encriptadas pela rede. 
+
+Aqui  está umas  das maiores  dificuldades na  configuração  do SaMBa:
+estações e servidores  Windows NT 4.0 com \emph{Service  Pack} 2 (SP2)
+ou melhor,  assim como estações  Windows 98 ou  melhor, \emph{esperam}
+por  \emph{default} que  as  senhas sejam  encriptadas.  Por sua  vez,
+estações   abaixo  dessas  trabalham   com  o   envio  de   senhas  em
+\emph{clear  text}\footnote{\textbf{Texto  claro:}  é  o  termo  usado
+quando dados são enviados de/para o servidor sem que o mesmo recorra a
+nenhum tipo de criptografia.}
+
+O  grande problema  aqui é  que no  caso de  ambos, uma  vez  que eles
+definam um  \emph{default}, é necessário ativar uma  chave de Registro
+nas  estações  de  modo a  garantir  que  o  padrão do  servidor  será
+aceito.   Essas   configurações    estão   disponíveis   em   arquivos
+\texttt{.reg} distribuídos com o SaMBa. Por segurança, opte por ativar
+a  chave nas  máquinas que  pedem senhas  \emph{clear  text} (estações
+Windows 95 ou  Windows for Workgroups 3.11) e  mantenham essa chave de
+configuração no padrão (\texttt{encrypted passwords=yes})
+
+A opção  \texttt{smb passwd  file} indica aonde  o SaMBa irá  buscar e
+armazenar as entradas de senha para as estações e usuários do SaMBa. A
+configuração do SaMBa é bastante  complexa quanto a usuários e senhas,
+mas o que você precisa saber \emph{de imediato} é:
+
+\begin{enumerate}
+  \item Cada usuário e máquina  deve ter um \emph{login} no sistema do
+    Linux.   Esse   \emph{login}  \textbf{PODE}  estar   bloqueado  ou
+    desabilitado no GNU/Linux, o que pode ser útil no caso de usuários
+    que  não deverão ter  acesso ao  ambiente GNU/Linux  via terminal,
+    Telnet ou \emph{Secur Shell} SSH. Isso pois o SaMBa irá utilizar a
+    estrutura  de permissões  de acesso  do GNU/Linux  para  liberar o
+    acesso aos arquivos, sem criar uma estrutura própria. Portanto, os
+    usuários  precisarão ``existir''  para o  sistema de  permissão de
+    arquivos  do   GNU/Linux.  Se  eles  são  válidos   ou  não  pouco
+    interessará: basta que eles existam;
+  \item As senhas de acesso ao SaMBa \emph{não precisam ser as mesmas}
+    do ambiente  GNU/Linux. Se você desejar, pode  habilitar uma senha
+    para um usuário no servidor GNU/Linux e uma senha diferente para o
+    SaMBa. Para habilitar uma máquina/usuário no SaMBa, devemos usar o
+    utilitário  \texttt{smbpasswd},  incluído  no  SaMBa.   Trataremos
+    disso     na      Seção     \ref{sec:sambauser},     na     Página
+    \pageref{sec:sambauser}. Esse utilitário deve ser configurado para
+    manipular  esse arquivo,  de modo  que as  senhas do  SaMBa fiquem
+    corretas;
+\end{enumerate}
+
+O  padrão  do   SaMBa  é  \texttt{/etc/samba/smbpasswd},  podendo  ser
+definido para qualquer valor que você desejar. 
+
+A opção \texttt{unix password sync} define se o SaMBa irá atualizar as
+senhas entre seu próprio ambiente de  senhas e as senhas do Unix. Isso
+pode ser útil em alguns  casos específicos, como no caso de servidores
+que  possam ser  usados para  desenvolvimento ou  ambientes envolvendo
+CVS\footnote{\textbf{\emph{Concurrent  Version System} ---  Sistema de
+Versões  Concorrentes:} um sistema  de SCM  (\textbf{\emph{Source Code
+Management}  ---  Gerenciamento de  Código  Fonte})  muito popular  em
+projetos \emph{open source}} ou Subversion\footnote{outro sistema SCM,
+este mais novo e com mais  recursos em relação ao CVS}, onde as senhas
+podem ser atualizadas para  sincronizar com o SaMBa, principalmente no
+caso  do   CVS  se  este  estiver  preparado   para  \emph{login}  via
+RSH\footnote{\emph{Remote Shell}  --- Shell Remoto} ou  SSH. Porém, se
+esse não for  o caso, não é aconselhável manter  essa opção ativa, uma
+vez  que   isso  não  afetará   a  atualização  das  senhas   para  os
+\emph{shares},    servidores   e    impressoras,    além   de    poder
+(potencialmente) provocar  falhas sérias de  segurança, principalmente
+se  o  administrador  liberar   \emph{shells}  locais  para  todos  os
+usuários.    Veremos    mais    sobre    esse   assunto    na    Seção
+\ref{sec:sambauser}, na Página \pageref{sec:sambauser}.
+
+\texttt{pam  password  change} é  uma  opção  muito  útil no  caso  de
+ambientes     GNU/Linux    onde     esteja    ativa     a    estrutura
+PAM\footnote{\textbf{\emph{Pluggable   Authentication   Modules}   ---
+Módulos Anexáveis de Autenticação:}.  PAM é uma biblioteca para o Unix
+que permite ao administrador definir  como o sistema irá trabalhar com
+a  autenticação  de usuário.   O  efeito  real  disso é  permitir  que
+diversos sistemas  que exijam autenticação é que  sejam compatíveis ou
+com  o PAM  ou com  ferramentas  de autenticação  suportadas pelo  PAM
+trabalhem com uma senha única.  Um exemplo seria uma estrutura baseada
+em  LDAP (\textbf{\emph{Lightweight Directory  Autentication Protocol}
+--- Protocolo de  Autenticação em Diretório  Level}) que, por  meio do
+PAM,  permitisse uma  senha única  para acesso  SSH, Telnet,  HTTP via
+Apache e \emph{login} local}, pois  permite que o SaMBa procure usar a
+estrutura de senhas definida pelo  PAM (por exemplo, um servidor LDAP)
+como  autenticação. Porém,  essa  opção  é anulada  no  caso da  opção
+\texttt{encrypt passwords} estar ativa, pois o PAM não é (ainda) capaz
+de obedecer ao mecanismo de desafio e resposta exigido na autenticação
+de servidores  Windows. Na maioria  dos casos, deixar  em \texttt{yes}
+essa  opção não  irá fazer  a  menor diferença,  uma vez  que ele  irá
+ignorar os  controles de  acesso do PAM,  portanto mudar essa  opção é
+irrelevante na versão atual do SaMBa.
+
+\begin{quotation}
+  \textbf{Atenção:} para a versão  4.0 do SaMBa existe a possibilidade
+    de  compatibilidade  do  SaMBa  com  o  PAM,  principalmente  para
+    permitir  o  uso do  OpenLDAP,  um  servidor  aberto de  LDAP,  em
+    combinação  com  o  PAM  para  oferecer uma  estrutura  de  acesso
+    compatível        com       a        tecnologia       \emph{Active
+    Directory}\texttrademark{}.  Porém,  o  autor  não pode  checar  a
+    validade  dessa informação,  uma vez  que,  na época  em que  esse
+    documento foi  escrito, o SaMBa 4.0 ainda  encontrava-se em versão
+    \emph{beta}.
+\end{quotation}
+
+A  opção seguinte  é  muito importante,  principalmente por  \emph{não
+dever ser  manipulada}. A  opção no caso  é \texttt{passwd  chat}. Ela
+permite que  o SaMBa  consiga configurar corretamente  o que  passar e
+como  passar informações no  caso da  troca de  senhas. Em  geral, nos
+arquivos   \texttt{smb.conf}    fornecidos   com   as    distros   são
+pré-configurados para os utilitários \texttt{passwd}. Portanto, a dica
+é: \emph{não altere essa opção}, exceto se você \emph{realmente souber
+o que está sendo feito}. 
+
+A  opção seguinte,  \texttt{username map}  permite um  truque bastante
+interessante: imagine que você tem uma série de usuários, por exemplo,
+um grupo  de contabilidade. Ao  invés de se preocupar  com desenvolver
+um compartilhamento para cada um,  você pode recorrer a um ``truque'',
+que  é colocar  uma linha  no arquivo  indicado nessa  opção, mapeando
+aqueles usuários para um outro usuário/grupo. Por exemplo, imagine que
+você tenha um grupo UNIX \texttt{contabilidade} e você deseje que eles
+possam acessar  algum compartilhamento cuja pasta  local (no servidor)
+é de posse do  usuário \texttt{contabil}. Você então precisaria apenas
+adicionar uma linha com a seguinte no arquivo:
+
+\begin{center}
+\begin{verbatim}
+contabil = @contabilidade
+\end{verbatim}
+\end{center}
+
+Ou então você poderia fazer diretamente isso, usuário a usuário, como
+no seguinte exemplo:
+
+\begin{center}
+\begin{verbatim}
+contabil = joao, maria, kim, john, hans, shurato
+\end{verbatim}
+\end{center}
+
+Esse  truque também permite  traduzir nomes  Windows com  espaços. Por
+exemplo, imagine  o usuário Windows  ``Diretor Corporativo''. Permitir
+seu acesso  sem o uso de  \texttt{username map} é  impossível, uma vez
+que o  Unix (e por conseqüência,  o GNU/Linux) não  aceita espaços nos
+nomes  de usuário.  Você  poderia criar  um  usuário \texttt{ceo}  (ou
+qualquer  nome  que você  ache  válido) e  colocar  uma  linha como  a
+seguinte no arquivo de mapeamento:
+
+\begin{center}
+\begin{verbatim}
+ceo = "Diretor Corporativo"
+\end{verbatim}
+\end{center}
+
+O último  truque interessante com  o \texttt{username map} é  criar um
+mapeamento genérico para diversos  usuários. Isso pode garantir um bom
+nível de segurança, quando combinado com outras soluções, ``cercando''
+usuários visitantes  à sua  rede. Para isso,  crie uma  conta qualquer
+(\texttt{guest}  costuma ser  um bom  nome  nesse caso)  e coloque  um
+asterisco (\texttt{*}) (um atalho  para \emph{todos os usuários}) após
+uma linha com \texttt{guest} no arquivo de mapeamento, como no exemplo
+abaixo:
+
+\begin{center}
+\begin{verbatim}
+guest = *
+\end{verbatim}
+\end{center}
+
+Existe, porém, uma pegadinha: o SaMBa  segue o mapeamento até o fim do
+arquivo, linha a linha, substituindo  os nomes encontrados pelo nome a
+se mapeado.  Imagine que  você então crie  um arquivo com  os exemplos
+adicionados anteriormente:
+
+\begin{center}
+\begin{verbatim}
+contabil = @contabilidade
+contabil = joao, maria, kim, john, hans, shurato
+ceo      = "Diretor Corporativo"
+guest    = *
+\end{verbatim}
+\end{center}
+
+O problema aqui é que o  SaMBa não sabe onde parar. Vamos imaginar que
+nosso diretor corporativo logue-se em um servidor configurado com esse
+arquivo. O problema é  que, depois de traduzir ``Diretor Corporativo''
+como o usuário \texttt{ceo}, ele irá continuar a ``traduzir'' nomes de
+usuário,  até  cair no  \texttt{*}  que  irá traduzir  \emph{qualquer}
+usuário  em \texttt{guest}.  Portanto,  nosso ``Diretor  Corporativo''
+será ``enxergado'' pelo SaMBa como um usuário qualquer. 
+
+Como dica, o  manual do \texttt{smb.conf(5)} sugere que  se coloque um
+ponto de exclamação no início da linha. Podemos entender esse ponto de
+exclamação como um \emph{``se achar  um usuário Windows se logando com
+um  desses  nomes, `traduza-o'  para  o  nome  de usuário  indicado  e
+pare''}. Isso  irá garantir o  efeito desejado no caso.  Para corrigir
+nosso   arquivo,   de  modo   que   as   ``traduções''  sejam   feitas
+corretamente, escrevemos um arquivo como o abaixo:
+
+\begin{center}
+\begin{verbatim}
+!contabil = @contabilidade
+!contabil = joao, maria, kim, john, hans, shurato
+!ceo      = "Diretor Corporativo"
+guest    = *
+\end{verbatim}
+\end{center}
+
+Importante  notar  que esse  sistema  possui  ainda outros  problemas,
+principalmente  quando a  opção \texttt{security}  está  definida para
+\texttt{share}  ou   \texttt{user}:  nesses  graus   de  segurança,  a
+``tradução'' do nome de usuário  é feita \emph{antes} da credencial do
+usuário.  Ou  seja:  algumas  vezes  pode  ser  necessário  uma  senha
+diferente para entrar em um \emph{share} com esse tipo de mapeamento.
+
+O padrão do SaMBa é não  trabalhar com arquivos de mapeamento, uma vez
+que ele  prefere confiar explicitamente  nas permissões de  usuário do
+Unix. Esse  arquivo pode ser  muito útil se  corretamente configurado,
+porém,  e pode  ser uma  ótima idéia  para o  administrador  manter um
+arquivo desse  para \emph{shares} de grupos de  usuários (por exemplo,
+manter um \emph{share} individual do  usuário e um outro liberado para
+todos os usuários da divisão em questão).
+
+As duas opções seguintes,  \texttt{socks options} e \texttt{dns proxy}
+lidam  respectivamente  com  ajustes  de \emph{performance}  e  com  a
+habilitação     do     SaMBa     como    um     \emph{resolver}     de
+WINS\footnote{\textbf{\emph{Windows Internet Name Service} --- Serviço
+de  Nomes  de Internet  Windows:}  um  ``protocolo  paralelo'' ao  DNS
+desenvolvido pela Microsoft como ``substituto'' ao DNS para suas redes
+Windows.}   Essas são  opções avançadas  e podem  ser deixada  em seus
+\emph{defaults}, ao menos em um primeiro momento.
+
+As  opções  seguintes,   \texttt{logon  drive},  \texttt{logon  home},
+\texttt{logon path} e\texttt{logon script}, são usadas pelo SaMBa para
+a administração do \emph{logon} do usuário e são úteis apenas quando o
+usuário vai usar o SaMBa como PDC ou servidor de \emph{logon} no grupo
+de  usuários. A primeira  delas, \texttt{logon  drive}, indica  qual o
+drive a ser  mapeado pela estação Windows (98 ou  95) como o diretório
+\emph{home} do usuário. Uma coisa  importante aqui é que o \emph{home}
+do usuário,  exceto se houver  alteração na seção  \texttt{[homes]} do
+arquivo  \texttt{smb.conf} (veja  a  Seção \ref{sec:smbconfhomes},  na
+Página  \pageref{sec:smbconfhomes}), será  o mesmo  indicado  na conta
+Unix  do  usuário  (em geral,  \texttt{/home/<nome\_do\_usuario>}).  O
+\emph{default} é que o Windows passe a mapear o \emph{home} do usuário
+para \texttt{H:}.
+
+\sloppy
+Em  seguida, \texttt{logon  home},  informa realmente  o diretório  do
+usuário no Windows onde  estarão suas informações pessoais. No Windows
+98,  por  exemplo,  encontram-se  dentro  dela  \texttt{Documents  and
+Setting},  \texttt{Meus Documentos}  e \texttt{Favoritos},  usados por
+diversas  aplicações Windows para  armazenar configurações  e arquivos
+importantes.       No        caso,       colocamos       a       opção
+\verb|\\%L\%U\.profiles|,  que  irá   mapear  o  diretório  do
+usuário no  Windows para dentro do compartilhamento  do usuário dentro
+do  servidor.  A ``pegadinha''  aqui  é  que  essa pasta  equivale  ao
+\emph{home}  Unix  do  usuário.  A  importância de  criar  o  nome  do
+diretório  de  \emph{profile}  com o  ponto  está  no  fato de  que  o
+diretório passa  a se tornar ``desinteressante'', como  visto na Seção
+\ref{sec:homedir}, \pageref{sec:homedir}. Em  geral, isso provê alguma
+segurança  quanto a  uma exclusão  acidental se  você permitir  que os
+usuários do SaMBa acessem local ou remotamente um \emph{shell}. Se não
+for o caso, você pode deixar sem o ponto mesmo.
+
+\fussy
+A seguir vem a opção \texttt{logon path}, que cumpre a mesma função de
+\texttt{logon home},  mas para usuários  de versões mais  avançadas do
+Windows, como o NT e o XP. Importante ressaltar para ambos os casos:
+
+\begin{enumerate}
+  \item  O diretório  Unix onde  as informações  dos perfis  de viagem
+    serão salvos deve ter permissão  de leitura para o usuário no qual
+    o  usuário  Windows será  mapeado  (normalmente  o  mesmo nome  de
+    usuário  dos  demais casos,  exceto  se  um \texttt{username  map}
+    estiver  definido), e  também  de escrita  (ao  mesmo no  primeiro
+    \emph{logon}). Se  quiser desabilitar os perfis  de viagem, defina
+    tanto  \texttt{logon home} quanto  \texttt{logon path}  como ``'',
+    desabilitando o mesmo;
+  \item Não user aspas nos nomes de diretório definidos, pois isso irá
+    romper  a capacidade  do  SaMBa de  \emph{parsing} de  diretórios,
+    provocando erros de difícil detecção no ambiente SaMBa;
+\end{enumerate}
+
+A  última   opção  dessa  seção,  \texttt{logon   script},  define  um
+\emph{script}  que  será  executado  na  estação  local  assim  que  o
+\emph{logon} for  executado. Esse  \emph{script} não é  um \emph{shell
+script}  Unix,  e  sim  \emph{script} \texttt{.bat}  ou  \texttt{.cmd}
+convencional, que deve respeitar  codificações de arquivo e formato de
+arquivo DOS.   Se você for criar  um \emph{script} ``do  zero'' em uma
+estação GNU/Linux, você  pode usar os editores de  texto \texttt{vi} e
+EMACS,    descritos     no    Capítulo    \ref{sec:editors},    Página
+\pageref{sec:editors}, tomando o cuidado de configurar corretamente as
+codificações e  formatos de arquivos (para o  \texttt{vi}, verificar a
+Seção  \ref{sec:fileenconde-vi},  Página \pageref{sec:fileenconde-vi};
+para o \texttt{EMACS},  verificar a Seção \ref{sec:fileenconde-emacs},
+Página  \pageref{sec:fileenconde-emacs}). Esse  \emph{script}  é muito
+útil  para instalações  de  atualizações ou  montagem automatizada  de
+\emph{shares} SaMBa na estação, o que pode ser muito valioso em termos
+de segurança e satisfação do usuário. 
+
+Com  isso,  terminamos  a  seção \texttt{[global]}  do  nosso  arquivo
+exemplo. Ainda existe  muito a ser dito sobre  isso, mas aconselho que
+você   pesquise  na  Internet   por  conta   própria  ou   consulte  a
+\emph{manpage} do \texttt{smb.conf(5)}.  Vamos continuar a explicação,
+seguindo para a seção \texttt{[homes]}.
+
+\subsubsection{A seção \texttt{[homes]}}
+\label{sec:smbconfhomes}
+
+Essa  seção   é  muito   importante,  pois  ela   trata  de   como  os
+compartilhamentos \emph{home} dos usuários irão trabalhar. Perceba que
+aqui  já começamos  a lidar  com compartilhamentos  de  arquivo, então
+muito    que    é    dito    sobre    compartilhamentos    na    Seção
+\ref{sec:smbconfshares},  Página \pageref{sec:smbconfshares}  é válido
+aqui e vice-versa. Portanto,  vamos concentrar-nos no que for possível
+de  resolver apenas nesse  caso. No  caso, vamos  tratar apenas  de um
+parâmetro  que  não aparece  no  nosso  exemplo  do Trecho  de  Código
+\ref{fig:smbconf}, Página \pageref{fig:smbconf}, que é \texttt{path}.
+
+Como   dissemos  ao   explicar   as  opções   \texttt{logon  home}   e
+\texttt{logon path}, o SaMBa, por  padrão aceita o \emph{home} Unix do
+usuário  como  \emph{home}  do  SaMBa.  Essa opção  permite  que  você
+configure  um  novo diretório  para  que os  dados  do  usuário ou  do
+compartilhamento sejam salvos em uma outra pasta qualquer.
+
+\subsubsection{A seção \texttt{[printers]} e configuração para impressão}
+
+Embora   nosso  arquivo   exemplo  não   mostre   compartilhamento  de
+impressoras usando SaMBa, vamos falar rapidamente sobre a configuração
+do SaMBa como servidor de compartilhamento de impressora.
+
+A primeira  coisa é adicionar três opções  na seção \texttt{[global]}:
+\texttt{printing},  \texttt{printcap name}, e  \texttt{load printers}.
+Essas opções,  respectivamente, indicam  qual o servidor  de impressão
+local  (normalmente \texttt{lrpng}  ou  \texttt{cups}, no  GNU/Linux),
+qual  arquivo contêm  as informações  de configuração  das impressoras
+disponibilizadas   (conhecida  como  \emph{printcap},   e  normalmente
+definido  em   \texttt{/etc/printcap})  e  se   todas  as  impressoras
+disponibilizadas pelo  \emph{printcap} serão mapeadas  pelo sistema (o
+padrão é \texttt{yes}). 
+
+Em  seguida,  temos  que  ter  uma seção  \texttt{[printers]}  com  as
+configurações  gerais de  impressora. Nelas,  temos que  usar  a opção
+\texttt{path}, indicando o diretório de \emph{spools}.
+
+\subsubsection{Configurando as seções dos compartilhamentos}
+\label{sec:smbconfshares}
+
+\subsubsection{Habilitando um usuário/máquina no SaMBa}
+\label{sec:sambauser}
+
+\subsubsection{Acessando um \emph{share} SaMBa}
+\label{sec:sambaaccess}
+
+\section{Introdução ao Firewall}
+\label{sec:firewall}

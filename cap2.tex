@@ -1,0 +1,2298 @@
+\chapter{Iniciando com o GNU/Linux}
+\label{cap:iniciando}
+
+Agora  que já  temos uma  boa compreensão  do que  veio antes  de nós,
+podemos seguir a diante.
+
+A idéia desse capítulo é que veremos comandos básicos que nos permitam
+usar  o sistema  GNU/Linux  de maneira  rápida,  para podermos  passar
+adiante. Na realidade, não é o objetivo nosso aqui tornar o usuário um
+mestre em GNU/Linux, pois não seria possível em um curso de Introdução
+lidar com todos os comandos  e utilitários do GNU/Linux, além de haver
+farta documentação do GNU/Linux disponível na Internet. 
+
+De qualquer  modo, nosso  objetivo é oferecer  a você o  suficiente em
+comandos   para  que   você   consiga  seguir   adiante  sem   maiores
+problemas. 
+
+Então, seja bem vindo ao GNU/Linux. Você vai gostar, pode crer :D
+
+\section{Entrando no sistema}
+
+Ao inicializar  o computador, o GNU/Linux  apresenta algumas mensagens
+sobre informações do sistema, assim como o resultado a alguns comandos
+especiais  iniciais: coisas  como checagens  de sistemas  de arquivos,
+\emph{``levantar''}   (inicializar)   servidores  e   \emph{firewall},
+realizar configurações de rede \ldots Neste momento, basta saber que o
+GNU/Linux  realiza  uma série  de  configurações  básicas  para que  o
+sistema esteja pronto para rodar.
+
+Uma vez que  tais configurações e checagens tenham  sido executadas, o
+sistema irá o entregar um \emph{login}. Vamos primeiro entender porque
+ele faz isso, depois vamos  ver como passar pelo \emph{login} e entrar
+normalmente no sistema.
+
+\subsection{Filosofia do sistema}
+\label{sec:filosofiaLinux}
+
+O  GNU/Linux é um  Unix-\emph{Like}, ou  seja, um  sistema operacional
+\emph{similar} ao  Unix, embora  não seja um  Unix. Como  todo sistema
+similar ao  Unix, o  GNU/Linux é multi-usuário  e multi-tarefa,  o que
+quer dizer que  vários usuários podem estar usando  o mesmo sistema ao
+mesmo  tempo,  e  realizando  várias  operações ao  mesmo  tempo.   Um
+determinado  usuário  pode estar  ouvindo  MP3  e  editando um  texto,
+enquanto outro  pode estar compilando um programa  e baixando arquivos
+da Internet,  e um terceiro estar editando  planilhas, lendo mensagens
+recebidas  dentro   da  Internet  e  navegando  via   Web  para  obter
+informações necessárias ao seu documento.
+
+Para que um  usuário não interfira no ambiente  do outro, garantir que
+usuários inexperientes não causem  danos acidentais ao sistema, e para
+garantir  que  todos os  usos  do  sistema  possam ser  controlados  e
+auditados, o  Unix adota um sistema de  \emph{usuários}. Sistemas Unix
+não podem ser acessados sem uma \emph{conta de usuário}. Cada conta de
+usuário é protegida por uma \emph{senha}. Algumas contas para usuários
+ocasionais podem ser criadas (por exemplo, é comum em instalações Unix
+a  existência de  uma  conta \texttt{guest}  -- \emph{convidado})  com
+senhas  publicamente conhecidas,  mas o  normal é  que a  senha  de um
+usuário seja conhecida \emph{apenas} por ele.
+
+A  cada usuário  o  sistema estabelece  alguns \emph{privilégios},  ou
+seja, o  que ele pode  ou não realizar  dentro do sistema.  O ambiente
+Unix  possui  um  esquema  de  privilégios muito  simples,  mas  muito
+poderoso  quando  bem utilizado.  Esse  sistema  permite que  usuários
+convencionais não  tenham acessos a ferramentas  de administração, mas
+possam tranqüilamente trabalhar em um ambiente seguro e confiável. Boa
+parte da segurança  do Unix vêm desse sistema,  desenvolvido a mais de
+40 anos e que continua sendo usado em muitas corporações.
+
+Em     geral,    existem     usuários    mais     privilegiados,    os
+\emph{administradores}, que podem manipular arquivos de configuração e
+ajustar parâmetros do sistema.  Mas mesmos estes possuem operações que
+não podem  ser realizadas. Para  essas situações, existe uma  conta de
+usuário especial, a conta \texttt{root}.
+
+\subsubsection{O usuário \texttt{root}}
+\label{sec:rootUser}
+
+O     \texttt{root}     é    também     chamado     de    conta     de
+\emph{super-usuário}. Esse  usuário é o  primeiro e mais  importante a
+ser criado  em uma instalação Unix  em geral (e  Linux em particular),
+pois  ele tem  acesso pleno  a \emph{todos}  os programas,  recursos e
+arquivos do sistema.
+
+O \texttt{root} é  a mais poderosa conta, pois  ele pode reparticionar
+discos  e partições,  formatar discos,  configurar arquivos  de acesso
+básico ao  sistema, realizar procedimentos de  instalação de programas
+de baixo nível, entre outras funções.
+
+\subsubsection{Cuidados com o \texttt{root}}
+
+O \texttt{root} deve ser usado  \emph{o mínimo possível}, pois uma das
+características mais poderosas (e portanto perigosas) do \texttt{root}
+é que ele \emph{ignora  \textbf{totalmente} a proteção oferecida pelos
+privilégios  do  Unix}. Portanto,  comandos  aleatórios lançados  como
+\texttt{root}  possuem  uma grande  chance  de  causar problemas.   Na
+prática,   o   ideal  seria   \emph{nunca,   \textbf{jamais}}  use   o
+\texttt{root}   como  conta   cotidiana,   mesmo  que   você  seja   o
+administrador do sistema.  Crie uma  conta comum para uso cotidiano, e
+deixe o \texttt{root} para situações importantes. Veremos mais adiante
+como  alternar   para  super-usuário  enquanto   logado  como  usuário
+normal. No caso, peça para uma pessoa criar uma conta de usuário comum
+ou logue-se como  \texttt{root} de qualquer modo.  Se  fizer o último,
+tome \emph{muito},  \textsc{muito} cuidado  mesmo com os  comandos que
+for realizar. E lembre-se: \emph{você foi avisado!!}
+
+\subsection{\emph{Login}}
+\label{sec:login}
+
+Agora voltemos  ao GNU/Linux: atualmente, a  maioria dos \emph{logins}
+são feitos  por meio  de ferramentas como  o GDM  (\emph{GNOME Desktop
+  Manager}).  Mas vamos  trabalhar  na  Linha de  Comando,  de modo  a
+mostrar os principais comandos do  GNU/Linux. Além disso, pode ser que
+o  seu  ambiente,  principalmente   se  for  um  servidor  ou  efetuar
+um \emph{login} remoto, você receberá uma mensagem como a abaixo:
+
+\begin{codigo}[h]
+\begin{Verbatim}[frame=single]
+Mandriva Linux release 2006.0 (Official) for i586
+Kernel 2.6.12-12mdk on a i686/tty1
+hufflepuff login:
+\end{Verbatim}
+\caption{Exemplo de mensagem de \emph{Login}}
+\end{codigo}
+
+\sloppy{A primeira linha indica qual o ambiente em uso.  No caso, é um
+GNU/Linux,   distribuição   Mandriva   Linux,  versão   2006.0,   para
+computadores PC (i586).}
+
+\fussy{A segunda é  uma informação específica do sistema.   No caso, o
+sistema  possui  um  \emph{kernel}  Linux versão  2.6.12,  com  versão
+interna `12mdk' e está rodando em  um sistema i686 (AMD Semprom) e que
+esse é o 1$^{\circ}$ Terminal do sistema. }
+
+A terceira  linha é o prompt  do \emph{login}. No  caso, ele apresenta
+primeiro o nome da máquina (no caso, \texttt{hufflepuff}) e em seguida
+a mensagem \texttt{login:}, indicando  que ele está pronto para receber
+o seu nome de usuário. Digite-o.  Logo  em seguida  você receberá  uma
+mensagem pedindo a sua senha:
+
+% inserir aqui o exemplo de pass
+\begin{codigo}[h]
+\begin{Verbatim}[frame=single,commandchars=+||]
+Password: +hfill
+\end{Verbatim}
+\caption{\emph{Prompt} do \emph{password}}
+\end{codigo}
+
+Digite  sua senha.   Diferentemente do  nome de  usuário, a  sua senha
+\emph{não} será  ecoada (ou  seja, mostrada na  tela). Essa é  uma das
+maneiras  do  GNU/Linux (e  dos  Unixes  em  geral) garantir  uma  boa
+segurança quanto ao acesso ao sistema: alguns especialistas consideram
+que o eco  de asteriscos (muito comum  em sites da Web) não  é uma boa
+idéia, pois dá a um invasor em potencial, principalmente um que esteja
+vendo  o usuário se  logar, uma  idéia do  tamanho de  sua senha  e do
+esforço que ele terá para a quebrar.
+
+Se você digitar erroneamente sua  senha, você receberá uma mensagem de
+erro como a seguinte:
+
+% inserir aqui a mensagem de erro
+\begin{codigo}[h]
+\begin{Verbatim}[frame=single,commandchars=+\[\]]
+Login incorrect +hfill
+\end{Verbatim}
+\end{codigo}
+
+\textbf{Atenção:}  apesar  de ser  uma  boa  idéia  digitar sua  senha
+rapidamente,  \emph{tome   cuidado}:  a  maioria   dos  sistemas  Unix
+(GNU/Linux   incluído)  possui   um  limite   de   quantas  tentativas
+(normalmente 3) um  usuário pode fazer de se  logar com senhas erradas
+antes da conta ser bloqueada  por algum tempo (ou até um administrador
+ou o  \texttt{root} a  reativar). Isso foi  feito para impedir  (ou ao
+menos dificultar)  ataques de força bruta\footnote{Um  ataque de força
+  bruta é um  ataque ao sistema aonde o  invasor, através de programas
+  ou \emph{scripts}, tenta logar em um sistema selecionando um nome de
+  usuário aleatório (ou não) e tentando todas as combinações de senhas
+  possíveis, até que o invasor adentre o sistema e/ou bloqueie a conta
+  de usuário}.
+
+Se    você   fez    tudo    corretamente,   você    irá   receber    o
+\emph{prompt}\footnote{\emph{Prompt} é uma  espécie de indicador que o
+  sistema  está pronto para  receber novos  comandos} do  sistema. Ele
+será similar ao seguinte.
+
+% inserir o prompt do bash
+\begin{codigo}[h]
+\begin{Verbatim}[frame=single, commandchars=+||]
+Last login: Wed Apr 12 00:06:43 on tty1
+[fecosta@hufflepuff ~]$
+\end{Verbatim}
+%$
+\caption{\emph{Prompt} do \emph{shell}}
+\label{code:shellprompt}
+\end{codigo}
+
+O \emph{prompt}  do \emph{shell}  poderá variar bastante,  conforme as
+configurações do sistema em questão.
+
+Você acaba de entrar o Linux, passando para o \emph{shell}.
+
+\section{O \emph{Shell}}
+
+O \emph{shell},  ou Interpretador de Comandos, é  o programa principal
+que  o usuário irá  manipular. Ele  recebe os  comandos do  operador e
+executa as  funções que  o operador estipulou,  retornando informações
+desejadas ou mensagens de erro sobre comandos mau sucedidos. 
+
+Na  prática, o  \emph{shell} atua  como  um tradutor  dos comandos  do
+usuário para  operações internas do sistema. Em  geral, o \emph{shell}
+oferece  uma  linguagem  de \emph{scripts}\footnote{programas  simples
+interpretados, que automatizam funções do sistema} para a automação de
+tarefas  do sistema.  Essa  linguagem pode  ser  simples ou  poderosa,
+dependendo apenas dos desenvolvedores do \emph{shell}
+
+Existem muitos \emph{shells} diferentes  para o GNU/Linux. O principal
+é o \texttt{bash}, ou \emph{Bourne Again Shell}, desenvolvido a partir
+do  \emph{Bourne  Shell} (\texttt{sh})  original.   Além dele,  outros
+\emph{shells}  de  importância são  o  \texttt{tcsh}, um  \emph{shell}
+baseado no \emph{C Shell} (\texttt{csh}) original e o \texttt{ksh}, ou
+\emph{Korn Shell},  um shell aparentado  ao \texttt{sh} original  e ao
+\texttt{bash}. 
+
+\section{Obtendo ajuda de comandos}
+
+Parece uma bobagem,  mas antes de seguirmos adiante,  veremos um pouco
+sobre como  obter ajuda  dentro do GNU/Linux  para seus  comandos. Mas
+essa opção  tem seu motivo: quase  todos os comandos  e utilitários do
+GNU/Linux possuem ajuda através dos  sistemas de ajuda do GNU/Linux, o
+\texttt{man} e o  \texttt{info}, além de boa parte  das bibliotecas do
+sistema e  arquivos de configuração. Saber  usar convenientemente essa
+ajuda é uma ``mão na roda'' quando  se está com dúvidas ou não se sabe
+usar um  determinado comando ou utilitário. Desse  modo, saber usá-las
+corretamente  é   quase  tão  importante  quanto   saber  usar  outros
+comandos. Vamos a elas então.
+
+\subsection{\texttt{man}}
+
+A principal ferramenta de ajuda  do mundo Unix, incluindo o GNU/Linux,
+o \texttt{man} (redução de \emph{manual})  exibe na tela uma página de
+informações   sobre  o   programa   conhecida  no   mundo  Unix   como
+\emph{manpage}.  Para  acessar  a  \emph{manpage}  de  um  determinado
+comando, você  utiliza o comando \texttt{man  <comando>}. Por exemplo,
+se você  quiser chamar a  \emph{manpage} do\emph{shell} \texttt{bash},
+digite: 
+
+\begin{codigo}[h]
+\begin{Verbatim}[frame=single]
+[fecosta@hufflepuff ~]$ man bash
+\end{Verbatim}
+%$
+\caption{Exemplo do comando \texttt{man}}
+\end{codigo}
+
+Que ele retornará uma janela  com as informações sobre o comando, como
+a    apresentada    no    Código   \ref{code:manpage},    na    Página
+\pageref{code:manpage}.
+
+\begin{codigo}[htb]
+\scriptsize
+\begin{Verbatim}[frame=single]
+
+BASH(1)                                                                BASH(1)
+
+NAME
+       bash - GNU Bourne-Again SHell
+
+SYNOPSIS
+       bash [options] [file]
+
+COPYRIGHT
+       Bash is Copyright (C) 1989-2004 by the Free Software Foundation, Inc.
+
+DESCRIPTION
+       Bash  is  an  sh-compatible  command language interpreter that executes
+       commands read from the standard input or from a file.  Bash also incor-
+       porates useful features from the Korn and C shells (ksh and csh).
+
++ldots
+
+SEE ALSO
+       Bash Reference Manual, Brian Fox and Chet Ramey
+       The Gnu Readline Library, Brian Fox and Chet Ramey
+       The Gnu History Library, Brian Fox and Chet Ramey
+       Portable  Operating  System  Interface (POSIX) Part 2: Shell and Utili-
+       ties, IEEE
+       sh(1), ksh(1), csh(1)
+       emacs(1), vi(1)
+       readline(3)
+
++ldots
+
+       Array variables may not (yet) be exported.
+
+GNU Bash-3.0                     2004 June 26                          BASH(1)
+
+\end{Verbatim}
+\caption{Resultado de \texttt{man bash}}
+\label{code:manpage}
+\end{codigo}
+
+Uma  coisa  importante a  se  notar no  exemplo  do  Trecho de  Código
+\ref{code:manpage}  é  na  seção  \emph{See also},  aonde  ele  mostra
+algumas outras  \emph{manpages} que o usuário  pode consultar. Perceba
+que o formato apresentado é \texttt{emacs(1)}. Isso é importante, pois
+todos as  \emph{manpages} são  divididas em grupos,  ou \emph{seções},
+aonde  cada   seção  é  sobre  um  determinado   assunto.  Isso  ajuda
+principalmente em  casos aonde  um comando ou  utilitário tem  o mesmo
+nome,   por  exemplo,   de  uma   chamada  de   sistema  (\emph{system
+call}\footnote{\emph{system   call}   é    uma   rotina   interna   do
+\emph{kernel}  que o  usuário  só  pode acessar  através  de $(a)$  um
+utilitário, como  um \emph{shell}  ou; $(b)$ programação  direta}), de
+modo que você pode usar esse número que vêm após o comando (chamado de
+número de  seção) para  acessar a informação  desejada. No  caso, você
+utilizará o  comando \texttt{man  <seção> <comando>}. Por  exemplo, se
+você  quiser acessar a  \emph{manpage} do  \texttt{ksh(1)} (\emph{Korn
+Shell}),   digite   o   comando   indicado   no   Trecho   de   Código
+\ref{code:sectionmanpage}, na página \pageref{code:sectionmanpage}.
+
+\begin{codigo}[htb]
+\begin{Verbatim}[frame=single]
+[fecosta@hufflepuff ~]$ man 1 ksh
+\end{Verbatim}
+%$
+\caption{Exemplo do comando \texttt{man} com número de seção}
+\label{code:sectionmanpage}
+\end{codigo}
+
+No  caso, as  seções  padronizadas pelo  POSIX\footnote{\emph{Portable
+Operating  System Interface},  uma Interface  padronizada  adotada por
+todos   os    sistemas   Unix}   são   como    mostradas   na   Tabela
+\ref{table:mansections}, na página \pageref{table:mansections}.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c|l|}
+\hline
+{\centering \textbf{\textsc{Seção}}} & {\centering \textbf{\textsc{Documentações}}}\\
+\hline\hline
+0 & Todas as Seções \\
+1 & Comandos \\
+2 & Chamadas do Sistema \\
+3 & Funções de Bibliotecas C \\
+4 & Arquivos de Configuração ou Especiais \\
+5 & Formatos e Conversões de arquivo \\
+6 & Jogos (apenas Linux) \\
+7 & Convenções e Pacotes de Macro \\
+8 & Pacotes de Gerenciamento \\
+9 & Rotinas do Kernel \\
+\hline
+\end{tabular}
+\caption{Seções de \emph{manpages}}
+\label{table:mansections}
+\end{center}
+\end{table}
+
+\subsubsection{Navegando pela \emph{manpage}}
+
+O  \texttt{man}  utiliza o  editor  \texttt{vi}  como visualizador  de
+arquivos ao  exibir as \emph{manpages}. No caso,  vamos ensinar apenas
+alguns truques básicos.
+
+Use   as   setas   direcionais   do   teclado   para   mover-se   pelo
+sistema. Pode-se  usar também as  teclas \keystroke{H}, \keystroke{J},
+\keystroke{K}    e   \keystroke{L}    para    navegar   pelo    texto,
+respectivamente,  para a  esquerda, para  baixo,  para cima  e para  a
+direita. Para  sair da \emph{manpage},  aperte \Esc, e em  seguida use
+\texttt{:q}.
+
+Se quiser procurar alguma  informação dentro da \emph{manpage}, aperte
+\Esc e em seguida digite / e o texto a ser localizado.
+
+Isso é o  básico do básico, mas deve  dar informações suficientes para
+que você possa consultar as \emph{manpages} sempre que precisar.
+
+\subsection{\texttt{info}}
+
+Algumas aplicações, porém, não possuem \emph{manpages}, ou possuem uma
+documentação  tão  complexa  que  seria  impossível  usar  apenas  uma
+\emph{manpage}  para realizar  toda  a documentação  do sistema.  Para
+isso,  o  projeto  GNU  criou  um  novo  sistema  de  documentação,  o
+Texinfo. Seu navegador é o \texttt{info}.
+
+Para navegar em uma página \texttt{info} de um programa, basta digitar
+\texttt{info <comando>}. Em alguns casos, o comando estará incluído em
+um pacote de documentação.  Nesse caso, utilize o comando \texttt{info
+<pacote> <comando>}.  Um exemplo  disso é o comando \texttt{cat}, para
+mostrar  e concatenar  (ajuntar)  arquivos, que  faz  parte do  pacote
+\texttt{coreutils}.   Portanto, para chamar  a ajuda  do \texttt{cat},
+digite o comando do Trecho de Código \ref{code:infoexample}, na Página
+\pageref{code:infoexample}.  Você  receberá uma  janela  similar à  do
+Trecho     de      Código     \ref{code:inforesult},     na     Página
+\pageref{code:inforesult}. 
+
+Você  também pode  pesquisar  por um  determinado  assunto dentro  das
+\emph{infopages} usando  o caomando \texttt{info --apropos=<assunto>}.
+Por exemplo, para  pesquisar-se nas \emph{infopages} por \texttt{cat},
+digite  o comando do  Trecho de  Código \ref{code:infoaproposexample},
+Página \pageref{code:infoaproposexample}.
+
+\begin{codigo}[htp]
+\begin{Verbatim}[frame=single]
+[fecosta@hufflepuff ~]$ info coreutils cat
+\end{Verbatim}
+%$
+\caption{Exemplo do comando \texttt{info}}
+\label{code:infoexample}
+\end{codigo}
+
+\begin{codigo}[htp]
+\scriptsize
+\begin{Verbatim}[frame=single]
+File: coreutils.info,  Node: cat invocation,  Next: tac invocation,  Up: Output\
+ of entire files
+
+3.1 `cat': Concatenate and write files
+======================================
+
+`cat' copies each FILE (`-' means standard input), or standard input if
+none are given, to standard output.  Synopsis:
+
+     cat [OPTION] [FILE]...
+
+   The program accepts the following options.  Also see *Note Common
+options::.
+
+`-A'
+`--show-all'
+     Equivalent to `-vET'.
+
+`-B'
+`--binary'
+     On MS-DOS and MS-Windows only, read and write the files in binary
+     mode.  By default, `cat' on MS-DOS/MS-Windows uses binary mode
+--zz-Info: (coreutils.info.bz2)cat invocation, 84 lines --Top-------------------
+Welcome to Info version 4.8. Type ? for help, m for menu item.                          
+\end{Verbatim}
+\caption{Resultado do comando \texttt{info coreutils cat}}
+\label{code:inforesult}
+\end{codigo}
+
+\begin{codigo}[htp]
+\begin{Verbatim}[frame=single]
+[fecosta@hufflepuff ~]$ info --apropos=cat
+\end{Verbatim}
+%$
+\caption{Exemplo do comando \texttt{info --apropos}}
+\label{code:infoaproposexample}
+\end{codigo}
+
+\subsection{Navegando na \emph{infopage}}
+
+O  GNU \texttt{info}  é baseado  em  um \emph{subset}  de comandos  do
+editor  de  texto  GNU   \texttt{emacs},  portanto  seus  comandos  de
+navegação   são   diferentes   dos   do   \texttt{man},   baseado   no
+\texttt{vi}. Se  desejar, pode forçar  a navegação no  \texttt{info} a
+ser igual a do \texttt{man} com o uso da opção \texttt{--vi-keys}. 
+
+O deslocamento dentro de uma página \texttt{info} é feito com as setas
+direcionais   do   teclado,   ou   com   as   combinações   de   tecla
+\Ctrl+\keystroke{n},\Ctrl+\keystroke{p},     \Ctrl+\keystroke{b}     e
+\Ctrl+\keystroke{f},  para  ir-se para  a  baixo,  para  cima, para  a
+direita e para a esquerda,  respectivamente. Pode-se usar anda \Home e
+\End  para  ir  ao  início  e  para  o fim  de  uma  linha,  ou  então
+\Ctrl+\keystroke{a}  e  \Ctrl+\keystroke{e}.    Para  ir  palavra  por
+palavra,   use  \Alt+\keystroke{f}   e  \Alt+\keystroke{b}\footnote{na
+verdade,    os    atalhos    são   \keystroke{Meta}+\keystroke{f}    e
+\keystroke{Meta}+\keystroke{b}, mas na  maioria dos sistemas GNU/Linux
+essa tecla  especial, que existe em  algumas \emph{workstations} Unix,
+foi mapeada para a tecla \Alt.}.   Use \Spacebar para rolar o texto da
+ajuda  uma  janela  para  baixo   e  \Del  para  voltar  o  texto  uma
+janela. Essas  funções podem ser feitas  também com as  teclas \PgUp e
+\PgDown   respectivamente.   Para   sair   do  \texttt{info},   digite
+\Ctrl+\keystroke{x} e depois \Ctrl+\keystroke{c}.
+
+Todas as \emph{infopages}  são divididas em \emph{nós}. Principalmente
+na  ajuda de  programas grandes,  como o  \texttt{emacs}  é importante
+atentar  para esse  detalhe, na  medida  em que  você poderá  precisar
+navegar   de  nó   em   nó,  utilize   as   teclas  \keystroke{n}   ou
+\keystroke{p}. Use  \keystroke{t} para ir ao  nó raiz do  nó atual (ou
+seja,  para a lista  de tópicos  da seção  atual) e  keystroke{d} para
+voltar para a lista  de \emph{infopages} disponível. Use \keystroke{<}
+para ir ao  primeiro nó do pacote selecionado  e \keystroke{>} para ir
+ao último  nó. Se  quiser saltar diretamente  para um  determinado nó,
+digite \keystroke{g}  e digite o nome  do nó em  questão.  Para saltar
+diretamente a  um determinado  nó, digite o  número do nó.\Tab  leva a
+navegação entre as referências a  nós dentro do nó atual. Pressionando
+\Enter, você vai até o nó que está sendo referenciado no momento.
+
+Para pesquisar alguma informação dentro do nó atual, use \keystroke{s}
+ou \keystroke{S}, se desejar que a pesquisa seja \emph{case-sensitive}
+(diferencie  maiúsculas de  minúsculas). Para  continuar  procurando o
+mesmo item,  utilize \Ctrl+\keystroke{n}, ou  \Ctrl+\keystroke{N} para
+ir para itens anteriores. 
+
+Você também pode  usar a linha que fica abaixo da  janela que mostra o
+nó  para inserir  o  comandos  manualmente. Para  ir  até ela,  digite
+\Alt+\keystroke{x} (\keystroke{Meta}+\keystroke{x}).  Digite o comando
+desejado   e    pressione   \Enter.   Um   exemplo    de   comando   é
+\texttt{print-node}, que  imprime o conteúdo do nó  atual. Caso queira
+abortar   um  comando   ou  operação   que  esteja   nessa   linha  (o
+\emph{minibuffer}), digite \Ctrl+\keystroke{G}. 
+
+Esse é o básico de \texttt{info} que você precisa saber para pesquisar
+informações  sobre  comandos  do  GNU/Linux.  Para  mais  informações,
+recomendamos  que consulte  o manual  do info,  digitando \texttt{info
+  info}, ou então indo até \cite{INFO2006}.
+
+\section{Alguns comandos básicos}
+
+Essa seção tem como objetivo  apresentar uma série de comandos básicos
+para a manipulação,  acesso e visualização de arquivos  no sistema. No
+caso, utilizaremos como referência o \emph{shell} padrão do GNU/Linux,
+o \texttt{bash}. No caso de outros \emph{shells}, o melhor a ser feito
+é consultar suas \emph{manpages} ou páginas \texttt{info}.
+
+\begin{quotation}
+
+\sloppy{\textbf{Atenção:} No GNU/Linux,  comandos, nomes de arquivos e
+opções  são  \emph{case-sensitive}, ou  seja,  fazem diferenciação  de
+maiúsculas  e  minúsculas.   Portanto,  \texttt{man}  é  diferente  de
+\texttt{Man} e de \texttt{MAN}, por exemplo.}
+
+\end{quotation}
+
+\subsection{Listando arquivos: \texttt{ls}}
+
+\fussy{De  início, você  sempre  precisará saber  aonde seus  arquivos
+estão. Os Unix em geral, incluindo aqui o GNU/Linux, incluem o comando
+\texttt{ls},  que lista  o conteúdo  de um  diretório para  o usuário,
+exibindo na tela os arquivos disponíveis dentro do diretório.}
+
+\begin{quotation}
+\textbf{Atenção:} No GNU/Linux, todos  os diretórios são separados por
+\texttt{/},   e   o  diretório   mais   importante   é  o   \texttt{/}
+(\emph{raiz}).   Portanto,  utilize   a  \texttt{/}  para  separar  um
+diretório do  outro, e não a \texttt{$\backslash$},  como seria normal
+de imaginar-se\footnote{baseando-se na experiência de uso no Windows}.
+\end{quotation}
+
+O comando básico é simplesmente  \texttt{ls}, que irá lhe retornar uma
+lista contendo  os arquivos  que estão dentro  do diretório  atual, de
+maneira similar  à mostrada no Trecho  de Código \ref{code:lsexample},
+na   Página  \pageref{code:lsexample}.   Você  também   pode  utilizar
+\texttt{ls <diretório>} para visualizar  os arquivos contidos em outro
+diretório.   Mas o  \texttt{ls} possui  uma série  de  opções bastante
+úteis quando precisamos de mais informações.
+
+\begin{codigo}[htp]
+\footnotesize
+\begin{Verbatim}[frame=single]
+[fecosta@hufflepuff ~]$ ls
+aif-mount/      #.emacs#         InstallShield/          QLOG
+comanche3-0b4/  Fotos/           KDE/                    street2.sta
+Desktop/        GNUstep/         mac-3.99-u4-b4/         tmp/
+Documentos/     GUI.cs           mac-3.99-u4-b4.tar.gz*  Vídeo/
+Download/       HelloWorld.cs    Música/                 vpd.properties
+drakx/          HelloWorld.exe*  nohup.out               x.log
+\end{Verbatim}
+%$
+\caption{Exemplo do comando \texttt{ls}}
+\label{code:lsexample}
+\end{codigo}
+
+
+\begin{quotation}
+\textbf{Atenção:} Todos os comandos do  GNU/Linux, e no Unix em geral,
+permitem  que   opções  sejam  combinadas.  Por   exemplo,  o  comando
+\texttt{foo}   pode   ter  as   opções   \texttt{-x},  \texttt{-y}   e
+\texttt{-z}.  Nesse   caso,  caso  se  você  quiser   usar  as  opções
+\texttt{-x}  e \texttt{-y}  você pode  usar tanto  \texttt{foo  -x -y}
+quanto \texttt{foo -xy}.
+\end{quotation}
+        
+A primeira  opção seria  a \texttt{-R}(\emph{recursive}), que  lista o
+conteúdo  do diretório  apontado  e de  \emph{todos} os  subdiretórios
+abaixo dele. Isso ajuda quando você precisa saber, por exemplo, se uma
+página Web já está com todos os arquivos dentro dele.
+
+\sloppy{Outra opção útil é a opção \texttt{-a}(\emph{all files}, todos
+os arquivos),  que mostra os arquivos  \emph{ocultos} (também chamados
+de  terminologia  Unix  de  \emph{desinteressantes})  do  sistema.  Um
+arquivo  em  Unix  é  considerado  oculto quando  ele  começa  com  um
+`\texttt{.}'(ponto).    Em    geral,   usa-se   isso    para   ocultar
+arquivos/diretórios de configuração.}
+
+\fussy{A opção  \texttt{-1}(\emph{one file  per line}, um  arquivo por
+linha), mostra  um arquivo  por linha apresentada.  Essa opção  é útil
+quando  se  usa  um  \emph{shell script}\footnote{``programa''  que  é
+interpretado  pelo \emph{shell}} para  automatizar-se alguma  função e
+exige-se   uma  listagem   dos   arquivos  a   serem  manipulados.   O
+comportamento normal do \texttt{ls} é  exibir o máximo de comandos por
+linha, formando colunas de arquivos.}
+
+Uma  opção  presente  em  algumas versões  do  \texttt{ls}\footnote{na
+verdade, do \emph{shell} que o implementa} é a opção \texttt{--color},
+que gera uma listagem \emph{colorida} dos arquivos, sendo que essa cor
+muda  conforme  o  tipo  de arquivo  (executável,  oculto,  diretório,
+arquivo comum, \ldots).
+
+A  opção \texttt{-h}(\emph{human readable},  legível pelo  ser humano)
+mostra  os  tamanhos  de  arquivo  (se visível)  em  um  formato  mais
+compreensível  pelas  pessoas.  Em  geral,  o  \texttt{ls}  (e  demais
+comandos  que envolvam tamanhos  em disco)  representa os  tamanhos do
+arquivos em número de \emph{inodes}\footnote{i-nodos, ou nós dentro da
+estrutura  do sistema de  arquivos}. Embora  um \emph{inode}  em geral
+ocupe 512 bytes, isso é  muito dependente de implementação, sistema de
+arquivos adotado e formatação adotada, portanto essa representação nem
+sempre é  a melhor  disponível. O \texttt{-h}  obriga o  \texttt{ls} a
+determinar o tamanho  aproximado do arquivo ao listá-lo.  No Trecho de
+Código  \ref{code:lslhexample}, na  Página \pageref{code:lslhexample},
+mostramos um  exemplo aonde  o tamanho dos  arquivos é  apresentado de
+maneira mais legível.
+
+Mas  talvez a  opção  mais importante  que  o \texttt{ls}  possui é  a
+\texttt{-l}(\emph{Long  description}, descrição Longa),  que apresenta
+todas  as  informações  relacionadas  ao  arquivo.  Nesse  caso,  cada
+``coluna'' rempresenta uma informação diferente:
+
+\begin{enumerate}
+
+\item  Informações  de   arquivo,  incluindo  permissões  de  arquivos
+(veremos mais sobre isso logo a seguir);
+
+\item Arquivos ou diretórios dentro  desse diretório. O valor mínimo é
+2,  graças aos  diretórios  especiais \texttt{.}  e \texttt{..}.  Para
+arquivos em geral, esse valor é 1.
+
+\item Dono  do arquivo (usuário que o  criou ou ao qual  foi passada a
+posse  do  arquivo ---  veremos  mais  sobre  isso adiante,  na  Seção
+\ref{sec:chown}, na página \pageref{sec:chown});
+
+\item  Grupo do  arquivo (grupo  que pode  manipular esse  arquivo com
+maiores  permissões ---  veremos  mais sobre  isso  adiante, na  Seção
+\ref{sec:chgrp}, na página \pageref{sec:chgrp});
+
+\item  Tamanho (descrito  em \emph{inodes},  a não  ser que  as opções
+\texttt{-k} ou \texttt{-h} estejam ativas);
+
+\item Data da última alteração do arquivo;
+
+\item Nome do arquivo;
+
+\end{enumerate}
+
+No    Trecho    de    Código   \ref{code:lslhexample},    na    Página
+\pageref{code:lslhexample}, mostramos  um exemplo aonde  o tamanho dos
+arquivos é apresentado de maneira mais legível.
+ 
+\begin{codigo}[htp]
+\scriptsize
+\begin{Verbatim}[frame=single]
+[fecosta@hufflepuff CursoGNULinux]$ ls -lh
+total 1,6M
+-rwxrwxrwx  1 root root  865 Abr 13 11:46 cap10.aux*
+-rwxrwxrwx  1 root root   92 Abr 10 16:41 cap10.tex*
+-rwxrwxrwx  1 root root 1,8K Abr 13 11:46 cap11.aux*
+-rwxrwxrwx  1 root root  449 Abr 10 16:46 cap11.tex*
+-rwxrwxrwx  1 root root  448 Abr 10 16:43 cap11.tex~*
+-rwxrwxrwx  1 root root  855 Abr 13 11:46 cap12.aux*
+-rwxrwxrwx  1 root root   88 Abr 10 16:44 cap12.tex*
+-rwxrwxrwx  1 root root 2,4K Abr 13 11:46 cap1.aux*
+-rwxrwxrwx  1 root root    0 Abr 11 00:42 cap1.bbl*
+-rwxrwxrwx  1 root root  866 Abr 11 00:42 cap1.blg*
+-rwxrwxrwx  1 root root  24K Abr 10 15:54 cap1.log*
+-rwxrwxrwx  1 root root  31K Abr 11 17:41 cap1.tex*
+-rwxrwxrwx  1 root root  31K Abr 11 16:50 cap1.tex~*
+-rwxrwxrwx  1 root root 5,8K Abr 13 11:46 cap2.aux*
+-rwxrwxrwx  1 root root 262K Abr 12 17:00 cap2.log*
+-rwxrwxrwx  1 root root  34K Abr 13 11:45 cap2.tex*
+-rwxrwxrwx  1 root root  32K Abr 13 11:18 cap2.tex~*
+-rwxrwxrwx  1 root root 2,1K Abr 13 11:46 cap3.aux*
+-rwxrwxrwx  1 root root  597 Abr 10 16:02 cap3.tex*
+-rwxrwxrwx  1 root root 1,1K Abr 13 11:46 cap4.aux*
+-rwxrwxrwx  1 root root  243 Abr 10 16:13 cap4.tex*
+-rwxrwxrwx  1 root root 2,0K Abr 13 11:46 cap5.aux*
+-rwxrwxrwx  1 root root  639 Abr 10 16:16 cap5.tex*
+-rwxrwxrwx  1 root root 1,6K Abr 13 11:46 cap6.aux*
+-rwxrwxrwx  1 root root  380 Abr 10 16:18 cap6.tex*
+-rwxrwxrwx  1 root root  993 Abr 13 11:46 cap7.aux*
+-rwxrwxrwx  1 root root  176 Abr 10 16:38 cap7.tex*
+-rwxrwxrwx  1 root root 1,6K Abr 13 11:46 cap8.aux*
+-rwxrwxrwx  1 root root  341 Abr 10 16:39 cap8.tex*
+-rwxrwxrwx  1 root root 1,9K Abr 13 11:46 cap9.aux*
+-rwxrwxrwx  1 root root  492 Abr 10 16:47 cap9.tex*
+-rwxrwxrwx  1 root root  492 Abr 10 16:46 cap9.tex~*
+-rwxrwxrwx  1 root root  531 Abr 13 11:46 configuracao.aux*
+-rwxrwxrwx  1 root root 1,5K Abr 12 14:09 configuracao.tex*
+-rwxrwxrwx  1 root root 1,5K Abr 12 00:46 configuracao.tex~*
+-rwxrwxrwx  1 root root  788 Abr 13 11:46 curso.aux*
+-rwxrwxrwx  1 root root  957 Abr 13 11:37 curso.bbl*
+-rwxrwxrwx  1 root root 1,7K Abr 11 16:41 curso.bib*
+-rwxrwxrwx  1 root root  961 Abr 11 13:15 curso.bib~*
+-rwxrwxrwx  1 root root 1,3K Abr 13 11:37 curso.blg*
+-rwxrwxrwx  1 root root 144K Abr 13 11:46 curso.dvi*
+-rwxrwxrwx  1 root root  12K Abr 13 11:46 curso.log*
+-rwxrwxrwx  1 root root  898 Abr 13 11:46 curso.lop*
+-rwxrwxrwx  1 root root 240K Abr 12 17:02 curso.pdf*
+-rwxrwxrwx  1 root root 480K Abr 12 17:02 curso.ps*
+-rwxrwxrwx  1 root root 1,7K Abr 12 15:18 curso.tex*
+-rwxrwxrwx  1 root root 1,7K Abr 12 00:13 curso.tex~*
+-rwxrwxrwx  1 root root  11K Abr 13 11:46 curso.toc*
+-rwxrwxrwx  1 root root    0 Abr 13 11:47 lslh.txt*
+-rwxrwxrwx  1 root root 164K Abr 12 00:58 playsh-0.1.tgz*
+-rwxrwxrwx  1 root root  431 Abr 10 23:55 referencias.bib*
+-rwxrwxrwx  1 root root  431 Abr 10 23:55 referencias.bib~*
+-rwxrwxrwx  1 root root  646 Abr 13 11:42 x.log*
+\end{Verbatim}
+%$
+\caption{Exemplo do comando \texttt{ls -lh}}
+\label{code:lslhexample}
+\end{codigo}
+
+Antes de  seguirmos adiante, vamos falar  de um tópico  que já falamos
+por alto tanto no \emph{Login}  quanto no caso do comando \texttt{ls}:
+as \emph{permissões de arquivo}.
+
+
+\subsubsection{Permissões de arquivo}
+\label{sec:permissoes}
+
+Como dissemos anteriormente, na Seção \ref{sec:filosofiaLinux}, página
+\pageref{sec:filosofiaLinux},   quando  discutimos   a   filosofia  do
+GNU/Linux, uma  das  garantias  de  segurança  de  todos  os  sistemas
+Unix-\emph{like} é o fato de  haver um sistema de permissões de acesso
+aos  arquivos   e  programas.  Esse   sistema  é  baseado   em  certas
+\emph{permissões de  arquivo} que são definidas pelo  dono do arquivo,
+envolvendo:
+
+\begin{itemize}
+
+\item O dono do arquivo (\emph{User});
+
+\item O grupo ao qual o arquivo foi atribuído (\emph{Group});
+
+\item Os demais usuários do sistema (\emph{Other});
+
+\end{itemize}
+
+A idéia básica é que cada um desses grupos de usuário possui direito a:
+
+\begin{itemize}
+
+\item Ler o arquivo (\emph{read}):  aqui inclui-se a cópia do arquivo,
+o  arquivo aparecer  em uma  lista fornecida  pelo \texttt{ls}  ou sua
+abertura por um programa qualquer;
+
+\item Escrever no arquivo (\emph{write}): envolve também modificar seu
+nome, seu conteúdo, movimentá-lo para  outro diretório ou o apagar. No
+caso  de diretórios  também  envolve criar  novos  arquivos dentro  do
+diretório  (embora não  necessariamente  alterar os  que estão  dentro
+dele);
+
+\item Executar o arquivo  (\emph{execute}): Executar esse arquivo como
+um   programa   dentro   do   sistema   (seja   um   binário   um   um
+\emph{script}). Para  diretórios, essa permissão indica  que o usuário
+pode acessar o diretório.
+
+\end{itemize}
+
+Como posso descobrir  quais são as permissões que  tenho de acessar um
+arquivo? O  comando \texttt{ls -l} oferece  informação suficiente para
+conseguirmos definir nossas permissões dentro do sistema.
+
+A primeira  coluna do  \texttt{ls -l} é  a coluna de  ``Informações de
+Arquivo''. Ela é  formada por uma seqüência de  10 caracteres, podendo
+serem  letras  ou  o  hífen(\texttt{-}).  O  primeiro  caracter  dessa
+seqüência indica  o tipo  de arquivo: os  mais importantes aqui  são o
+\emph{arquivo  comum}(\texttt{-}), o \emph{diretório}(\texttt{d})  e a
+\emph{ligação simbólica}(\texttt{l}). Existem outros tipos, mas se for
+o caso falaremos caso sejam necessários.
+
+Os  nove  caracteres  seguintes   são  divididos  em  três  grupos  de
+permissões de arquivo. Cada um  desses demonstra as permissões para um
+dos  três grupos  que  citamos anteriormente:  no  caso, na  seqüência
+Dono/Grupo/Outros.  Dentro de  cada  um desses  grupos, os  caracteres
+podem ser um caracter ou o hífen. No caso, os caracteres são sempre na
+seqüência  \texttt{rwx}  e  indicam  se  o atributo  em  questão  está
+ativado:   no  caso,   na  seqüência   \textbf{Leitura}(\emph{read}  -
+\texttt{r}),    \textbf{Escrita}(\emph{write}    -    \texttt{w})    e
+\textbf{Execução}(\emph{execute}   -   \texttt{x}).   Se   um   desses
+caracteres estiver faltando, substituído  por um hífen, o atributo (ou
+permissão) correspondente está desativada.
+
+Por   exemplo,    um   arquivo   \texttt{trab.doc}    com   permissões
+\texttt{-rw-r--r-} quer dizer:
+
+\begin{itemize}
+
+\item O arquivo é um \emph{arquivo comum} (1$^{\circ}$ caracter
+\texttt{-});
+
+\item Seu usuário pode ler o arquivo e gravar nele, mas não pode o
+chamar  como   um  program   (1$^{\circ}$  grupo  de   caracteres  ---
+2$^{\circ}$ caracter ao 4$^{\circ}$ caracter --- \texttt{rw-});
+
+\item O grupo ao qual o arquivo foi designado pode o ler, mas não pode
+gravar  nele  ou o  chamar  como  um  programa (2$^{\circ}$  grupo  de
+caracteres  ---  5$^{\circ}$  caracter  ao  7$^{\circ}$  caracter  ---
+\verb|r--|)
+
+\item Outros usuários do sistema podem o ler, mas não gravar ou o
+chamar  como   um  programa  (3$^{\circ}$  grupo   de  caracteres  ---
+8$^{\circ}$     caracter      ao     10$^{\circ}$     caracter     ---
+\verb|r--|;
+         
+\end{itemize}
+
+\sloppy{Enquanto um  outro arquivo, um  \emph{script} de administração
+chamado  \texttt{backup},   com  permissões  \texttt{-rwxr-x---}  quer
+dizer:}
+
+
+\begin{itemize}
+
+\item \fussy{O arquivo é um \emph{arquivo comum} (1$^{\circ}$ caracter
+\texttt{-});}
+
+\item Seu usuário pode ler o arquivo, gravar nele e o hamar como um
+programa (1$^{\circ}$ grupo de  caracteres --- 2$^{\circ}$ caracter ao
+4$^{\circ}$ caracter --- \texttt{rwx});
+
+\item O grupo ao qual o arquivo foi designado pode o ler e o chamar
+como  programa,  mas  não  pode  gravar  nele  (2$^{\circ}$  grupo  de
+caracteres  ---  5$^{\circ}$  caracter  ao  7$^{\circ}$  caracter  ---
+\texttt{r-x});
+
+\item Outros usuários do sistema não podem o ler, gravar nele ou o
+chamar  como   um  programa  (3$^{\circ}$  grupo   de  caracteres  ---
+8$^{\circ}$     caracter      ao     10$^{\circ}$     caracter     ---
+\verb|---|);
+         
+\end{itemize}
+
+Basta  combinar as  informações embutido  nesse código  e  você poderá
+descobrir suas permissões de acesso  aos arquivos. No caso, é possível
+alterar-se  tais permissões caso  você seja  o dono  do arquivo  (ou o
+\texttt{root}).  Veremos isso na  Seção \ref{sec:permissaodearquivos},
+página  \pageref{sec:permissaodearquivos},   aonde  trataremos  melhor
+desse assunto com mais detalhe. Por  enquanto, o que foi explicado é o
+suficiente para facilitar a compreensão dos comandos a seguir.
+
+\subsection{Manipulação de arquivos}
+
+Agora que sabemos como listar os arquivos do sistema, podemos passar a
+operações   de   manipulação   de   arquivos.   No   caso,   falaremos
+principalmente de cópia, movimentação  e exclusão de arquivos. Procure
+atentar ao que  será falado a diante, pois o  GNU/Linux, apesar de seu
+sistema de permissão  de acesso, não costuma ser  muito gentil em caso
+de ```falha humana''. Todo cuidado  é pouco quando se usa o GNU/Linux,
+principalmente como \texttt{root}.
+
+\begin{quotation}
+\textbf{Atenção:} Todas as operações  a seguir são sujeitas ao sistema
+de permissão  de acesso, exceto  se você estiver fazendo  as operações
+como \texttt{root}.
+\end{quotation}
+
+\subsubsection{\texttt{cp}}
+
+O comando \texttt{cp} realiza uma  cópia de um arquivo de um diretório
+para  outro,   ou  fazer   cópias  de  um   arquivo  com   outro  nome
+(principalmente  para efeito  de  \emph{backup}). O  uso básico  desse
+comando    é    com     a    sintaxe    \texttt{cp    <arquivo-origem>
+<arquivo-destino>}. Se você  for fazer a cópia do  arquivo com o mesmo
+nome para  outro diretório, use apenas  o diretório no  destino (não é
+necessário nesse  caso dar  um nome para  o arquivo de  destino). Você
+pode usar  o \emph{caminho absoluto}  (partindo do diretório  raiz ---
+\texttt{/}) ou o \emph{caminho relativo} (partindo do diretório atual)
+do arquivo tanto na origem quanto no destino. Por exemplo:
+
+\begin{itemize}
+
+\item   \texttt{cp   /etc/hosts   hostscopia}   cria  uma   cópia   de
+\texttt{/etc/hosts}    no   diretório   atual,    com   o    nome   de
+\texttt{hostscopia};
+
+\item  \texttt{cp  meuarq  /etc/backup}  cria  uma  cópia  do  arquivo
+\texttt{meuarq}  no   diretório  \texttt{/etc/backup},  ou   então  em
+\texttt{/etc},  com   o  nome  de  \texttt{backup},   se  o  diretório
+\texttt{/etc/backup} não existir;
+
+\item  \sloppy{\texttt{cp  trabalhos/work.doc  /home/felipe}  copia  o
+arquivo  \texttt{work.doc} no  diretório \texttt{trabalhos}  abaixo do
+diretório} atual no diretório \texttt{/home/felipe};
+
+\end{itemize}
+
+\begin{quotation}
+\textbf{Atenção:}  O  \texttt{cp}, assim  como  todos  os comandos  de
+manipulação de arquivos e diretórios do GNU/Linux (e do Unix em geral)
+\emph{\textbf{não  alertam se  o  arquivo de  destino existe!}}  Muita
+cautela  ao  manipular arquivos:  embora  o  sistema  de permissão  de
+acessos ofereça alguma proteção contra sobrescrita acidental, ele pode
+falhar, principalmente em arquivos  aonde o usuário tenha permissão de
+acesso.
+\end{quotation}
+
+Para  a maioria  das pessoas,  o comando  \texttt{cp} simples  é muito
+útil, mas existem várias opções úteis para ele:
+
+Talvez   a    mais   interessante    para   muitos   seja    a   opção
+\texttt{-i}(\emph{Interactive}, interativo), que, \emph{caso o arquivo
+de  destino  \textbf{já exista}},  pede  para  o  usuário confirmar  a
+operação. Se essa  opção, no seu sistema estiver  ativa por um apelido
+ao  \texttt{cp}(mais sobre  isso na  Seção \ref{sec:alias},  na página
+\pageref{sec:alias}),   utilize   a  opção   \texttt{-f}(\emph{Force},
+forçar) para ignorar esse mecanismo. 
+
+A opção  \texttt{-R} já foi  comentada no \texttt{ls}, mas  ela também
+funciona no  \texttt{cp}.  Esse  comando é muito  útil para  cópias de
+\emph{backup} de um ou mais diretório.
+
+Uma  opção  bastante  interessante  é  \texttt{-v}(\emph{verbose}  ---
+informativo). Essa opção faz com que o comando \texttt{cp} mostre tudo
+o que ele está fazendo. Um  exemplo do comando \texttt{cp} com a opção
+\texttt{-v}   ativa    pode   ser   vista   no    Trecho   de   Código
+\ref{code:cpvexample}, na Página \pageref{code:cpvexample}.
+
+\begin{codigo}[htp]
+\tiny
+\begin{Verbatim}[frame=single]
+[fecosta@hufflepuff ApostilaGNULinux]$ cp -v * ~/Apostilas/
+`apostila-linux-apendA.pdf' -> `/home/fecosta/Apostilas/apostila-linux-apendA.pdf'
+`apostila-linux-cap10.pdf' -> `/home/fecosta/Apostilas/apostila-linux-cap10.pdf'
+`apostila-linux-cap11.pdf' -> `/home/fecosta/Apostilas/apostila-linux-cap11.pdf'
+`apostila-linux-cap1.pdf' -> `/home/fecosta/Apostilas/apostila-linux-cap1.pdf'
+`apostila-linux-cap2.pdf' -> `/home/fecosta/Apostilas/apostila-linux-cap2.pdf'
+`apostila-linux-cap3.pdf' -> `/home/fecosta/Apostilas/apostila-linux-cap3.pdf'
+`apostila-linux-cap4.pdf' -> `/home/fecosta/Apostilas/apostila-linux-cap4.pdf'
+`apostila-linux-cap6.pdf' -> `/home/fecosta/Apostilas/apostila-linux-cap6.pdf'
+`apostila-linux-cap7.pdf' -> `/home/fecosta/Apostilas/apostila-linux-cap7.pdf'
+`apostila-linux-cap8-part1.pdf' -> `/home/fecosta/Apostilas/apostila-linux-cap8-part1.pdf'
+`apostila-linux-cap8-part2.pdf' -> `/home/fecosta/Apostilas/apostila-linux-cap8-part2.pdf'
+`apostila-linux-cap8-part3.pdf' -> `/home/fecosta/Apostilas/apostila-linux-cap8-part3.pdf'
+`apostila-linux-cap8.pdf' -> `/home/fecosta/Apostilas/apostila-linux-cap8.pdf'
+`apostila-linux-cap9.pdf' -> `/home/fecosta/Apostilas/apostila-linux-cap9.pdf'
+`apostilaLinuxJonathan.pdf' -> `/home/fecosta/Apostilas/apostilaLinuxJonathan.pdf'
+`Cap47-ControleDeVersoes-CVS.pdf' -> `/home/fecosta/Apostilas/Cap47-ControleDeVersoes-CVS.pdf'
+`curso_linux.pdf' -> `/home/fecosta/Apostilas/curso_linux.pdf'
+`Dicionario_de_Termos_de_informatica-3ed.pdf' -> `/home/fecosta/Apostilas/Dicionario_de_Termos_de_informatica-3ed.pdf'
+`DiscSoflivre_Aula_ComoUsaroTexLatex.pdf' -> `/home/fecosta/Apostilas/DiscSoflivre_Aula_ComoUsaroTexLatex.pdf'
+`LENEP-GuiaAluno-Graduacao.pdf' -> `/home/fecosta/Apostilas/LENEP-GuiaAluno-Graduacao.pdf'
+`LIVRO-06-RunningLinux_4th_Edition.pdf' -> `/home/fecosta/Apostilas/LIVRO-06-RunningLinux_4th_Edition.pdf'
+`tesemaurocamara.pdf' -> `/home/fecosta/Apostilas/tesemaurocamara.pdf'
+\end{Verbatim}
+%$
+\caption{Exemplo do comando \texttt{cp -v}}
+\label{code:cpvexample}
+\end{codigo}
+
+No  exemplo, utilizamos  um diretório  especial, o  \texttt{\~{}}, que
+pode ser usado para indicar o diretório pessoal (chamado de diretório
+\emph{home})  de  um  determinado  usuário.  Caso  seja  usado  apenas
+\texttt{\~}, o  usuário irá ao seu \emph{home}.  Para referenciar-se o
+\emph{home}  de  um  outro  usuário, use  \texttt{\~{}<usuario>}.  Por
+exemplo, se  você precisar acessar  o diretório de um  usuário chamado
+\texttt{hpotter}, use \texttt{cd \~{}hpotter}.
+
+Por  fim, existe a  opção \texttt{--preserve}(preservar),  que permite
+que,  na  cópia,  sejam   preservados  as  permissões  de  acesso  (ou
+\emph{modo}    ---     \texttt{mode}),    a    posse     do    arquivo
+(\texttt{ownership})    ou     a    data    de     última    alteração
+(\texttt{timestamps}). No  caso de cópias recursivas  também podem ser
+preservadas  quaisquer   ligações  simbólicas  dentro   de  diretórios
+(\texttt{links}).  Para  preservar  tudo, utilize  \texttt{ALL}.  Essa
+opção  não pode ser  combinada com  as demais  por ser  uma \emph{long
+option} (opção com nome longo).
+
+\subsubsection{Coringas \emph{wildcards} no GNU/Linux}
+
+Muitas vezes,  você precisa achar um determinado  arquivo entre vários
+dentro de  um conjunto de arquivos.  Para isso, o uso  de coringas (ou
+\emph{wildcards})  ajuda bastante. Quase  todo sistema  operacional ou
+\emph{shell} é  capaz de trabalhar com  coringas, e o  GNU/Linux não é
+exceção.
+
+O conjunto de  caracteres coringas do GNU/Linux é  derivado do sistema
+de expressões regulares (\emph{regular expressions}) do Unix, que é um
+sistema poderoso de reconhecimento  de padrões. Não iremos falar muito
+sobre eles,  mas é muito  interessante aprender mais sobre  eles, pois
+várias ferramentas  úteis como \texttt{grep}  e \texttt{find} dependam
+desse sistema  para serem de  total utilidade. Para  mais informações,
+consulte  a   \emph{manpage}  do  \texttt{regex(3)},   a  documentação
+\emph{infopage}  do utilitário \texttt{grep}  ou as  especificações do
+OpenGroup, que  mantem o  POSIX\cite{REGEX1997}. Além disso,  existe o
+bom  livro   \emph{``Expressões  Regulares  ---   Guia  de  Referência
+Rápida''}, de Aurélio Jargas\cite{GUIAER2003}, que pode ser consultado
+\emph{online}  ou  então  comprado  (se  possível compre  e  ajude  ao
+autor. Eu, ele e toda a comunidade do software livre agradecemos\ldots
+:-P),
+
+A  idéia dos coringas  é que  você, mesmo  que não  conheça o  nome do
+arquivo em  questão, é que você  conhece \emph{uma parte  do mesmo}, e
+pode usá-la, em  combinação com os coringas, para  encontrar o arquivo
+desejado.
+
+\begin{codigo}[htp]
+\scriptsize
+\begin{Verbatim}[frame=single]
+[fecosta@hufflepuff CursoGNULinux]$ ls
+cap10.aux   cap1.tex~  cap6.tex           curso.bbl      hifenizacao.aux
+cap10.tex   cap2.aux   cap7.aux           curso.bib      hifenizacao.tex
+cap11.aux   cap2.log   cap7.tex           curso.bib~     hifenizacao.tex~
+cap11.tex   cap2.tex   cap8.aux           curso.blg      intro.aux
+cap11.tex~  cap2.tex~  cap8.tex           curso.dvi      intro.tex
+cap12.aux   cap3.aux   cap9.aux           curso.dvi.pdf  lslh.txt
+cap12.tex   cap3.tex   cap9.tex           curso.log      playsh-0.1.tgz
+cap1.aux    cap4.aux   cap9.tex~          curso.lop      referencias.bib
+cap1.bbl    cap4.tex   configuracao.aux   curso.pdf      referencias.bib~
+cap1.blg    cap5.aux   configuracao.tex   curso.tex      x.log
+cap1.log    cap5.tex   configuracao.tex~  curso.tex~
+cap1.tex    cap6.aux   curso.aux          curso.toc
+\end{Verbatim}
+%$
+\caption{Listagem de exemplo para mostrar coringas}
+\label{code:coringasuso}
+\end{codigo}
+
+Por  exemplo, considere  uma lista  de arquivos  como a  do  Trecho de
+Código  \ref{code:coringasuso}, na  Página \pageref{code:coringasuso}.
+Como  podemos ver,  existe uma  grande quantidade  de  arquivos dentro
+desse  diretório.  Imaginemos que  você  precise  apenas dos  arquivos
+\texttt{.tex}\footnote{Arquivos  do  sistema   de  marcação  de  texto
+\TeX{}e/ou \LaTeX, no qual esse documento foi produzido}. Você poderia
+tentar  usar uma  série  de  ferramentas do  Unix  para separar  dessa
+listagem apenas os arquivo que lhe interessavam, mas:
+
+\begin{enumerate}
+
+\item Isso seria muito trabalhoso;
+
+\item   Poderia   acontecer   de   surgir   \emph{falsos   positivos},
+principalmente     no    caso     dos     arquivos    com     extensão
+\texttt{.tex\~}\footnote{Em Unix, toda vez que um arquivo é editado, a
+maioria dos  utilitários criam uma  cópia de \emph{backup}  do arquivo
+alterado, com o nome do arquivo, incluindo extensões, terminado com um
+\texttt{\~}.}
+
+\end{enumerate}
+
+Para dar  uma pesquisa adequada,  vamos usar um coringa,  o \texttt{*}
+(Asterisco).  Esse coringa  indica  que  no espaço  em  que ele  entra
+esperam-se  \emph{zero  ou mais  caracteres  quaisquer}.  No caso,  se
+usarmos   \texttt{ls  *.tex}   no  diretório   do  Trecho   de  Código
+\ref{code:coringasuso},    na    Página    \pageref{code:coringasuso},
+receberemos   como  resultado   a   listagem  do   Trecho  de   Código
+\ref{code:coringasuso}, na Página \pageref{code:coringasuso}.
+
+\begin{codigo}[htp]
+\scriptsize
+\begin{Verbatim}[frame=single]
+[fecosta@hufflepuff CursoGNULinux]$ ls *.tex
+cap1.tex*         cap2.tex*         cap6.tex*         configuracao.tex*
+cap10.tex*        cap3.tex*         cap7.tex*         curso.tex*
+cap11.tex*        cap4.tex*         cap8.tex*         hifenizacao.tex*
+cap12.tex*        cap5.tex*         cap9.tex*         intro.tex*
+\end{Verbatim}
+%$
+\caption[Listagem de exemplo com o coringa \texttt{*}]{Listagem de exemplo com o coringa \texttt{*} --- asterisco}
+\label{code:asteriscouso}
+\end{codigo}
+
+Esse  uso é  similar o  do  DOS/Windows, mas  a versão  do coringa  no
+GNU/Linux é \emph{muito mais  poderosa}. Por exemplo, imagine que você
+queira acar  todos os arquivos  \texttt{.tex} que comecem com  a letra
+\texttt{c}.  O  normal seria  você  usar  \texttt{ls  c*.tex}, mas  na
+prática você pode utilizar o comando \texttt{ls c*tex}, pois o coringa
+também  considera o \texttt{.}  um caracter.\footnote{Isso  deve-se ao
+fato  de no  Unix  não existir  realmente  o conceito  de extensão.  A
+extensão em Unix  é mais uma convenção que  o usuário consiga detectar
+arquivos facilmente.  Mesmo a extensão pode ser  desnecessária, já que
+existem utilitários no GNU/Linux, como o \texttt{file}, que detectam o
+tipo  de  arquivo baseando-se  em  sua  formatação  interna.} O  único
+problema com essa variante é que, caso exista um arquivo, por exemplo,
+\texttt{contex},  ele será  pego  também, pois  ele  \emph{casa com  o
+padrão}.
+
+Outro curinga  útil é o  \texttt{?} (ponto de interrogação),  que casa
+apenas zero ou um caracter. Por exemplo, imagine que você queira pegar
+todos  os arquivos  \texttt{.tex} começados  com \texttt{cap},  com um
+caracter qualquer e que tenham a extensão \texttt{.tex} na listagem do
+Trecho     de     Código     \ref{code:coringasuso},     na     Página
+\pageref{code:coringasuso}.  Você pode nesse  caso utilizar  o comando
+\texttt{ls  cap?.tex},  obtendo  o   resultado  do  Trecho  de  Código
+\ref{code:interrogacaouso}, na Página \pageref{code:interrogacaouso}.
+
+\begin{codigo}[htp]
+\scriptsize
+\begin{Verbatim}[frame=single]
+[fecosta@hufflepuff CursoGNULinux]$ ls cap?.tex
+cap1.tex* cap3.tex* cap5.tex* cap7.tex* cap9.tex*
+cap2.tex* cap4.tex* cap6.tex* cap8.tex*
+\end{Verbatim}
+%$
+\caption[Listagem de exemplo com o coringa \texttt{?}]{Listagem de exemplo com o coringa \texttt{?} --- ponto de interrogação}
+\label{code:interrogacaouso}
+\end{codigo}
+
+Para mostrar que ele pode casar  zero ou um caracter, veja o resultado
+do   Trecho   de   Código   \ref{code:2interrogacaouso},   na   Página
+\pageref{code:2interrogacaouso},  quando usamos  o  comando \texttt{ls
+cap??.tex}.  Perceba  que também  foram  selecionados  os arquivos  da
+listagem  do Trecho  de Código  \ref{code:interrogacaouso},  na Página
+\pageref{code:interrogacaouso}, mesmo  tendo apenas um  caracter antes
+da extensão \texttt{.tex}.
+
+\begin{codigo}[htp]
+\scriptsize
+\begin{Verbatim}[frame=single]
+[fecosta@hufflepuff CursoGNULinux]$ ls cap??.tex
+cap1.tex*  cap11.tex* cap2.tex*  cap4.tex*  cap6.tex*  cap8.tex*
+cap10.tex* cap12.tex* cap3.tex*  cap5.tex*  cap7.tex*  cap9.tex*
+\end{Verbatim}
+%$
+\caption{Listagem de exemplo com o uso de dois \texttt{?}}
+\label{code:2interrogacaouso}
+\end{codigo}
+
+Isso deve bastar por agora sobre o comando \texttt{cp} e sobre coringas.
+
+\subsubsection{\texttt{mv}}
+\label{sec:mv}
+
+Depois de copiar arquivos, umas das principais operações com eles é os
+movimentar,  retirando-os   de  um   diretório  para  os   colocar  em
+outro. Para  fazer isso, usamos  o comando \texttt{mv},  que movimenta
+diretórios  e   arquivos  para  outro   diretório,  usando  \texttt{mv
+<arquivodirorigem>  <dirdestino>}.  Se  você  usar  contra  apenas  um
+arquivo, você  pode usar \texttt{mv} para renomear  um arquivo, usando
+\texttt{mv <nomeatual> <nomeantigo>}.
+
+O \texttt{mv} aceita todas as opções comentadas em \texttt{cp}, exceto
+\texttt{-R}, que é redundante (ao mover um diretório, \texttt{mv} move
+todos os  diretórios internos). É muito  útil o uso  de \texttt{-i} ou
+\texttt{-f}, dependendo  do caso. Algumas vezes,  \texttt{-v} também é
+bastante útil.
+
+Como   exemplo,    imagine   que   eu   queira    mover   um   arquivo
+\texttt{hufflepuff} do \emph{home} do usuário \texttt{cdiggory} para o
+meu (sendo que eu estou fazendo a operação). O comando para isso seria
+\texttt{mv \~{}cdiggory/hufflepuff \~}, lembrando que \texttt{\~} é um
+diretório especial,  que indica  o diretório pessoal  (\emph{home}) do
+usuário em questão.
+
+\subsubsection{\texttt{rm}}
+\label{sec:rmcommand}
+
+Se  queremos  apagar  arquivos  no  GNU/Linux,  utilizamos  o  comando
+\texttt{rm}.   Esse   comando    é   muito   perigoso   quando   usado
+inadequadamente, pois ele não oferece nenhum tipo de proteção quanto a
+deleção acidental,  exceto se você  usar a opção \texttt{-i},  como no
+caso  do  \texttt{cp}.  O  \texttt{rm}  utiliza  todas  as  opções  do
+\texttt{cp},   como  \texttt{-r}   (\emph{recursive}),   texttt{-i}  e
+\texttt{-f}. Na realidade, utilizar  \texttt{rm -rf /} é o equivalente
+a destruir todos  os dados em todas as  partições disponíveis (veremos
+mais    adiante,    no    Capítulo    \ref{sec:dirgnulinux},    página
+\pageref{sec:dirgnulinux}, porque esse  comando é tão perigoso, quando
+entendermos   como    funciona   a   estrutura    de   diretórios   do
+GNU/Linux).  Fica  o  conselho: \emph{nunca,  \textsc{jamais}  utilize
+\emph{\texttt{rm  -rf  /}}, exceto  se  você  quiser  pirar. Você  foi
+avisado!!!}
+
+Por   exemplo,    imagine   que   eu   queira    remover   o   arquivo
+\texttt{slytherin}    de    dentro    do    diretório    do    usuário
+\texttt{dmalfoy}. Para isso, utilizaria o seguinte comando: \texttt{rm
+\~{}dmalfoy/slytherin}  (imaginando, claro,  que  eu tenha  permissões
+para fazer essa operação).
+
+\section{Diretórios}
+
+Como  tudo   na  vida,  os   arquivos  em  uma  máquina   precisam  de
+organização. Na realidade, o GNU/Linux, como os Unix em geral, possuem
+uma boa  estrutura, que permite  uma fácil administração.  Na prática,
+90\%  desse  sucesso  se  deve  ao  sistema  de  \emph{diretórios}  do
+arquivo.  Nessa  seção  falaremos  de operações  com  diretórios.  Não
+falaremos aqui  sobre a estrutura  dos diretórios do  GNU/Linux, sendo
+que    há   um    Capítulo    inteiro   sobre    isso,   o    Capítulo
+\ref{sec:dirgnulinux}, página \pageref{sec:dirgnulinux}.
+
+\subsection{\texttt{cd}}
+
+O comando \texttt{cd} (\emph{change directory} --- mudar de diretório)
+permite  que  o usuário  alterne  de  diretório  livremente dentro  do
+sistema  (desde  que ele  possua  privilégio  de \emph{execução}  para
+aquele  diretório  ---  para  diretórios,  como  comentamos  na  Seção
+\ref{sec:permissoes}, Página  \pageref{sec:permissoes}, isso significa
+que o  usuário pode  acessar aquele diretório).  Não há  nenhuma opção
+especial nesse comando.
+
+Como  exemplo, se  quisermos alternar  para o  diretório \texttt{/etc}
+(diretório de arquivos de configuração  --- veremos mais sobre isso no
+Capítulo \ref{sec:dirgnulinux}), usamos o comando \texttt{cd /etc}.
+
+\subsection{\texttt{mkdir}}
+
+Você pode criar suas próprias estruturas de diretórios, desde que você
+tenha privilégio de \emph{escrita}  no diretório aonde deseja-se criar
+o diretório. Isso  é muito útil para organizar  arquivos conforme suas
+necessidades, principalmente relacionadas a projetos de arquivos. Para
+isso,  você usa  o comando  \texttt{mkdir} (\emph{make  directory} ---
+criar  diretório). Esse  comando  cria diretórios  aonde você  quiser,
+dentro de suas permissões de acesso. 
+
+Existem três opções  úteis para o \texttt{mkdir}. A  primeira é usar a
+já discutida  opção \texttt{-v}(\emph{verbose})  para mostrar o  que o
+sistema está fazendo.  Como a maioria dos comandos  no GNU/Linux (e no
+Unix em  geral), ele  parte do  princípio ``se não  deu pau,  não fala
+nada''. O uso de \texttt{-v} ajuda a saber o que está acontecendo.
+
+A  segunda opção  é  a opção  \texttt{-m}(\emph{mode}  --- modo),  que
+permite  que, no  momento  da  criação do  diretório,  você defina  as
+permissões que  deseja, sem ficar restrito  ao \texttt{umask}(ou seja,
+aos padrões  do sistema, que  normalmente são \verb|rw-r--r--|  ou, no
+caso de diretórios, \verb|rwxr-xr-x|).   Isso pode ser muito útil para
+não  ter que  configurar-se posteriormente  diretórios.   Veremos mais
+sobre   como   configurar   corretamente   as  permissões   na   Seção
+\ref{sec:permissaodearquivos},                                  Página
+\pageref{sec:permissaodearquivos}.
+
+A  última opção em  questão é  a opção  \texttt{-p}(\emph{parents} ---
+diretórios-pai). Normalmente, se você tentar criar um diretório dentro
+de outro, e  esse outro não existir, o  \texttt{mkdir} acusa erro. Com
+\texttt{-p},  você  força  o  \texttt{mkdir}  a  criar  os  diretórios
+superiores  ao  diretório  a  ser   criado,  caso  o  mesmo  não  seja
+encontrado.
+
+Vejamos um exemplo: imaginemos que  eu queira criar no meu \emph{home}
+um     diretório     \texttt{cdiggory}     dentro     do     diretório
+\texttt{hufflepuff}, que  eu sei  não existir, e  quero ver  as coisas
+acontecer.    Para   isso,  utilizo   o   comando  \texttt{mkdir   -pv
+\~{}/hufflepuff/cdiggory},  como  no   exemplo  do  Trecho  de  Código
+\ref{code:mkdirexample}, página \pageref{code:mkdirexample}.
+
+\begin{codigo}[htp]
+\scriptsize
+\begin{Verbatim}[frame=single]
+[fecosta@hufflepuff ~]$ mkdir -pv ~/hufflepuff/cdiggory
+mkdir: created directory `/home/fecosta/hufflepuff'
+mkdir: created directory `/home/fecosta/hufflepuff/cdiggory'
+\end{Verbatim}
+%$
+\caption{Exemplo do comando \texttt{mkdir -pv}}
+\label{code:mkdirexample}
+\end{codigo}
+
+\subsection{\texttt{mv}}
+
+Como  dissemos anteriormente, para  movimentar diretórios  e arquivos,
+podemos usar o  comando \texttt{mv}. Nós não iremos  tratar dele aqui,
+pois ele já foi tratado na Seção \ref{sec:mv}, em \pageref{sec:mv}.
+
+\subsection{\texttt{rmdir}}
+
+Para     apagarmos    diretórios,     podemos    usar     o    comando
+\texttt{rmdir}(\emph{remove  directory} ---  remover  diretório).  Ele
+elimina  uma  entrada  de   diretório,  mas  o  diretório  deve  estar
+\emph{vazio} para poder  ser removido desse modo. Uma  solução, se não
+houver arquivos em uma é usar a opção \texttt{-p} que foi discutida no
+comando \emph{mkdir}, aonde ele vai apagando os diretórios pais, desde
+que  estes  \emph{também}  estejam  vazios. Uma  solução  melhor  para
+remoção  recursiva é usar  \texttt{rm -r},  pois ele  elimina arquivos
+também.  Além disso,  podemos sempre  contar com  a  opção \texttt{-v}
+(\emph{verbose}) para alcançarmos nossos objetivos.
+
+Por   exemplo,   imaginemos   que   queremos   remover   o   diretório
+\texttt{\~{}/hufflepuff/cdiggory}   que    criamos   no   exemplo   do
+\emph{mkdir}. Imaginando que não  hajam mais arquivos ou diretórios em
+\texttt{hufflepuff},   podemos  usar   o  comando   \texttt{rmdir  -pv
+\~{}/hufflepuff/cdiggory},  como  no   exemplo  do  Trecho  de  Código
+\ref{code:rmdirexample}, página \pageref{code:rmdirexample}.
+
+\begin{codigo}[htp]
+\scriptsize
+\begin{Verbatim}[frame=single]
+[fecosta@hufflepuff ~]$ mkdir -pv ~/hufflepuff/cdiggory
+rmdir: removing directory, hufflepuff/cdiggory/
+rmdir: removing directory, hufflepuff
+\end{Verbatim}
+%$
+\caption{Exemplo do comando \texttt{rmdir -pv}}
+\label{code:rmdirexample}
+\end{codigo}
+
+\subsection{Aonde Estou? \texttt{pwd}}
+
+Em todos os os nossos exemplos anteriores, o \emph{shell} tem dado uma
+idéia de aonde estamos. Mas  em algumas instalações do GNU/Linux, isso
+não  é   possível.   Além   disso,  algumas  vezes   precisamos  saber
+\emph{exatamente}  aonde  estamos.   Para  isso, podemos  recorrer  ao
+comando  \texttt{pwd}(\emph{present working  directory}  --- diretório
+atual de trabalho),  que mostra o \emph{caminho absoluto}  (ou seja, a
+partir  do   diretório  \texttt{/})  do  diretório   aonde  você  você
+está. Basta  digitar no \emph{shell} \texttt{pwd}, como  no exemplo do
+Trecho       de       Código       \ref{code:pwdexample},       página
+\pageref{code:pwdexample}.
+
+\begin{codigo}[htp]
+\footnotesize
+\begin{Verbatim}[frame=single]
+[fecosta@hufflepuff ~]$ pwd
+/home/fecosta
+\end{Verbatim}
+%$
+\caption{Exemplo do comando \texttt{pwd}}
+\label{code:pwdexample}
+\end{codigo}
+
+\section{Passando para superusuário}
+
+Como   dissemos    ao   falar   do    usuário   \texttt{root}   (Seção
+\ref{sec:rootUser},  Página  \pageref{sec:rootUser}),  não é  uma  boa
+idéia   (na  verdade   é  uma   \textbf{péssima}  idéia)   utilizar  o
+\texttt{root}.  O primeiro  motivo é que sempre pode  haver um pequeno
+erro de operação que comprometa  \emph{tudo} no seu sistema: basta uma
+barra mal-adicionada ou não adicionada  e você pode complicar sua vida
+como  administrador.   O  segundo  motivo   é  que  sempre   existe  a
+possibilidade de algum espertinho  aproveitar aquela sua saidinha para
+o café para instalar uma ferramenta que compromenta a segurança do seu
+sistema, por exemplo.
+
+Portanto,  não  há mais  o  que  discutir:  logar como  \texttt{root},
+\textsc{nunca}! Na realidade,  existem algumas \emph{poucas} situações
+na qual logar-se como \texttt{root}  pode ser útil. Uma delas é quando
+você precisa realizar  um \emph{backup} geral da máquina,  aonde é bom
+que nenhum usuário comum  esteja logado (manutenção programada). Outra
+situação é no  caso de uma invasão ter  comprometido seu sistema: você
+deveria,  se   possível,  isolar  completamente  o   sistema  e,  como
+\texttt{root}, tirar uma imagem do sistema para análise forense. 
+
+De  qualquer  modo,  continua   o  conselho:  logue  diretamente  como
+\texttt{root}      \textsc{apenas      quando     \textbf{extremamente
+    necessário}}. 
+
+Mas  e para  aquelas  atividades cotidianas  do  \texttt{root}, o  que
+fazer?  Graças aos  céus, os  gurus do  Unix criaram  duas ferramentas
+extremamente  úteis  para  esses  casos.  A  primeira,  sobre  a  qual
+falaremos,    é    o    comando   \texttt{su}(\emph{super-user}    ---
+super-usuário). Ela  permite que  você alterne para  \texttt{root} sem
+precisar logar-se em um terminal  por ela. Um exemplo de sua utilidade
+é se  você for obrigado  a se logar  por um terminal remoto:  é sempre
+mais interessante  para despistar  um potencial invasor  logar-se como
+usuário normal e passar para \texttt{root} uma vez logado no sistema. 
+
+A segunda  ferramenta, e muito adotada atualmente,  é a \texttt{sudo}.
+Essa  ferramenta  libera  que \emph{certos  comandos}  administrativos
+possam ser executados por certos  usuários.  A grande vantagem é que o
+\texttt{sudo} exige, em geral,  a senha \emph{do próprio usuário}, não
+a do super-usuário.  Ou seja, mesmo que um  invasor esteja monitorando
+seu sistema,  ele não conseguirá  a senha do super-usuário.  Isso pode
+não parecer grande  coisa, mas qualquer buraco que você  tampar é um a
+menos que o invasor contará  para penetrar no seu sistema.  Não iremos
+tratar nesse  documento dessa ferramenta,  primeiro pois ela não  é um
+padrão nos sistemas Unix  (embora sua popularidade seja crescente).  A
+segunda  razão  é  que  a  maior  parte  dos  comandos  que  exigiriam
+\texttt{root} possuem formas de liberar potencialidades limitades (mas
+úteis) para  usuários comuns. A  terceira é que existe  muito material
+sobre o \texttt{sudo} na Internet. Um bom artigo sobre o \texttt{sudo}
+pode ser encontrado em \citeonline{SUDO2006}. 
+
+Portanto, vamos ao nosso foco: o comando \texttt{su}.
+
+\subsection{\texttt{su}}
+
+O comando \texttt{su} permite  que o usuário passe para super-usuário,
+mantendo algumas  características do seu usuário  normal. Por exemplo,
+se  você estiver  como super-usuário  via \texttt{su}  em  um ambiente
+gráfico, você pode abrir programas que exijam instalação gráfica (como
+o \emph{Netbeans}  ou o JAVA JDK),  o que pode ser  muitíssimo útil em
+muitas situações. 
+
+Normalmente, você precisará apenas utilizar \texttt{su}. Você receberá
+um pedido de senha similar ao feito no \emph{login}. Digite a senha de
+\texttt{root}  e você  passará  para super-usuário,  como mostrado  no
+Trecho de Código \ref{code:suexample}, Página \pageref{code:suexample}.
+
+\begin{codigo}[htp]
+\footnotesize
+\begin{Verbatim}[frame=single]
+[fecosta@hufflepuff CursoGNULinux]$ su
+Password:
+[root@hufflepuff CursoGNULinux]#                
+\end{Verbatim}
+%$
+\caption{Exemplo do comando \texttt{su}}
+\label{code:suexample}
+\end{codigo}
+
+Perceba que  após o ``login''  bem sucedido, o \emph{prompt}  mudou do
+\texttt{\$} para  um \texttt{\#}. Esse símbolo  indica o \emph{prompt}
+do \texttt{root}.   Agora você pode fazer  tudo o que  você precisa, e
+depois basta  digitar \texttt{exit} para sair do  modo super-usuário e
+voltar  a  sua  conta  comum,  como faria  para  encerrar  uma  sessão
+normalmentoe.
+
+Mas o melhor ainda está por vir... Vamos debater as opções úteis. 
+
+A opção  \texttt{-c}(\emph{command} ---  comando) é uma  das melhores:
+com ela, você  pode passar executar um único  comando (fornecido junto
+com   o   comando   \texttt{su}),   sem   precisar   se   logar   como
+\texttt{root}.  Isso  é  ótimo  para aquelas  pequenas  tarefas,  como
+aumentar  a prioridade  de  um determinado  aplicativo  e afins.   Por
+exemplo,  se quisermos  usar o  comando \texttt{su}  para  compilar um
+programa com alta prioridade,  poderia usar o comando \texttt{su} para
+lançar o  comando adequado no \emph{shell} do  \texttt{root}, ou então
+posso  simplesmente utilizar  o  comando \texttt{su  -c  'nice -n  -15
+make'},  por  exemplo.  Ele   pedirá-nos  a  senha  do  \texttt{root},
+executará o comando e depois  voltará ao nosso \emph{shell} de usuário
+comum.
+
+A  opção \texttt{-s}(\emph{shell})  permite  que você  escolha em  que
+\emph{shell} você  irá se logar. Pode  ser uma boa  idéia, pois alguns
+\emph{scripts} podem não rodar  corretamente no \texttt{bash}, ou se o
+usuário possuir pouca experiência  com o \emph{shell} do \texttt{root}
+e desejar usar outro \emph{shell}. 
+
+A última  opção \texttt{-m}(\emph{preserve environment})  não troca as
+variáveis  de ambiente do  sistema\footnote{variáveis que  prepraram o
+ambiente de uso do sistema  para o usuário, configurando, entre outras
+coisas,  qual o editor  padrão do  sistema, aonde  procurar programas,
+entre  outras  coisas}  no   \emph{shell}  do  \texttt{root}.  Isso  é
+vantajoso quando você quer fazer  algumas manutenções mas não quer dar
+``chance para  o azar'' e acabar acidentalmente  lançando comandos que
+possam danificar o sistema.
+
+\subsubsection{Usando \texttt{su} para acessar como usuário comum}
+
+Uma outra utilidade  do \texttt{su} é que ele  permite que você acesse
+como outro usuário, mesmo que  não seja o \texttt{root}. Isso pode ser
+muito útil para aquele acesso  rápido que você precisa dar no terminal
+de um  amigo. Para fazer  isso, basta digitar \texttt{su  <usuario>} e
+digitar sua senha.
+
+Uma  vantagem  disso  é que  você  pode  passar  a usar  usuários  que
+normalmente não podem logar  (em geral, usuários cujo \emph{shell} são
+\emph{null  shell},  como  \texttt{/bin/true} e  \texttt{/bin/false}).
+Alguns  programas, como o  \emph{MySQL}, exigem  que você  faça alguns
+comandos antes deles poderem operar normalmente pela primeira vez, mas
+são   instalados    com   contas   de   usuário    que   não   possuem
+\emph{shell}.  Nesse caso,  pode-se optar  por executar  tais comandos
+como  \texttt{root} (o  que  nem  sempre funciona),  ou,  como é  mais
+recomendável, entrar com a  conta de usuário \emph{null shell}.  Nesse
+caso,  o  \texttt{su}  adotará  como \emph{shell}  o  \emph{shell}  do
+usuário que está logado.
+
+\section{Permissões de Acesso}
+\label{sec:permissaodearquivos}
+
+Na   Seção   \ref{sec:permissoes},  Página   \pageref{sec:permissoes},
+começamos  a falar  sobre o  sistema de  permissão de  arquivos. Nessa
+seção,  falaremos sobre  como  configurar tais  permissões de  maneira
+adequada e falaremos sobre detalhes como \emph{setuid}, \emph{setgid},
+\emph{sticky bit} e \texttt{umask}.
+
+\subsection{Revisando Permissões de Acesso}
+
+Como dissemos anteriormente, as  permissões de acesso são determinadas
+pelos,  digamos assim,  grupos  \texttt{rwx}.  Cada  um desses  grupos
+determinam  as   permissões  de  arquivos  para  o   dono  do  arquivo
+(\emph{owner}), para o grupo designado para o arquivo(\emph{group}), e
+para   os  demais  usuários   do  sistema(\emph{other}).    As  letras
+\texttt{rwx}, vêm de \emph{\textbf{r}ead}(ler), \emph{\textbf{w}rite},
+e  \emph{e\textbf{x}ecute}(executar).  Em geral,  essas são  as únicas
+permissões  que um usuário  típico irá  precisar. Porém,  existem mais
+três  permissões  bem   interessantes  (e  potencialmente  perigosas):
+\emph{setuid}  (defina como  o ID  do usuário),  \emph{setgid} (defina
+como o ID do grupo), e  \emph{sticky bit} (trave o arquivo). Vamos ver
+o que cada uma delas faz.
+
+\subsubsection{\emph{setuid}}
+
+Algumas vezes, você precisa  que usuários comuns executem programas ao
+qual não teriam permissão, como, por exemplo, trocar a sua senha com o
+utilitário \texttt{passwd}.   Para isso, o Unix em  geral (inclui-se o
+GNU/Linux)  possui  o conceito  de  \emph{setuid}.   Como definido  em
+\citeonline{SUID2006},   \emph{``um   componente   de   software   que
+denominamos setuid altera o ID efetivo de usuário para o sistema a ser
+executado.  Tipicamente, os  programas  são ativados  com setuid  para
+\texttt{root}, permitindo que o  comando seja executado por um usuário
+normal  como  se  ele  tivesse  sido invocado  pelo  super-usuário,  o
+\texttt{root}''}.
+
+O  problema  desse  tipo  de  ativação são  as  potenciais  falhas  de
+segurança, como  um usuário  comum executar um  programa \emph{setuid}
+que  sofra um \emph{buffer  overflow}\footnote{Uma falha  de segurança
+  que acontece em certos programas aonde, por causa de uma alocação ou
+  uso indevido de memória, o  programa acaba ``invadindo'' o espaço de
+  outro programa. Isso pode levar o programa a ``invadir'' o espaço do
+  \emph{shell}  e  permitir  o  lançamento  de  comandos  arbitrários,
+  dependendo  do caso  com permissões  maiores  que as  que o  usuário
+  poderia ter} e acabe o deixando com permissões superiores.
+
+É importante  tomar muito cuidado com  \emph{setuid} (\emph{suid} para
+facilitar),  pois ela  é  muito  perigosa em  termos  de segurança  de
+ambientes GNU/Linux. Um conselho sobre como proceder com o \emph{suid}
+pode ser lido na \emph{manpage} \texttt{setuid(7)}
+
+\subsubsection{\emph{setgid}}
+
+O  \emph{setgid}   é  meio  confuso,  pois  um   programa  ou  arquivo
+\emph{setgid} fica  sob o mesmo  tipo de efeito do  \emph{setuid}, mas
+com relação ao grupo  definido para o arquivo/programa. Algumas vezes,
+isso pode ser  útil para arquivos que as pessoas  possam ler e editar,
+mas não há muita necessidade disso, em geral. 
+
+Em  caso de  diretórios, definir  o  \emph{setgid} irá  fazer com  que
+qualquer  arquivo criado  dentro desse  diretório passe  a  ser criado
+tendo como grupo dono definido o grupo dono do diretório em questão.
+
+\subsubsection{\emph{sticky bit} --- Bit de cola}
+
+Quando  o  \emph{Sticky Bit}  surgiu,  sua  função,  como mostrado  no
+\emph{site}  \citeonline{SB2006}  era manter  programas  no espaço  de
+memória alocada, de modo que  sua carga fosse mais rápida. Essa função
+original não é mais tão útil.
+
+No  entanto, nos sistemas  modernos, como  o GNU/Linux,  o \emph{stick
+  bit} passou  a ser usado  para possibilitar a criação  de diretórios
+públicos dentro do sistema  com facilidade. Ao ativar \emph{stick bit}
+para um diretório,  o sistema é informado de  que qualquer pessoa pode
+manipular   os  arquivos   e   diretórios  dentro   do  diretório   em
+questão. \emph{Porém}, apenas o dono  do arquivo, usuários do grupo do
+arquivo ou  o \texttt{root}  é que podem  mover, renomear ou  apagar o
+arquivo. Isso  permite criar documentos  públicos sem risco  de alguém
+apagar seu conteúdo. 
+
+Perceba que essas permissões especiais  podem ser detectadas com o uso
+de \texttt{ls -la}, como no caso do exemplo \ref{code:suidexample}, na
+Página \pageref{code:suidexample}.  No  caso, perceba que arquivos com
+\emph{setuid} e \emph{setgid}  podem ser identificados pelo \texttt{S}
+no lugar do atributo de  execução (\texttt{x}), do usuário e do grupo,
+respectivamente. No caso do  \emph{sticky bit}, perceba que o atributo
+de execução dos outros usuários é substituído por um \texttt{t}.
+
+\begin{codigo}[htp]
+\footnotesize
+\begin{Verbatim}[frame=single]
+[fecosta@hufflepuff teste]$ ls -la
+total 20
+drwxr-xr-x    3 root    root     4096 Abr 16 20:10 ./
+drwxr-xr-x  123 fecosta fecosta 12288 Abr 16 20:09 ../
+-rw-r-Sr--    1 root    root        0 Abr 16 20:10 setgid
+-rwSr--r--    1 root    root        0 Abr 16 20:09 setuid
+drwxr-xr-t    2 root    root     4096 Abr 16 20:10 sticky/
+\end{Verbatim}
+%$
+\caption{Exemplo do comando \texttt{su}}
+\label{code:suidexample}
+\end{codigo}
+
+
+Agora que vimos  estas três novas permissões, vejamos  como alterar as
+permissões de arquivo.
+
+\begin{quotation}
+  \textbf{Atenção:}   Os  comandos   a  seguir   \emph{só   podem  ser
+    executados} pelo  \texttt{root} ou  pelo usuário dono  do arquivo,
+    sendo que  este pode executar  os comandos (obviamente)  apenas em
+    arquivos de sua posse.
+\end{quotation}
+
+\subsection{Mudando permissões --- \texttt{chmod}}
+
+O primeiro e  principal comando envolvendo permissões de  arquivos é o
+\texttt{chmod}(\emph{change  mode}  ---  mudar  o modo),  que  permite
+alterar as permissões  de acesso a um determinado  arquivo. Para isso,
+ele utiliza o comando \texttt{chmod <permissoes> <arquivo\_dir}. Antes
+de falarmos  das permissões, que é  um tópico um  pouco mais complexo,
+iremos falar das opções interessantes. 
+
+As opções  \texttt{-R}(\emph{recursive}) e \texttt{-v}(\emph{verbose},
+já discutidas, também valem para o \texttt{chmod}. A elas vem se somar
+as opções \texttt{-c}(\emph{change}),  que funciona de maneira similar
+a \texttt{-v}, mas apenas alertando  em caso de troca de permissões, e
+\verb|--reference|. Esta é muito útil pois ela aparece para alterar as
+permissões de  vários arquivos baseando-se em  um determinado arquivo,
+permitindo ajustes de atributos conforme a necessidade.
+
+As  permissões  podem  ser   atribuídas  de  duas  formas,  quanto  ao
+preenchimento    do   campo   \emph{<permissoes>}:    baseando-se   em
+\emph{referência octal} ou  \emph{simbólica}. Vejamos as diferênças de
+cada uma.
+
+\subsubsection{Referência Octal}
+\label{ref:octalref}
+
+A \emph{referência  octal} basicamente utilizam quatro números  de 0 a
+7\footnote{daí vem  o \emph{octal} --  do sistema octal  de numeração,
+  que utiliza  8 dígitos: 0, 1,  2, 3, 4, 5,  6 e 7}  para traduzir as
+permissões de arquivo. 
+
+O primeiro número é considerado  opcional, e pode ser descartado, pois
+ele     trata     das     permissões    especiais     que     tratamos
+anteriormente.   No   caso,   você   utiliza  a   soma   dos   números
+correspondentes aos atributos a serem definidos:
+
+\begin{itemize}
+\item 4 --- \emph{setuid}
+\item 2 --- \emph{setgid}
+\item 1 --- \emph{sticky bit}
+\end{itemize}
+
+Por   exemplo,  no  caso   de  desejar-se   definir  um   arquivo  com
+\emph{setuid} e  \emph{sticky bit}, você soma os  valores \texttt{4} e
+\texttt{1}, obtendo 5, que será o valor desse atributo. 
+
+Os  três números  seguintes serão  os  das permissões  normais, que  o
+sistema irá  atribuir a  dono, grupo e  outros usuários. Para  isso, o
+método  é o  mesmo do  caso  dos atributos  especiais (escolhem-se  os
+atributos para  cada caso, soma-se  os números respectivos e  usa-se o
+número obtido  como valor na representação  octal)\footnote{ toda essa
+concepção tem a  ver com o uso de lógica  binária para o funcionamento
+do sistema  de permissão  de arquivos}.  Nesse  caso, nenhum  dos três
+números  pode  ser  descartado,  mas  se  um  deles  não  for  receber
+permissões, pode-se usar o número \texttt{0} no lugar. Os valores para
+cada permissão nesse caso são:
+
+\begin{itemize}
+\item 4 --- leitura;
+\item 2 --- escrita;
+\item 1 --- execução;
+\end{itemize}
+
+Por   exemplo:   se  você   quiser   que   apenas   o  usuário   possa
+ler(\texttt{4}), gravar(\texttt{2}) e executar(\texttt{1}) um arquivo,
+que    usuários   comuns   possam    apenas   o    ler(\texttt{4})   e
+executar(\texttt{1}),  e  que  outros  usuários não  possuam  qualquer
+permissão  de  acesso(\texttt{0}),  utilize a  seqüência  \texttt{750}
+(4+2+1=7, 4+1=5).
+
+Como você pode ver, é  muito complexa essa configuração. Por isso, nas
+versões mais atuais do \texttt{chmod}, incluindo a versão GNU, pode-se
+usar uma representação simbólica, que falaremos a seguir.
+
+\subsubsection{Referência Simbólica}
+
+Nessa  representação, utiliza-se  caracteres  que informam  o tipo  de
+atributo a  ser definnido.  Em  geral, eles são definidos  da seguinte
+forma:  primeiro vem uma  ou mais  letrs que  identificam quem  terá a
+permissão alterada, em  seguida um sinal que indica  a alteração a ser
+feita,  e por  fim  uma ou  mais  letras que  indicam  quais serão  as
+permissões  alteradas.  A  Tabela  \ref{table:permissions}, na  Página
+\pageref{table:permissions},  mostra   a  estrutura  da  representação
+simbólica no \texttt{chmod}.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+{\centering \textbf{\textsc{Usuário}}} & {\centering \textbf{\textsc{Permissão}}}  & {\centering \textbf{\textsc{Atributo}}}\\ 
+\hline\hline
+\multicolumn{3}{|c|}{\emph{Em arquivos}} \\
+\hline
+\texttt{u} --- Usuário & \texttt{+} --- ativar & \texttt{r} --- ler arquivo\\
+\texttt{g} --- Grupo & \texttt{-} --- desativar & \texttt{w} --- gravar arquivo\\
+\texttt{o} --- Outros usuários & \texttt{=} --- definir & \texttt{x} --- executar arquivo\\
+\texttt{a} --- Todos os usuários & & \texttt{s} --- (\emph{no usuário})\emph{setiud}\\
+ & & \texttt{s} --- (\emph{no grupo})\emph{setgid}\\
+ & & \texttt{t} --- \emph{sticky bit}\\
+\hline
+\multicolumn{3}{|c|}{\emph{Em diretórios}} \\
+\hline
+\texttt{u} --- Usuário & \texttt{+} --- ativar & \texttt{r} --- ler diretório\\
+\texttt{g} --- Grupo & \texttt{-} --- desativar & \texttt{w} --- gravar no diretório\\
+\texttt{o} --- Outros usuários & \texttt{=} --- definir & \texttt{x} --- acessar diretório\\
+ & & \texttt{t} --- \emph{sticky bit}\\
+\hline
+\end{tabular}
+\caption{Permissões simbólicas}
+\label{table:permissions}
+\end{center}
+\end{table}
+
+Por  exemplo, para  a definição  que fizemos  anteriorment, poderíamos
+usar  o comando  \texttt{chmod u=rwx,g=rx,o-rwx  arquivo}.  A vantagem
+dessa   representação   é   que   podemos  modificar   atributos   com
+facilidade.      Imagine     que     arquivo      tenha     permissões
+\texttt{rwxr-xr-x}.  Se  vermos  o  que  queremos,  basta  remover  os
+atributos  de leitura  e  execução de  arquivo,  com um  \texttt{chmod
+o-rx}.
+
+Agora  imagine  um   segundo  arquivo,  \texttt{arquivo2},  que  tenha
+permissões  \verb|rw-r--r--|.  Se queremos  o  tornar executável  para
+todos  os  usuários, podemos  usar  \texttt{chmod  ugo+x arquivo2}  ou
+\texttt{chmod a+x arquivo2}, pois o \texttt{a} substitui \texttt{ugo}.
+
+Isso  deve ser  o suficiente  de \texttt{chmod}.  Passemos  agora para
+outro comando, o \texttt{chown}.
+
+\subsection{Mudando o dono do arquivo --- \texttt{chown}}
+\label{sec:chown}
+
+Algumas vezes, você precisará trocar a posse de arquivos e diretórios,
+seja por motivo de segurança (evitando que um usuário qualquer consiga
+privilégios altos no sistema), seja por conveniências (por exemplo, um
+usuário que saiu de férias e  outro vai assumir seu lugar). Para isso,
+utilizamos o comando \texttt{chown} (\emph{change ownership} --- mudar
+a  posse),  que  tem   como  sintaxe  padrão  \texttt{chown  <usuario>
+<arquivo\_dir>}. Nesse caso,  \texttt{<usuario>} pode ser representado
+por um  UID (difícil de ser  lembrado, veremos mais  sobre isso quando
+comentarmos  os arquivos de  administração) ou  pelo nome  de usuário.
+Pode-se  também colocar  o grupo  ao qual  ele pertence  (por  meio de
+\texttt{usuario:grupo}).
+
+Existem   muitas  opções   poderosas  em   questão.   As   já  sitadas
+\texttt{-R}(\emph{recursive}), \texttt{-v}(\emph{verbose}), assim como
+as opções \texttt{-c}(\emph{change})  e \verb|--reference|, citadas no
+chmod, também são válidas no chown, sendo que \verb|--reference| copia
+o nome de usuário e grupo do arquivo de referência.
+
+Uma opção  nova e muito útil  é a opção  \verb|--from|(de) que permite
+que  o dono  de um  arquivo seja  alterado apenas  se o  arquivo tiver
+pertencido  a  um determinado  usuário.  Isso  é  ótimo em  diretórios
+públicos, principalmente  se for usado em  combinação com \texttt{-R},
+pois evita  que todos  os arquivos passem  acidentalmente a ser  de um
+usuário,  quando apenas  determinados arquivos  deveriam passar  a ser
+posse do usuário.
+
+Por   exemplo,    imagine   a    listagem   do   Trecho    de   Código
+\ref{code:chownexample1},  na página  \pageref{code:chownexample1}.  O
+usuário   \texttt{adumbledore}   é   o   dono   tanto   do   diretório
+\texttt{hogwarts} quanto  dos arquivos dentro do  diretório.  Ele pode
+passar a posse  dos arquivos em questão para outros  usuários e tudo o
+mais.   Imaginemos  que  existam três  usuários  \texttt{mmcgonagall},
+\texttt{ssnape}  e \texttt{hslughorn}. O  usuário \texttt{adumbledore}
+passa  a   posse  do   arquivo  \texttt{gryffindor}  para   o  usuário
+\texttt{mmcgonagall} e  a posse  do arquivo \texttt{slytherin}  para o
+usuário \texttt{ssnape}. Ele usa os  comandos da listagem do Trecho de
+Código           \ref{code:chownexample2},          na          página
+\pageref{code:chownexample2},  obtendo o  resultado  listado no  mesmo
+Trecho de Código.
+
+\begin{codigo}[htp]
+\footnotesize
+\begin{Verbatim}[frame=single]
+[adumbledore@hufflepuff hogwarts]$ ls -la
+total 24
+drwxr-xr-x  6 adumbledore hogwarts    4096 Abr 16 20:41 ./
+drwxr-xr-x  4 adumbledore adumbledore 4096 Abr 16 20:40 ../
+drwxr-xr-x  2 adumbledore hogwarts    4096 Abr 16 20:41 gryffindor/
+drwxr-xr-x  2 adumbledore hogwarts    4096 Abr 16 20:41 hufflepuff/
+drwxr-xr-x  2 adumbledore hogwarts    4096 Abr 16 20:41 ravenclaw/
+drwxr-xr-x  2 adumbledore hogwarts    4096 Abr 16 20:41 slytherin/
+[adumbledore@hufflepuff hogwarts]$     
+\end{Verbatim}
+%$
+\caption{Lista de um diretório antes de ter seu usuário dono trocado}
+\label{code:chownexample1}
+\end{codigo}
+
+\begin{codigo}[htp]
+\footnotesize
+\begin{Verbatim}[frame=single]
+[adumbledore@hufflepuff hogwarts]$ chown mmcgonagall gryffindor
+[adumbledore@hufflepuff hogwarts]$ chown ssnape slytherin
+[adumbledore@hufflepuff hogwarts]$ ls -la
+total 24
+drwxr-xr-x  6 adumbledore hogwarts    4096 Abr 16 20:41 ./
+drwxr-xr-x  4 adumbledore adumbledore 4096 Abr 16 20:40 ../
+drwxr-xr-x  2 mmcgonagall hogwarts    4096 Abr 16 20:41 gryffindor/
+drwxr-xr-x  2 adumbledore hogwarts    4096 Abr 16 20:41 hufflepuff/
+drwxr-xr-x  2 adumbledore hogwarts    4096 Abr 16 20:41 ravenclaw/
+drwxr-xr-x  2 ssnape      hogwarts    4096 Abr 16 20:41 slytherin/
+[adumbledore@hufflepuff hogwarts]$     
+\end{Verbatim}
+%$
+\caption{Lista de um diretório após troca de posse de alguns arquivos}
+\label{code:chownexample2}
+\end{codigo}
+
+Perceba   que  agora  aparece   os  usuários   \texttt{mmcgonagall}  e
+\texttt{ssnape}    aparecem    como     os    donos    dos    arquivos
+\texttt{gryffindor} e \texttt{slytherin}.
+
+Agora,  imagine que o  usuário \texttt{adumbledore}  perca a  posse do
+diretório  \texttt{hogwarts}  e  de   seus  arquivos  para  o  usuário
+\texttt{mmcgonagall}. Ao  mesmo tempo, esse  usuário passa a  posse do
+arquivo \texttt{slytherin}  para o usuário  \texttt{hslughorn}.  Nesse
+caso,  primeiro  o  \texttt{root}  lança  um comando  para  o  usuário
+\texttt{mmcgonagall}    passar   a   ser    o   dono    do   diretório
+\texttt{hogwarts}   e   de   seus   arquivos,  e   então   o   usuário
+\texttt{mmcgonagall} pode passar a posse do arquivo \texttt{slytherin}
+para \texttt{hslughorn}.   Essa seqüência  de operações e  o diretório
+após essas  alterações é demonstrada  na listagem do Trecho  de Código
+\ref{code:chownexample3} na Página \pageref{code:chownexample3}.
+
+\begin{codigo}[htp]
+\footnotesize
+\begin{Verbatim}[frame=single]
+[root@hufflepuff hogwarts]# chown -R mmcgonagall .
+[root@hufflepuff hogwarts]# ls -la
+total 16
+drwxr-xr-x    2 mmcgonagall hogwarts    4096 Abr 16 21:03 ./
+drwxr-xr-x  121 mmcgonagall adumbledore 2288 Abr 16 21:04 ../
+-rw-r--r--    1 mmcgonagall hogwarts       0 Abr 16 21:03 gryffindor
+-rw-r--r--    1 mmcgonagall hogwarts       0 Abr 16 21:03 hufflepuff
+-rw-r--r--    1 mmcgonagall hogwarts       0 Abr 16 21:03 ravenclaw
+-rw-r--r--    1 mmcgonagall hogwarts       0 Abr 16 21:03 slytherin
+
+\ldots
+
+[mmcgonagall@hufflepuff hogwarts]$ chown hslughorn slytherin
+[mmcgonagall@hufflepuff hogwarts]$ ls -la
+total 16
+drwxr-xr-x    2 mmcgonagall hogwarts    4096 Abr 16 21:03 ./
+drwxr-xr-x  121 mmcgonagall mmcgonagall 2288 Abr 16 21:04 ../
+-rw-r--r--    1 mmcgonagall hogwarts       0 Abr 16 21:03 gryffindor
+-rw-r--r--    1 mmcgonagall hogwarts       0 Abr 16 21:03 hufflepuff
+-rw-r--r--    1 mmcgonagall hogwarts       0 Abr 16 21:03 ravenclaw
+-rw-r--r--    1 hslughorn   hogwarts       0 Abr 16 21:03 slytherin
+\end{Verbatim}
+%$
+\caption{Lista de um diretório após troca maciça de posse de arquivos}
+\label{code:chownexample3}
+\end{codigo}
+
+Esse exemplo  deve ter dado uma  boa idéia de como  funciona o comando
+\texttt{chown}\footnote{E  dado  uma boa  idéia  de um  \emph{spoiler}
+(segredo da série) de ``Harry Potter e o Enigma do Príncipe''} . Agora
+vamos segur em frente, para o comando \texttt{chgrp}.
+
+\subsection{Mudando o grupo dono do arquivo --- \texttt{chgrp}}
+\label{sec:chgrp}
+
+O comando  \texttt{chgrp}(\emph{change group}  --- muda grupo)  muda o
+grupo  ao  qual um  arquivo  faz  referência.   Aos poucos,  graças  à
+funcionalidade de  trocar-se o  grupo do arquivo  junto com  o usuário
+dono  por  \texttt{chown}, o  comando  \texttt{chgrp}  está caindo  em
+desuso, mas ainda  assim ele é muito útil. Sua sintaxe  é similar à de
+chown:  \texttt{chgrp   <grupo>  <arquivo\_dir>}.  Suas   opções  mais
+interessante   já  foram   explicadas:  \texttt{-R}(\emph{recursive}),
+\texttt{-v}(\emph{verbose}),        \texttt{-c}(\emph{change})       e
+\texttt{--reference}.
+
+Como um  exemplo, imaginemos o  diretório \texttt{/GrimmauldPlace.12},
+de propriedade  do usuário \texttt{sblack},  que faz parte  dos grupos
+\texttt{blackfamily}  e  \texttt{orderphoenix}\footnote{Você pode  não
+ter  percebido, mas  o autor  é um  grande fã  de Harry  Potter}  .  O
+usuário  deseja  que outros  usuários  do grupo  \texttt{orderphoenix}
+possam  entrar no  diretório \texttt{/GrimmauldPlace.12},  mas  não os
+usuário  do  grupo \texttt{blackfamily}.   Então,  ele  usa o  comando
+\texttt{chgrp  orderphoenix   /GrimmauldPlace.12}  e  passa   o  grupo
+designado  do diretório  a \texttt{orderphoenix}.   Com  as permissões
+atuais (\verb|rwxr-x---|), os  usuários do grupo \texttt{orderphoenix}
+poderão entrar no diretório \texttt{/GrimmauldPlace.12}, mas não os de
+\texttt{blackfamily} (que entram agora como outros, sem privilégios de
+acesso,   nem   de   ver   os   arquivos  e   diretórios   dentro   de
+\texttt{/GrimmauldPlace.12}).    Os  comandos   são   demonstrados  na
+listagem  do  Trecho  de  Código  \ref{code:chgrpexample},  na  página
+\pageref{code:chgrpexample}.
+
+\begin{codigo}[htp]
+\footnotesize
+\begin{Verbatim}[frame=single]
+[sblack@hufflepuff GrimmauldPlace.12]$ ls -la
+total 8
+drwxr-x---   2 sblack blackfamily 4096 Abr 15 21:38 ./
+drwxr-xr-x  23 root   root        4096 Abr 15 21:38 ../
+[sblack@hufflepuff GrimmauldPlace.12]$ chgrp orderphoenix .
+[sblack@hufflepuff GrimmauldPlace.12]$ ls -la
+total 8
+drwxr-x---   2 sblack orderphoenix 4096 Abr 15 21:38 ./
+drwxr-xr-x  23 root   root         4096 Abr 15 21:38 ../
+\end{Verbatim}
+%$
+\caption{Lista de um diretório após troca de grupos}
+\label{code:chgrpexample}
+\end{codigo}
+
+Com esse exemplo terminamos de demonstrar  como mudar o dono e o grupo
+de arquivos  e diretórios.  Vamos  agora então ver como  deixar alguns
+padrões  para  a criação  de  arquivos  e  diretórios, com  o  comando
+\texttt{umask}.
+
+\subsection{Definindo as permissões padrão --- \texttt{umask}}
+
+Algumas vezes, você pode querer  definir padrões para as permissões de
+acesso a arquivos que sejam  criados em um determinado diretório. Para
+isso, você  utiliza o  comando \texttt{umask} (\emph{user's  mask} ---
+máscara do usuário). 
+
+A \texttt{umask} possui valores  diferentes conforme o tipo de arquivo
+a  ser criado,  se é  um  arquivo de  texto ASCII  puro (incluindo  aí
+códigos-fonte, \emph{scripts} e documentos  como páginas HTML e fontes
+de  documentos  \LaTeX),   um  \emph{binário}  (programas  compilados,
+imagens, áudio,  vídeo...) ou se é um  diretório\footnote{o Unix trata
+diretórios como arquivos  especiais de funcionamento diferenciado}.  A
+tabela \ref{table:umaskpermissions} e \pageref{table:umaskpermissions}
+mostra  as  permissões  do   \texttt{umask}  (retirada  do  Guia  Foca
+GNU/Linux\cite{FOCALINUX2005}). Apesar dessa tabela complicada, existe
+uma  ``regra  de dedo''  para  o dia-a-dia:  faça  a  conta como  você
+normalmente  faria com uma  \emph{representação octal}  de permissões,
+como  falamos   no  comando  \texttt{chmod}(Seção  \ref{ref:octalref},
+Página \pageref{ref:octalref}) e subtraia 7. Isso deve ajudar no dia a
+dia, sem  o obrigar  a recorrer a  tabelas e/ou decorar  as permissões
+padrão\footnote{Há uma  ressalva aqui:  é impossível criar  um arquivo
+texto  com  permissões  de  execução ativadas.   Se  o  \texttt{umask}
+receber uma  máscara que  pudesse oferecer tal  recurso, ele  mantêm a
+permissão de  execução desativada.  Isso  é uma proteção  de segurança
+oferecida   pelo  GNU/Linux,   impedindo   que  espertinhos   utilizem
+\texttt{umask} para criar arquivos executáveis à vontade};
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+{\centering \texttt{umask}} & {\centering \textbf{\textsc{Binário}}}  & {\centering \textbf{\textsc{Texto}}}  & {\centering \textbf{\textsc{Diretório}}}\\ 
+\hline
+\verb|0| & \verb|rwx| &  \verb|rw-| &  \verb|rwx|\\
+\verb|1| & \verb|rw-| &  \verb|rw-| &  \verb|rw-|\\
+\verb|2| & \verb|r-x| &  \verb|r--| &  \verb|r-x|\\
+\verb|3| & \verb|r--| &  \verb|r--| &  \verb|r--|\\
+\verb|4| & \verb|-wx| &  \verb|-w-| &  \verb|-wx|\\
+\verb|5| & \verb|-w-| &  \verb|r--| &  \verb|r-x|\\
+\verb|6| & \verb|--x| &  \verb|---| &  \verb|--x|\\
+\verb|7| & \verb|---| &  \verb|---| &  \verb|---|\\
+\hline
+\end{tabular}
+\caption{Permissões no \texttt{umask}}
+\label{table:umaskpermissions}
+\end{center}
+\end{table}
+
+Uma utilidade  do \texttt{umask} é para criar  arquivos temporários já
+com restrições de acesso,  sem precisar usar-se de \texttt{chmod}. Por
+exemplo,  com  o comando  \texttt{umask  111;  touch  teste2}, cria  o
+arquivo   \texttt{teste2}  com   permissões   \verb|rw-rw-rw|  (4+2=6,
+7-6=1)\footnote{O comando \texttt{touch} é usado para alterar o rótulo
+de tempo  de um arquivo.  Se o arquivo  não existir, ele o  cria. Esse
+comando é  muito usado por sistemas que  exijam travas (\emph{locks}),
+que o utilizam para criar seus \emph{locks}}. 
+
+Com isso,  acabamos com  a questão das  permissões de  arquivos. Então
+vamos seguir àdiante em nossos estudos.
+
+\section{Vendo o conteúdo de arquivos}
+
+Muitas vezes, precisaremos ver  o conteúdo de arquivos, principalmente
+arquivos  de  texto\footnote{Aqui cabe  uma  ressalva: quando  falamos
+\emph{arquivos de  texto} nesse momento, estamos  fazendo referência a
+arquivos  de texto  puro  ASCII. Nesse  caso,  por exemplo,  inclui-se
+arquivos  de códigos-fonte  e \emph{scripts},  além de  documentos que
+recebem  formatação por  meio  de marcas  (\emph{tags}), como  páginas
+HTML, XML  ou documentos \LaTeX.}.  Não trataremos da  visualização de
+arquivos específicos, mas falaremos  sobre como visualizar arquivos de
+texto, pois  eles são os mais  úteis no ambiente GNU/Linux  (e Unix em
+geral), pois  arquivos de configuração e \emph{logs}  no GNU/Linux são
+em geral representados no formato de arquivos texto.
+
+\subsection{\texttt{cat}}
+
+O comando \texttt{cat}(\emph{concatenate} --- concatenar) é usado como
+um visualizador de arquivos, mas  pode ser usado (sua função original,
+na  realidade, era essa)  para \emph{contatenar}(emendar)  arquivos de
+texto. Seu  uso normal é \texttt{cat  <arquivo1> <arquivo2>...}, sendo
+que um vai em seqüência do outro ao ser exibido na tela. Um exemplo de
+saída    do   \texttt{cat}    pode    ser   visto    no   Trecho    de
+Código\ref{code:catexample}, na página \pageref{code:catexample}.
+
+\begin{codigo}[htp]
+\footnotesize
+\begin{Verbatim}[frame=single]
+[fecosta@hufflepuff CursoGNULinux]$ cat /etc/resolv.conf
+search gsmonline.intranet
+nameserver 200.167.20.5
+nameserver 200.176.2.10
+nameserver 200.165.132.147
+
+# ppp temp entry
+\end{Verbatim}
+%$
+\caption{Exemplo do comando \texttt{cat}}
+\label{code:catexample}
+\end{codigo}
+
+Existem  duas  opções   úteis  no  \texttt{cat},  principalmente  para
+programadores, que são relacionadas  à exibição de numeração de linhas
+na     saída     do     \texttt{cat},     que    são     as     opções
+\texttt{-n}(\emph{numbers})  e \texttt{-b}(\emph{numbers-nonblank}). A
+difereça entre elas  é que a primeira mostra  números para \emph{todas
+as linhas},  e a segunda \emph{não  mostra para linhas  em branco}. Os
+Trecho       de       Código      \ref{code:catexample2}       (página
+\pageref{code:catexample2}),  mostra  a  saída  do  Trecho  de  Código
+\ref{code:catexample}  (página  \pageref{code:catexample}),  formatada
+pelos comandos \texttt{cat -n} e \texttt{cat -b}.
+
+\begin{codigo}[htp]
+\footnotesize
+\begin{Verbatim}[frame=single]
+[fecosta@hufflepuff CursoGNULinux]$ cat -n /etc/resolv.conf
+     1  search gsmonline.intranet
+     2  nameserver 200.167.20.5
+     3  nameserver 200.176.2.10
+     4  nameserver 200.165.132.147
+     5
+     6  # ppp temp entry
+[fecosta@hufflepuff CursoGNULinux]$ cat -b /etc/resolv.conf
+     1  search gsmonline.intranet
+     2  nameserver 200.167.20.5
+     3  nameserver 200.176.2.10
+     4  nameserver 200.165.132.147
+
+     5  # ppp temp entry
+\end{Verbatim}
+%$
+\caption{Exemplo do comandos \texttt{cat -n} e \texttt{cat -b}}
+\label{code:catexample2}
+\end{codigo}
+
+Quando você dá  um \texttt{cat} em um arquivo  pequeno, tudo bem, você
+consegue visualizar todo o conteúdo em sua tela. Mas e quando você tem
+que visualizar um arquivo \emph{muito grande}. Os comandos que veremos
+a seguir são muito, muito úteis nesses casos.
+
+\subsection{Visualizando arquivos grandes: \texttt{more} e \texttt{less}}
+
+Quando  temos  arquivos  muito  grandes, existem  duas  soluçoes  para
+visualizarmo-os.   A  primeira   é   usar  editores   de  texto   como
+\texttt{emacs}, \texttt{vi} e \texttt{kwrite} para os visualizar. Essa
+é uma solução que nem  sempre pode ser interessante, principalmente se
+analisarmos que  sempre existe  o risco de  uma edição  malfeita poder
+comprometer toda a estabilidade, segurança e até mesmo o funcionamento
+mínimo do sistema.
+
+Nesse  caso,  uma idéia  maior  é  usar  programas visualizadores.   O
+GNU/Linux  traz   vários  deles,  sendo   que  os  principais   são  o
+\texttt{more} e  o \texttt{less}. Ambos  são usados da  mesma maneira:
+\texttt{more   <arquivo>}  e   \texttt{less  <arquivos>}.    Porém,  o
+\texttt{more} permite apenas a  leitura seqüencial, janela a janela de
+texto (quando  uma janela de  texto é ocupada, ambos,  \texttt{more} e
+\texttt{less}, realizam pausas para que o usuário possa ler o conteúdo
+da tela e depois pressionar  teclas para avançar no texto), enquanto o
+\texttt{less} permite um  avanço linha a linha, assim  como o recuo na
+leitura do texto. Portanto, recomendamos o uso de \texttt{less}.
+
+\subsubsection{Entrada padrão, Saída padrão, redirecionamento e \emph{pipes}}
+\label{sec:redirect}
+
+Aproveitamos aqui para  fazer um adendo importante ao  uso de comandos
+como \texttt{more} e \texttt{less}, que envolve os redirecionamentos e
+\emph{pipes}.
+
+O Unix  original foi  projetado com uma  filosofia aonde  cada comando
+executaria   \emph{apenas   uma   tarefa},   mas  a   executaria   com
+maestria. Por sua vez, os  comandos poderiam ser encadeados de forma a
+o  resultado  de  um  poder   ser  usado  como  entrada  de  dados  do
+seguinte. Para isso, o Unix (e, por conseqüência, o GNU/Linux) utiliza
+o  conceito   de  \emph{entrada  padrão}\footnote{também   chamado  de
+\emph{standard   input},   ou   \texttt{stdin}}   e   de   \emph{saída
+padrão}\footnote{também   chamado   de   \emph{standard  output},   ou
+\texttt{stdout}}.
+
+A idéia é que os programas não ``travem'' a entrada e saída de dados a
+um  determinado dispositivo  (como  o  teclado ou  o  vídeo), mas  que
+aceitem entrada e  saída de vários caminhos. O  normal seria a entrada
+via teclado  e a saída  no monitor de  vídeo. Porém, a  vantagem desse
+sistema é permitir, por exemplo, que  a saída de dados seja gravada em
+um  arquivo  qualquer, que  um  arquivo  seja  usado para  entrada  de
+informações ou que a saída de um comando seja a entrada de outro. Para
+isso, utilizam-se redirecionamentos e \emph{pipes}.
+
+Os redirecionamentos  permitem que as entradas e  saídas padrão, assim
+como  a saída padrão  de erros\footnote{\emph{standard  error output},
+\texttt{stderr}} possam ser redirecionadas. Na prática isso quer dizer
+que os  dados de/para um  programa serão passados para/de  um arquivo,
+como  se ele  fosse a  saída/entrada  padrão. Por  exemplo, o  comando
+\texttt{cmd  < teste.txt} executa  o comando  \texttt{cmd}, como  se o
+conteúdo de \texttt{teste.txt}  tivesse sido digitado diretamente pela
+entrada padrão (teclado).  Da mesma  forma, o comando \texttt{ls -la >
+teste.txt} mostra uma listagem completa de todos os arquivos dentro do
+diretório, mas mandando os resultados  para o arquivo teste.txt, e não
+para a  tela. A tabela  completa de símbolos de  redirecionamento pode
+ser   encontrada  na   tabela   \ref{table:redirsymbols},  na   página
+\pageref{table:redirsymbols}.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c|l|}
+\hline
+{\centering \texttt{Símbolo}} & {\centering \textbf{\textsc{Função}}}\\ 
+\hline
+\verb|<| & Passa dados do arquivo como entrada padrão\\
+\verb|>| & Grava os dados da saída padrão para um arquivo.\\
+\verb|>>| & Anexa os dados da saída padrão a um arquivo.\\
+\verb|2>| & Como \texttt{>}, mas para a saída padrão de erros\\
+\verb|2>>| & Como \verb|>>|, mas para a saída padrão de erros\\
+\hline
+\end{tabular}
+\caption{Símbolos de redirecionamento}
+\label{table:redirsymbols}
+\end{center}
+\end{table}
+
+Os \emph{pipes} (canos) são  ainda mais úteis que os redirecionamentos
+de arquivo. Eles ``ligam'' virtualmente  a saída padrão de um programa
+à    entrada   padrão    de   outro,    formando   uma    espécie   de
+``\emph{encanamento}'' pelo qual os dados de um programa passam para o
+outro (por isso do seu  nome). O símbolo para chamar-se um \emph{pipe}
+é  \verb+|+. Por  exemplo se  você usar  \texttt{ls -la}  e  tiver uma
+listagem    muito     grande,    você    pode     usar    o    comando
+\verb+ls -la | less+. Esse  comando liga a saída do comando \texttt{ls
+-la} com a entrada padrão de \texttt{less}.
+
+Isso deve bastar quanto a encadeamento e \emph{pipes}. Vamos seguir em
+frente.
+
+\subsection{Vendo o final de arquivos: \texttt{tail}}
+
+Algumas vezes, existem arquivos \emph{realmente grandes}, como logs de
+servidores como o Apache ou do próprio GNU/Linux, aonde mesmo o uso de
+\texttt{less} não ajuda muito. Para esses casos, o GNU/Linux possui um
+comando muito interessante, o  \texttt{tail}, que apresenta as últimas
+linhas  de  um determinado  arquivo.  Seu  uso  normal é  \texttt{tail
+<arquivo>}  e   ele  normalmente  exibe   as  10  últimas   linhas  de
+\texttt{<arquivo>}.
+
+As  opções   mais  úteis   do  comando  \emph{tail}   são  \texttt{-l}
+(\emph{lines} ---  linhas), aonde  você define quantas  linhas deverão
+ser  exibidas,  e  \texttt{-f}  (\emph{follow}  ---  acompanhar),  que
+permite que  quaisquer alterações no arquivo  sejam monitoradas (muito
+útil  quando usado  contra arquivos  de \emph{log}  do  sistema)). Por
+exemplo,       se       quisermos       monitorar      o       arquivo
+\texttt{/etc/httpd/log/access\_log}, usamos  o comando \texttt{tail -f
+/etc/httpd/log/access\_log}.
+
+Existe outra opção a \texttt{tail -f}, que veremos a seguir.
+
+\subsection{Acompanhando arquivos: \texttt{watch}}
+
+É possível acompanhar-se arquivos  com o comando \texttt{tail -f}. Mas
+algumas    vezes    o    sistema    pode   fazer    a    rotação    de
+\emph{logs}\footnote{\emph{log  rotation},  uma  forma  de  manter  os
+\emph{logs} registrados,  mas com um tamanho  reduzido, compactando so
+\emph{logs} mais antigos} o que torna o comando \texttt{tail -f} pouco
+útil.  Além   disso,  o  uso   de  \texttt{tail  -f}   pode  ``comer''
+processamento rapidamente,  haja visto o  fato de ele repetir  o mesmo
+comando algumas dezenas de vezes por segundo.
+
+Mas   aqui   nos   vêem    à   salvação   o   comando   \texttt{watch}
+(\emph{observar}).
+
+O  comando   \texttt{watch}  é   usado  quando  queremos   repetir  um
+determinado   comando   após   um   determinado   período   de   tempo
+pré-estabelecido.  A vantagem  desse comando  é  que ele  só repete  o
+comando passado  o período estabelecido  (o padrão é a  cada segundo),
+sem repetí-lo indefinidamente, não  tendo, portanto, grande impacto no
+consumo de recursos do sistema.
+
+Existem  duas opções  muito úteis  nesse caso:  a primeira  é  a opção
+\texttt{-n}(\emph{number  of  seconds}   ---  segundos),  que  permite
+especificar o tempo mínimo de  espera no \texttt{watch}, e a segunda é
+\texttt{-d}(\emph{differences} --- diferenças), que permite acompanhar
+facilmente  as diferenças  sofridas  pelo resultado  do comando.  Essa
+opção é útil,  por exemplo, se você monitorar o  tamanho de um arquivo
+via \texttt{ls -lh}.
+
+Por  exemplo,  se você  quiser  usar  \texttt{watch}  para realizar  o
+monitoramento sugerido  no comando \texttt{tail} a cada  2 segundos de
+alteração,   pode-se  usar   o  comando   \texttt{watch  -n   2  `tail
+/etc/httpd/log/access\_log'}.   As aspas  são  importantes para  fixar
+opções do comando a ser enviado. O \texttt{watch} abrirá uma janela de
+comando   à   qual  pode   ser   fechada   com   o  uso   do   comando
+\Ctrl+\keystroke{c}.
+
+Isso encerra o assunto de visualização do conteúdo de arquivos. Então,
+vamos para nosso próximo tópico,  aonde trataremos de um tipo especial
+de arquivos: as ligações.
+
+\section{Ligações}
+
+Muitas vezes,  queremos acessar de maneira mais  rápida um determinado
+arquivo ou diretório. Para isso,  o Unix oferece um mecanismo bastante
+útil, as ligações (ou \emph{links}).  Essa seção será dedicada a falar
+sobre elas.
+
+\subsection{O que são ligações?}
+
+As  ligações  são  \emph{referências}  que  o  sistema  cria  para  um
+determinado arquivo. Existem dois tipos de ligações:
+
+\begin{itemize}
+\item \textbf{ligações  simbólicas (\emph{symlinks}):} \emph{symlinks}
+são arquivos  especiais do sistema  (de um tipo  especial \emph{link})
+que tem  como conteúdo o caminho  para chegar ao  arquivo ou diretório
+referenciado. Pode  ser criado por  qualquer usuário, para  arquivos e
+diretórios e  de maneira  que ele saia  do sistema de  arquivos atual,
+indo para um  sistema de arquivo de outro  dispositivo (falaremos mais
+sobre isso quando virmos comandos de montagem de sistema);
+\item  \textbf{\emph{hardlinks}:} são  referências diretas  criadas no
+sistema de arquivos ao \emph{inode} de um determinado arquivo. Só pode
+ser criado pelo \texttt{root} e  não pode ser feito para arquivos fora
+da partição do \emph{hardlink};
+\end{itemize}
+
+Perceba que no caso de comportamento de comandos, eles variam conforme
+o  comando  lançado.  Comandos  \texttt{mv} ou  \texttt{rm}  afetam  o
+\emph{link},   enquanto   que   comandos   \texttt{cp}   comandos   de
+visualização,  como   \texttt{cat},  \texttt{less}  e   \texttt{ls}  e
+comandos de edição, como \texttt{vi} ou \texttt{emacs}, afetam \emph{o
+arquivo original}.
+
+\subsection{Vantagens e desvantagens das ligações}
+
+Criar  ligações  é  uma  ótima  maneira de  manter  uma  estrutura  de
+diretória  pseudo-isolada. Por  exemplo,  você pode  colocar todos  os
+arquivos de dados de trabalho  dos usuário em uma partição separada e,
+usando \emph{symlinks},  você pode criar ligações  para esses arquivos
+nos diretórios dos usuários, sem problemas maiores ao usuário.
+
+Porém, essa mesma facilidade pode voltar-se contra o administrador, na
+medida  em  que pode-se  copiar  arquivos  e  diretórios por  meio  de
+ligações, o que  pode não ser desejável algumas  vezes. Portanto, tome
+muito cuidado  ao criar-se \emph{symlinks} e, como  ``regra de dedo'',
+nunca,  \textsc{jamais}  crie  ligações  para arquivos  ou  diretórios
+administrativos.
+
+Vejamos agora então como criar ligações.
+
+\subsection{O comando \texttt{ln}}
+
+O  comando \texttt{ln}  serve para  criar ligações  de  arquivos. Para
+isso, você irá usar  o comando \texttt{ln <opcoes> <arquivo\_original>
+<ligacao>}.  No  caso, existem  apenas  duas  opções realmente  úteis:
+\texttt{-s} para  gerar ligações  simbólicas e \texttt{-d}  para criar
+\emph{hardlinks} para  diretórios. Por exemplo, se  você desejar criar
+uma ligação simbólica para o arquivo \texttt{/etc/fstab} dentro da sua
+pasta de usuário, com o  nome \texttt{teste}, use o comando \texttt{ln
+-s  /etc/fstab teste}.  Perceba  que a  listagem  completa do  arquivo
+\texttt{teste} não é nada parecida com o que estamos acostumados a ver
+no   \texttt{ls   -la},  como   demonstrado   no   Trecho  de   Código
+\ref{code:symlinks}, na Página \pageref{code:symlinks}.
+
+\begin{codigo}[htp]
+\footnotesize
+\begin{Verbatim}[frame=single, commandchars=+||]
+total 2768
+drwxr-xr-x  14 fecosta fecosta    4096 Abr 17 18:45 .
+drwxr-xr-x  25 root    root       4096 Abr 10 11:45 ..
+drwxr-xr-x  17 fecosta fecosta   12288 Abr 10 19:47 acessa
+-rwxr-xr-x   1 fecosta fecosta 2673406 Abr 10 19:19 acessa.tar.gz
+
++ldots
+
+lrwxrwxrwx   1 fecosta fecosta      10 Abr 17 18:44 teste -> /etc/fstab
+-rw-------   1 fecosta fecosta      49 Abr 13 17:45 .Xauthority
+-rw-------   1 fecosta fecosta      95 Abr 13 17:45 .xsession-errors
+\end{Verbatim}
+%$
+\caption{Exemplo de uma ligação simbólica}
+\label{code:symlinks}
+\end{codigo}
+
+Primeiro,    note    que    as    permissões   são    exibidas    como
+\texttt{lrwxrwxrwx}.  A primeira  letra  dessa permissão,  \texttt{l},
+mostra que o arquivo em questão é uma ligação simbólica. As permissões
+mostradas  (\texttt{rwxrwxrwx})   \emph{não  se  referem   ao  arquivo
+referenciado},  mas ao  \emph{link} simbólico.  Mas tem  uma pegadinha
+aqui:  as   permissões  normais  do   arquivo  ligado  \emph{continuam
+valendo}. Portanto, não se preocupe tanto aqui\ldots.
+
+Isso deve bastar no  assunto ligações. Para terminarmos esses comandos
+básicos,  veremos um comando  muito útil,  o \texttt{alias},  que cria
+\emph{apelidos} para um comando em questão.
+
+\section{Apelidos para comandos: \texttt{alias}}
+\label{sec:alias}
+
+Como já dissemos anteriormente, muitos comandos do GNU/Linux são muito
+perigosos  quando lançados  de  maneira inconseqüente  (principalmente
+quando lançados pelo \texttt{root}, sendo uma boa idéia se proteger de
+incidentes. Além  disso, sempre é interessante  utilizar-se de atalhos
+para comandos  cotidianos. Para isso, o GNU/Linux  oferece uma maneira
+de  criar   apelidos  de  comandos  cotidianos,   através  do  comando
+\texttt{alias}.
+
+Para     usar    o     comando    \texttt{alias},     basta    digitar
+\texttt{alias~<novo\_comando>='<comando\_a\_mapear>'}.   Por  exemplo,
+se você mapear um comando  \texttt{alias longls='ls -l'}, toda vez que
+você  você   digitar  \texttt{longls},  você  ir   obter  o  resultado
+equivalente a \texttt{ls -l}.
+
+Perceba  que isso também  funciona como  uma forma  de \emph{sobrepor}
+comando.   Por  exemplo,  se  você  quiser evitar  que  o  \texttt{rm}
+simplesmente apague tudo em seu diretório sem avisar, você pode usar o
+comando \texttt{alias rm='rm -i'}. Nesse  caso, toda vez que você usar
+o  comando \texttt{rm},  ele irá  interpretar como  \texttt{rm  -i}. A
+única  forma de  contornar tais  comportamentos seria  usando  a opção
+\texttt{-f} para sobrepor o pedido de confirmação.
+
+Com isso, terminamos esse capítulo inicial. O objetivo nosso \emph{não
+é}  tornar-lhe um  especialista  em \texttt{bash}  ou  em comandos  do
+\emph{shell} do  GNU/Linux, até  porque existem muitas  referências de
+altíssimo   nível  na   Internet   para  isso,   como   o  Guia   FOCA
+GNU/Linux\cite{FOCALINUX2005}, e sim oferecer-lhe bases para que possa
+seguir  a diante  nos  estudos do  GNU/Linux.  A partir  de agora,  os
+exemplos  serão  cada  vez  mais  complexos e  conceituais:  se  puder
+praticar, ajuda bastante.  De qualquer modo, atente para  as dicas que
+serão espalhadas  dentro desta apostila,  pois elas irão  lhe fornecer
+bases sobre os próximos passos a dar no GNU/Linux.

@@ -1,0 +1,624 @@
+\chapter{Um pouco de História}
+
+Parece  bobagem, mas muitas  vezes, precisamos  entender o  começo das
+coisas  para  entendermo-as  e  apreciarmo-as.  Esse  capítulo  não  é
+obrigatório,  e  nem  vai  o   tornar  mais  ou  menos  conhecedor  do
+GNU/Linux. Porém, vai lhe dar uma retrospectiva do que é que aconteceu
+até agora,  e portanto  irá lhe oferecer  um entendimento sobre  o que
+você verá e qual é o seu valor.
+
+Bem, chega de delongas. Vamos ao  que interessa. Vamos a uma viagem na
+história... Na história do Software Livre.
+
+\section{O que é GNU/Linux?}
+
+O que  a maioria  das pessoas entendem  como \emph{Linux} é  o sistema
+operacional  GNU/Linux.   Na  verdade,  o   GNU/Linux  é  a   soma  do
+\emph{kernel}\footnote{\emph{Kernel}   é    o   coração   do   sistema
+  operacional. Gerencia  e controla o  acesso a sistemas  de arquivos,
+  memória,  processos  em  execução  e  o acesso  aos  dispositivos  e
+  periféricos,  entre  outras  atribuições.  Um erro  no  kernel  pode
+  representar falha grave no  sistema operacional. Muitas vezes, erros
+  diretos  no boot  do sistema  são  causados por  falhas no  kernel.}
+\emph{Linux} com  as ferramentas  do projeto GNU  e vários  pacotes de
+outras  fontes,  agrupadas  de  forma  a  criar  um  poderoso  sistema
+operacional livre.  Em geral, para facilitar as  coisas, muitos chamam
+essa combinação apenas de \emph{Linux}. De qualquer modo, a não ser em
+caso  contrário, não importa  o termo  que usarmos,  estaremos falando
+sempre do sistema operacional GNU/Linux.
+
+O  GNU/Linux  já  é  muito  usado  em  vários  ambientes  e  empresas,
+principalmente pela sua portabilidade:  pelo código livre, o GNU/Linux
+já  foi  portado  do  x86  (PCs)  para,  entre  outras,  as  seguintes
+plataformas:
+
+\begin{itemize}
+
+\item Compaq Alpha AXP;
+
+\item Sun SPARC e UltraSPARC; 
+
+\item Motorola 68000, PowerPC e PowerPC64 (Amiga e Macintosh);
+
+\item Intel ARM;
+
+\item Hitachi SuperH;
+
+\item IBM S/390 (\emph{mainframes});
+
+\item MIPS;
+
+\item HP PA-RISC;
+
+\item Intel IA-64 (Itanium);
+
+\item DEC VAX;
+
+\item AMD x86-64 (Athlon64);
+
+\end{itemize}
+
+Vamos então  desvendar as partes  do que forma o  GNU/Linux, começando
+pela mais antiga: o projeto GNU.
+
+\section{O projeto GNU}
+
+O  projeto  GNU  tem  como  objetivo  \emph{``desenvolver  um  sistema
+  operacional  completo, compatível  com  o UNIX,  que fosse  software
+  livre:     o     sistema     GNU.      (GNU    é     um     acrônimo
+  recursivo\footnote{\emph{Recursão}  é  uma  técnica  de  programação
+    aonde uma rotina  chama a si mesma em  seqüência. Alguns problemas
+    matemáticos famosos  que podem ser resolvidos  através da recursão
+    são a  Série de Fibonacci (aonde  um número $fx$ é  o resultado da
+    soma  dos  dois   número  anteriores  ($f(x)=f(x-1)+f(x-2)$,  onde
+    $f(1)=1$  e $f(2)=1$) e  o cálculo  de um  fatorial ($n!  = (n-1)!
+    \times  n$).}  para  `GNU  Não   é  UNIX'  e  é  pronunciado  como
+  'guh-noo.')''}\cite{GNU2006}.   Esse  projeto  envolve  milhares  de
+programadores de  todo o mundo, sendo  que ele já  substituiu todos os
+principais componentes do Unix por versões livres.
+
+Esse  projeto  se  iniciou  em  1984  com  um  homem  de  certa  forma
+visionário,  Richard Matthew Stallman,  e vem  continuando até  hoje a
+aperfeiçoar as  suas ferramentas, que atualmente  são consideradas, em
+muitos casos, o padrão \emph{de facto} do mundo Unix.
+
+\subsection{Richard Stallman}
+
+Richard Stallman, o  fundador do projeto GNU, começou  sua carreira de
+desenvolvedor de software desenvolvendo sistemas para o Laboratório de
+Inteligência Artificial (\emph{AI Lab}) do MIT --- \emph{Massachussets
+  Institute    of    Technology}    (Intituto   de    Tecnologia    de
+Massachussets). Nesse ambiente, na  época frutífero para a tecnologia,
+Stallman desenvolveu-se  em meio  a uma comunidade  de \emph{hackers},
+segundo   o   sentido  original   da   palavra,   definido  por   Eric
+S. Raymond\cite{JARGON2006}\footnote{Nessa definição, um \emph{hacker}
+  é uma  pessoa dotada de grande  talento e desejo de  aprender em uma
+  área qualquer  do conhecimento humano. Embora  esse seja normalmente
+  relacionado  à informática,  isso não  é obrigatório.  Não confundir
+  aqui  com invasores  de sistemas.}.  Nessa comunidade,  a  troca dos
+códigos-fontes (isso  é, as ``receitas  de bolo'' capazes de  gerar um
+programa  \emph{binário}  que  poderá  ser usado  no  computador)  era
+saudável e  até vital, pois na  época a troca de  software binário não
+era  fácil,   por  causa  da  grande  quantidade   de  plataformas  de
+\emph{hardware}   incompatíveis  entre  si.   Então,  não   existia  a
+necessidade do conceito  de \emph{software livre}, uma vez  que todo o
+software era livre.
+
+Stallman  já  vinha  percebendo  a   um  certo  tempo  que  a  cultura
+\emph{hacker} estava morrendo,  e isso era ruim. Mas  a coisa foi pior
+ainda quando, uma certa vez,  o \emph{AI Lab} recebeu uma recém criada
+impressora \emph{laser}  da Xerox. Isso  era normal, pois  muitos bons
+códigos  eram  recebidos  em  troca  pelas  grandes  corporações,  que
+deixavam  os  fontes  dos  \emph{drivers} dos  periféricos  doados  às
+grandes  instituições. E  Stallman  vivia feliz,  até  que certa  vez,
+depois de  esperar por horas  um trabalho que tinha  mandado imprimir,
+foi ver o que havia acontecido.  Ele veio a descobrir que a impressora
+estava obstruída  com papel. Stallman ficou chateado,  pensando que de
+certa  forma  ele  podia  ter  perdido menos  tempo  se  a  impressora
+alertasse o fato de estar  obstruída. E ele procurou então, como viria
+a   ser  definido   no   futuro  por   Raymond,   ``coçar  a   própria
+sarna''\cite{ESR2006}.
+
+O problema foi que a  Xerox mandou apenas \emph{drivers} binários para
+a impressora. Stallman pensou em  solicitar o fonte para a Xerox, pois
+pensou,  como  era  costume na  época,  que  a  Xerox não  perderia  a
+oportunidade   de   ter   um   programador  de   ponta   desenvolvendo
+\emph{drivers} para ela, sem custo nenhum\ldots
+
+\ldots mas a Xerox negou.
+
+O  pior  para Stallman  foi  quando  ele pediu  ajuda  a  um amigo  da
+Carnegie-Mellon  University  (CMU)  o  acesso ao  código,  pois  havia
+descoberto que  este amigo tinha o  código da impressora.  Ele pediu o
+código para o corrigir \ldots
+
+\ldots  e   seu  amigo   o  negou,  alegando   um  Acordo   de  Sigilo
+(\emph{Non-Disclosure Agreement} -- NDA).
+
+Isso chocou terrivelmente Stallman, que  meio que viu no evento o tiro
+de misericórdia  contra a comunidade \emph{hacker}  original. Como ele
+viria a dizer em sua biografia \emph{Free as in Freedom}: \emph{``Esse
+foi  meu primeiro encontro  com Acordos  de Sigilo,  e me  ensinou que
+sempre temos vítimas  neles.  No caso, eu fui a vítima.   [Eu e todo o
+laboratório] fomos vítimas''}\cite{WILLIANS2002}.
+
+Stallman gosta de retratar que esse foi o momento de decisão por parte
+dele.  Como  Stallman  descreveu   várias  vezes,  ele  tinha  algumas
+opções.  A primeira seria  desenvolver software  proprietário, sabendo
+que poderia  ganhar dinheiro, mas  iria dividir as pessoas.  A segunda
+seria abandonar  o desenvolvimento  de \emph{software}, mas  ele sabia
+que isso, embora o deixasse ``com a consciência tranqüila'', seria uma
+perda de tempo e de talento.
+
+Mas ainda havia uma alternativa.
+
+Ele  era  um  programador de  ponta,  da  elite,  um dos  melhores  do
+mundo. Ele  poderia aplicar seus talentos para  construir software que
+não estivesse nem nunca ficaria travado por Acordos de Sigilo. 
+
+Então ele começou a escrever software livre.
+
+\subsubsection{O conceito de Software Livre}
+
+É importante salientar aqui o que vem a ser Software Livre.
+
+A idéia  por trás do  software livre é  que o software deve  ser livre
+\emph{para  o usuário final}  acima de  tudo.  De  nada adianta  que o
+software  seja livre para  o desenvolvedor  se um  desenvolvedor puder
+pegar  o código,  fazer  alterações  (muitas ou  poucas  ou até  mesmo
+nenhuma),    e    ``fechar''   o    código    por    meio   de    NDAs
+(``\emph{Non-Disclosure Agreements}''  -- Acordos de  Sigilo) ou EULAs
+(``\emph{End-User  License  Agreements}''  --  Acordos de  Licença  do
+Usuário Final).
+
+Perceba que isso não impede que o software seja vendido. Como Stallman
+diz em  seu artigo para o  livro \emph{Open Sources :  Voices from the
+Open Source Revolution}\cite{STALLMAN-OPS1999}:
+
+\begin{quotation}
+
+  \emph{Como o \emph{livre} no caso  se relaciona a liberdade, e não a
+  preço, não  existe nenhuma contradição em vender  cópias de software
+  livre. De fato, a liberdade  de vender cópias do software é crucial,
+  pois é importante que existam  coleções de software livre que possam
+  ser vendidas em CD-ROM, e sua venda é uma fonte importante de fundos
+  para o desenvolvimento do  software livre. Portanto, um programa que
+  não  permita a  sua  inclusão em  tais  coleções não  é um  software
+  livre.}
+
+\end{quotation}
+
+No começo  do projeto GNU,  o próprio Stallman se  sustentava vendendo
+software  livre, já  que  ele tinha  pedido  demissão do  MIT por  não
+concordar com as licenças não-livres do mesmo: ele vendia uma fita DAT
+com  o pacote GNU  por US\$  150,00. Atualmente  o preço  pode parecer
+absurdo, mas numa época em que as telecomunicações eram precárias, com
+certeza isso  parecia um bom  negócio. Claro que essas  pessoas podiam
+fazer o que quiser com essa fita, inclusive copiá-las: isso é parte do
+software livre.
+
+Então, na prática, pode-se vender  software livre. O erro de concepção
+de  muitas   pessoas  foi   provocado  pela  ambigüidade   da  palavra
+\emph{free}  em \emph{free  software},  o termo  original do  software
+livre. Em  inglês, Stallman costuma  dizer que \emph{free  software} é
+\emph{``free  as  in  speech,  not  as in  beer''}.  Em  uma  tradução
+grosseira, mas  que ajuda a  entender o objetivo de  Stallman, podemos
+dizer  que  software  livre  é  \emph{``livre  como  em  liberdade  de
+expressão, não como em cerveja liberada.''}
+
+Bem, então, o que posso fazer com um software livre? 
+
+Todo  software livre obedece  um critério  conhecido como  ``as quatro
+liberdades''. Esse critério  define quais são as coisas  que você pode
+fazer  com um  software livre.   Se um  software obedece  essas quatro
+liberdades,  então ele  pode ser  considerado livre.  Essas liberdades
+são:
+
+\begin{enumerate}
+
+\item A liberdade de usar o programa para qualquer fim que você deseje
+  ou precise;
+
+\item A  liberdade de modificar o  programa de forma que  ele atenda a
+  suas necessidades;
+
+\item A  liberdade de redistribuir cópias do  programa, modificadas ou
+  não, gratuitamente ou por um preço;
+
+\item A liberdade de redistribuir  as alterações feitas, de modo que a
+  comunidade possa aproveitar suas alterações, e vice-versa;
+
+\end{enumerate}
+
+Perceba  que  no   caso  do  segundo  e  do   quarto  item,  existe  a
+obrigatoriedade do  código fonte estar  disponível sem nenhum  tipo de
+ofuscação ou  impedimento. Por  isso que em  geral o software  livre é
+associado ao fato  de ter-se o código fonte  disponível. 
+
+\subsection{O projeto inicia}
+
+Inicialmente,  Stallman  começou  a   desenvolver  o  seu  projeto  de
+\emph{software livre} (foi nele que surgiu esse conceito e a expressão foi cunhada pelo próprio Stallman) sozinho, mas
+percebeu que  não chegaria muito longe se  permanecesse sozinho. Oras,
+ele  acreditava que  a comunidade  \emph{hacker} estava  morrendo, mas
+sabia que ela não morreria sem luta. Portanto, ele decidiu então fazer
+uma  espécie   de  ``chamado  às  armas''  da   comunidade:  no  caso,
+utilizando-se  da Usenet\footnote{Usenet  (do  inglês \emph{Unix  User
+    Network}) é um meio  de comunicação onde usuários postam mensagens
+  de texto (chamadas  de ``artigos'') em fóruns que  são agrupados por
+  assunto (chamados de \emph{newsgroups}).  Ao contrário das mensagens
+  de e-mail,  que são transmitidas quase que  diretamente do remetente
+  para  o  destinatário,  os   artigos  postados  nos  newsgroups  são
+  retransmitidos   através   de  uma   extensa   rede  de   servidores
+  interligados.\cite{WIKIPEDIA-USENET2006}},   Stallman   mandou   uma
+mensagem em  27 de Setembro de  1983 para o grupo  de discussões sobre
+Unix (\texttt{net.unix-wizards}), para mostrar seus objetivos:
+
+\begin{quotation}
+\emph{``Iniciando  nesta ação  de graças  eu vou  escrever  um sistema
+  completo compatível com o Unix  chamado GNU (\emph{Gnu Não é Unix}),
+  e  fornecê-lo  gratuitamente   para  todos  que  possam  utilizá-lo.
+  Contribuições  de  tempo,  dinheiro,  programas  e  equipamento  são
+  bastante necessárias.}
+
+\emph{Para começar,  GNU será um \emph{kernel} e  todos os utilitários
+  necessários para  se escrever e  executar programas em C:  editor de
+  textos,     \emph{shell}\footnote{Interpretador     de    comandos},
+  compilador,  linkeditor, montador e  algumas outras  coisas.  Depois
+  disso nós  adicionaremos um formatador  de textos, YACC, um  jogo do
+  Império  (\emph{Empire}),  uma planilha  eletrônica,  e centenas  de
+  outras coisas.  Nós esperamos,  eventualmente, fornecer tudo de útil
+  que normalmente  vem com um  sistema Unix, além de  quaisquer outras
+  coisas úteis, incluindo documentação on-line e impressa.}
+
+\emph{GNU será capaz de rodar programas do Unix, mas não será idêntico
+  ao   Unix.  Nós   faremos  todos   os  aperfeiçoamentos   que  forem
+  convenientes,  baseados  em  nossa  experência com  outros  sistemas
+  operacionais.  Em  particular, nós planejamos ter  nomes de arquivos
+  longos,  números de  versão de  arquivos, um  sistema de  arquivos à
+  prova  de falhas,  talvez auto-preenchimento  de nomes  de arquivos,
+  suporte a vídeo independente de terminal, e eventualmente um sistema
+  de  janelas baseado no  Lisp, de  modo que  vários programas  Lisp e
+  programas Unix  comuns possam compartilhar uma tela.  Tanto C quanto
+  Lisp  serão  disponibilizados  como  linguagens  de  programação  de
+  sistemas.   Nós  teremos  software  de  rede  baseado  no  protocolo
+  \texttt{chaosnet}  do MIT,  bastante superior  ao UUCP.   Nós também
+  teremos algo compatível com o UUCP.''}\cite{STALLMAN1983}
+\end{quotation}
+
+Com esse ``chamado  às armas'', Stallman estava convocando  a ajuda da
+comunidade. Essa ajuda não  precisava ser necessariamente com códigos:
+\emph{``Eu estou  pedindo aos fabricantes de  computadores por doações
+  de máquinas e dinheiro.  Eu  estou pedindo às pessoas por doações de
+  programas   e  trabalho.   (...)  Programadores   individuais  podem
+  contribuir escrevendo  uma duplicata compatível  de algum utilitário
+  do Unix e doando para mim.''}\cite{STALLMAN1983}
+
+\sloppy{Para  que não  ficasse  aquela  idéia de  que  Stallman queria  apenas
+aproveitar-se  de  mão-de-obra  barata,  ele  criou  uma  licença  que
+incorpora os  princípios do software  livre e que sofreu  muito poucas
+revisões  nos últimos  tempos,  a GPL  (\emph{General Public  License}
+-- Licença Pública  Geral), que viria a tornar-se  popular em projetos
+de software livre. Essa licença garante que:}
+
+\begin{enumerate}
+
+\item \fussy{O código criado pela pessoa não poderá ser fechado;}
+
+\item O código  adicionado de/para o software se  tornará livre, sendo
+  esse aspecto conhecido como o aspecto ``viral'' da GPL;
+
+\end{enumerate}
+
+Para contornar o  aspecto ``viral'' da GPL, viria a  ser criada a LGPL
+(\emph{Lesser  General  Public   License}  --  Licença  Pública  Menos
+Geral), que  permite que bibliotecas  livres sejam usadas  em software
+proprietário,    sem   ``contaminar''    o    software   proprietário,
+\emph{enquanto não forem feitas alterações \textbf{na biblioteca}.}
+
+O projeto GNU foi substituindo,  um a um, os componentes proprietários
+do  Unix, melhorando-os  a ponto  de acabarem  se tornando  os padrões
+\emph{de  facto} do  mercado. Muitas  instalações de  Unix,  assim que
+implementadas,  tinham  suas  ferramentas  proprietárias  substituídas
+pelas  ferramentas  GNU,  como  o  \texttt{bash}  (\emph{Bourne  Again
+  Shell}), \texttt{emacs} (\emph{Editing Macros}  ---- Editor de Texto) e
+o  GNU  \texttt{make}  (Ferramenta  para automação  de  compilação  de
+sistemas),  tornando-as muito  populares, ao  ponto de  serem portadas
+para outras plataformas fora do mundo Unix.
+
+Mas ainda assim, Stallman não tinha alcançado seu objetivo. Ele estava
+trabalhando em  um \emph{kernel} derivado  de um projeto  acadêmico do
+CMU, o MACH, chamado HURD.  Esse \emph{kernel} viria a ser considerado
+estável apenas  em 2005. Nesse  meio tempo, apareceu uma  outra figura
+que  conseguiria criar,  de certa  forma, para  o GNU  o que  eles não
+tinham, o \emph{kernel}.
+
+\section{Linus Torvalds e o Kernel Linux}
+
+Em  1991, Linus  Benedict Torvalds  era  apenas mais  um graduando  em
+Ciências   da   Computação    na   Universidade   de   Helsinque,   na
+Finlândia. Nessa  época ele tinha  um problema: ele queria  fazer seus
+trabalhos  acadêmicos  em  um  ambiente  Unix, mas  os  servidores  da
+faculdade   viviam  com  a   agenda  cheia.   Então,  ele   pensou  na
+possibilidade de  recorrer a  um Unix para  o recém-lançado PC  386. O
+grande problema é que \emph{nenhum} Unix  para os PC 386, como o Xenix
+ou o Minix, eram satisfatórios. Além  disso, em casos como o do Xenix,
+o \emph{software} era proprietário e \emph{excessivamente} caro, sendo
+que Linus não tinha dinheiro para comprar esse software.
+
+Linus  sabia  que  existia  o  Minix,  criado  pelo  professor  Andrew
+Tanenbaum,  um  renomado especialista  em  sistemas  Unix  e redes  da
+Universidade Vrije,  na Holanda. Era  a melhor opção gratuita  que ele
+conhecia, mas não era livre  na época: embora tivesse o código aberto,
+seu uso era restrito às atividades acadêmicas. Porém, na prática o que
+Linus mais  queria era um  bom SO para  seu recém comprado PC  386. As
+opções da  época eram  o DOS+Windows e  o OS/2, ambos  proprietários e
+caros   e,   no  caso   do   DOS+Windows,   muito   fraco  para   suas
+necessidades. Com  o Minix  à mão e  um certo talento  de programação,
+Linus decidiu desenvolver ele próprio um SO.
+
+Linus  não   era  estúpido  e  conhecia  as   ferramentas  do  projeto
+GNU. Armado com elas e com o código fonte do Minix, começou a escrever
+seu próprio \emph{kernel}. Originalmente  iria chamar-se Freax (Free +
+Unix\footnote{quase todos os sistemas Unix e baseados em Unix têm seus
+  nomes  terminados em  $X$  de modo  a  indicar sua  herança do  Unix
+  original}.  Mas Freax lembrava  \emph{Freak}(maluco, em  inglês). Um
+amigo  sugeriu então  que ele  chamasse seu  projeto de  Linux (Linus'
+Unix). E o nome acabaria pegando.
+
+Rapidamente,   Linus   percebeu   que   não   chegaria   muito   longe
+sozinho. Então, da mesma forma que Stallman, Linus acabou recorrendo a
+um ``chamado às armas''. Nesse caso, dirigido à comunidade de usuários
+de Minix na Usenet (\texttt{comp.os.minix}):
+
+\begin{quotation}
+  \emph{``Você sente  falta dos dias  do Minix/1.1 quando  homens eram
+    homens  e escreviam  seus próprios  \emph{drivers}? Você  está sem
+    nenhum  projeto  legal  e  está  ansioso para  mexer  num  sistema
+    operacional  que  você  possa   modificar  para  atender  às  suas
+    necessidades?  Você está  achando  chato quando  tudo funciona  no
+    minix? Não ter mais de ficar mais a noite inteira tentando arrumar um programa
+    legal? Então esta mensagem pode ser para você.}
+
+\emph{Como eu  disse há um mês  (?)  atrás, eu  estou trabalhando numa
+  versão grátis de um similar  para o Minix, para computadores AT-386.
+  Ela finalmente atingiu o estágio  onde já é usável (apesar de talvez
+  não ser, dependendo  do que você quer), e eu estou  a fim de colocar
+  (\emph{online})  o código  fonte  para uma  distribuição melhor.   É
+  apenas  a  versão  0.02  (com   mais  um  patch)  mas  eu  já  rodei
+  \texttt{bash}/\texttt{gcc}/\texttt{gnu-make}/\texttt{gnu-sed}/
+  \texttt{compress} dentro dela.}
+
+\emph{(\ldots)}
+
+\emph{O  sistema precisa  de  um  monitor EGA/VGA  e  um disco  rígido
+  compatível (IDE  serve).  Se você  ainda está interessado,  pegue no
+  FTP o readme/relnotes e/ou me mande um e-mail para saber mais.}
+
+\emph{(\ldots)}
+
+\emph{Eu também  estou interessado em alguém que  tenha escrito alguns
+  dos utilitários/ bibliotecas  para o Minix.  Se o  seu trabalho pode
+  ser distribuído publicamente  (registrado ou mesmo domínio público),
+  eu  gostaria de  ouvir comentários  de vocês,  e para  que  eu possa
+  adicioná-los ao sistema.}(Retirado de \cite{ALECRIM2003})
+
+\end{quotation}
+
+Como pode ver,  da mesma forma que no caso de  Stallman, Linus pediu a
+ajuda da comunidade, e ela veio:  em pouco tempo, o Linux tornou-se um
+\emph{kernel}  muito poderoso  e rápido,  superando as  expectativas e
+os receios da  comunidade na questão do seu  desenvovimento (o Linux é
+um \emph{kernel}  monolítico, aonde todo  o sistema fica no  espaço do
+\emph{kernel},   diferentemente   do    HURD,   que   é   baseado   em
+\emph{microkernel}, aonde a maior parte dos recursos fica no espaço do
+usuário, o que tornaria o Linux, ao menos na teoria, inferior ao HURD\footnote{Alguns dizem que a estratégia de Kernel Monolítico do Linux é uma das garantias do seu sucesso, pois a maioria dos sistemas baseados em \emph{microkernel} acabaram tendo, cedo ou tarde, problemas de estabilidade decorrentes de sua metodologia de colocar sistemas do Kernel no espaço do usuário (basta travar uma aplicação no espaço do usuário que existe alguma chance dela ``acertar'' partes do \emph{microkernel} no espaço do usuário e comprometer totalmente a estabilidade)}),  tornando-se assim  um projeto  considerado  \emph{sexy}, ou
+seja, realmente interessante, para a comunidade.
+
+Com o tempo, o GNU/Linux cresce rapidamente:
+
+\begin{itemize}
+
+\item  1993 --- Patrick  Volkerding cria  a distribuição  Slackware, a
+  partir  dos pacotes  de instalação  SLS, criados  em 1992  por Peter
+  McDonald;
+
+\item 1994 --- Linux 1.0: já  é capaz de rodar o X-Windows (sistema de
+  interface gráfica  do Unix) e  a maioria dos  servidores importantes
+  para  Internet (Apache,  BIND, Sendmail,  \ldots). Nesse  mesmo ano,
+  surge a Red  Hat, a mais importante distribuição  GNU/Linux de todos
+  os tempos;
+
+\item 1996 --- Linux 2.0: o  Linux conta com uma comunidade de mais de
+  2 milhões de usuários;
+
+\item 1998  --- Surge a Mandrake  e a Conectiva,  distribuições que no
+  futuro viriam a se fundir e gerar o Mandriva Linux. Nesse ano também
+  é  cunhada a expressão  ``Código Aberto''  (\emph{``Open Source''}),
+  para meio que ``focar'' o movimento software livre nos detalhes
+  técnicos.
+
+\item 2000 --- A  China desenvolve sua própria distribuição GNU/Linux,
+  a Red Flag, confiando na disponibilidade de código do Software
+  Livre;
+
+\item  2001 --- Linux  2.4: foco  cada vez  maior na  confiabilidade e
+  escalabilidade  do sistema.  Entre as  novidades está  o  sistema de
+  \emph{firewall} \texttt{IPTables};
+
+\item 2002 --- Marcelo Tosatti passa a ser o mantenedor chefe da série
+  2.4,   substituindo  Alan  Cox   como  o   ``número  2''   de  Linus
+  Torvalds. Ele deixaria o ``cargo''  apenas em 2003, com o surgimento
+  da série 2.6 do Linux, responsabilidade de Andrew Morton;
+
+\item  2005 ---  GNU/Linux completa  15 anos  de existência  sendo uma
+  alternativa viável ao software proprietário;
+
+\end{itemize}
+
+\section{As distribuições}
+
+Uma das coisas que ajudaram à popularizar o GNU/Linux foi o surgimento
+das  \emph{distribuições Linux}.  Uma distribuição  é  basicamente uma
+versão  empacotada  do GNU/Linux,  com  instaladores  que facilitam  o
+processo para  a maioria  das pessoas, além  de suporte técnico  e uma
+grande   quantidade  de  programas   e  documentação   agregada.  Cada
+distribuição  também possui  um  enfoque, que  poderíamos dividir  em:
+técnico,  usuário  final   e  \emph{power  user}  (desenvolvedores  de
+sistemas e usuários avançados).
+
+Embora    a   grande    quantidade   de    distribuições    (mais   de
+300!\cite{LWN2006}) pareçam tornar  o GNU/Linux uma grande ``salada'',
+na realidade  isso contribui para  sua popularidade, uma vez  que cada
+distribuição é  voltada para um público diferente  e para necessidades
+diversificadas, o  que quer  dizer é que,  em geral, sempre  haverá um
+GNU/Linux com a cara do  usuário, conforme seu nível de conhecimento e
+familiaridade com o GNU/Linux e suas necessidades. 
+
+Além disso,  em geral não  existem grandes diferenças  de distribuição
+(ou \emph{distro}  para resumir): por volta  de 75 a 95\%  de tudo que
+você  aprende em uma  distro funcionará  em outra.  O mesmo  vale para
+programas: é  \emph{extremamente} raro  o caso de  programas GNU/Linux
+que sejam específicos para uma determinada distro.
+
+Vejamos então algumas das principais distros atualmente:
+
+\section{Algumas distribuições}
+
+\subsection{Debian GNU/Linux}
+\begin{itemize}
+\item \textbf{Perfil:} Técnico
+\end{itemize}
+Atualmente  é  a  maior  distro  mantida  por  voluntários,  tem  como
+principal  característica a  segurança e  o fato  de procurar  ser uma
+distro  100\%   software  livre  (ela   possui  um  CD   com  software
+proprietário, mas  não instala  nenhum de maneira  automática). Também
+tornou-se conhecida pela grande quantidade de software disponibilizado
+com ela (a versão mais  atual, Debian 3.1r0 ``Sarge'', completa, exige
+14  CDs ou 2  DVDs para  conter todos  os seus  pacotes) e  pelas suas
+ferramentas  de   instalação,  como   o  \texttt{dpkg}  e   o  sistema
+\texttt{apt}.
+
+\subsection{Red Hat}
+\begin{itemize}
+\item \textbf{Perfil:} Usuário Final
+\end{itemize}
+A maior  distro comercial de todos  os tempos, a  Red Hat recentemente
+deixou de divulgar CDs de  instalação via Internet de seu sistema RHEL
+(\emph{Red Hat Enterprise Linux}),  mas compensou a comunidade através
+do  projeto \emph{Fedora},  que funciona  como uma  versão  pessoal do
+RHEL. Sua popularidade deve-se  principalmente ao seu poderoso sistema
+de  empacotamento,   o  RPM   (\emph{Red  Hat  Package   Manager}  ---
+Gerenciador  de  Pacotes  da  Red  Hat). É  considerada  a  distro  de
+referência  de  9 entre  10  distribuições.  Utiliza  como sistema  de
+atualização remota o \texttt{smart}, que atua em conjunto com o RPM.
+
+\subsection{Mandriva}
+\begin{itemize}
+\item \textbf{Perfil:} \emph{Power user}
+\end{itemize}
+\sloppy{A  fusão entre as  distribuições Mandrake  (Francesa), Lycoris
+  (Norte-americana) e Conectiva (Brasileira),  a Mandriva é uma distro
+  voltada ao  usuário corporativo e ao  usuário \emph{``Power User''}.
+  É baseada em RPM, como a  Red Hat (já que todas as distros originais
+  eram  basadas no  RPM),  e  possui uma  grande  versatilidade que  é
+  interessante ao usuário corporativo.}
+
+\subsection{Slackware}
+\begin{itemize}
+\item \textbf{Perfil:} técnico
+\end{itemize}
+\fussy{A primeira grande distro de todos os tempos, Slackware é, assim
+  como  Debian, uma  distro  baseada em  uma  comunidade. O  Slackware
+  possui  um   sistema  de  pacotes  próprio  (o   \texttt{tgz})  e  é
+  considerada   complexa,  pela  falta   de  ferramentas   visuais  de
+  configuração.  Porém,  seus usuários afirmam  que, uma vez  que você
+  aprenda a mexer no Slackware, você consegue mexer com qualquer outra
+  distro Linux e com quase todos os ambiente Unix que você precisar. É
+  conhecida por ser enxuta,  extremamente rápida e muito segura, sendo
+  uma  ótima   opção  para  servidores.  Possui   alguns  sistemas  de
+  atualização  via Internet,  como o  \texttt{slapt-get} (um  porte do
+  \texttt{apt} do Debian para o Slackware) e o \texttt{slapget}.}
+
+\subsection{Knoppix}
+\begin{itemize}
+\item \textbf{Perfil:} Usuário Final
+\end{itemize}
+A Knoppix  foi criada na Alemanha  como uma ``prova  de conceito'', de
+que era possível criar uma distro GNU/Linux capaz de rodar a partir de
+um  CD,  baseada  em  Debian,  originando  o  conceito  de  \emph{Live
+  CD}. Atualmente,  em sua versão 5.0, ela  roda a partir de  um DVD e
+inclui quase tudo que pode-se desejar de um GNU/Linux. Tornou-se ponto
+de  partida  para uma  grande  quantidade  de distros,  principalmente
+distros com  funções específicas, como a FIRE  (usada para Informática
+Forense,  ou seja,  análise de  discos que  sofreram invasão  ou foram
+corrompidos, acidental ou propositalmente, e precisam ser investigados
+juridicamente) ou a SystemRescueCD  (usada para recuperação de dados e
+manutenção de sistemas).
+
+\subsection{Kurumin}
+\begin{itemize}
+\item \textbf{Perfil:} Usuário Final
+\end{itemize}
+Criada    pelo   brasileiro    Carlos   Morimoto    como   uma
+  ``remasterização''  (adaptação)  do  Knoppix,  o  Kurumin  tornou-se
+  rapidamente   uma   das   distros   mais  importantes   no   Brasil,
+  principalmente pela sua versatilidade  e facilidade de instalação (o
+  Kurumin  é instalado  como  LiveCD, e  pega  todas as  configurações
+  feitas   durante  o   uso  como   LiveCD).  Gerou   algumas  distros
+  alternativas, como Kalango e Kokar.
+
+\subsection{Ubuntu}
+\begin{itemize}
+\item \textbf{Perfil:} Usuário Final
+\end{itemize}
+\fussy{Criada pela Canonical Inc.,  uma empresa sul-africana, a Ubuntu
+  é  uma  distro de  extrema  simplicidade,  originalmente baseada  em
+  Debian  e Knoppix  (sua versão  mais atual,  porém,  desviou-se para
+  seguir seu próprio caminho). Vem  em duas versões: uma como LiveCD e
+  uma  de   instalação  no  disco   rígido.   A  idéia  do   Ubuntu  é
+  \emph{``Linux for Human Beings''}  (Linux para as pessoas comuns), e
+  é  muitíssimo simples,  adotando o  melhor da  Debian e  criando uma
+  distribuição que uma pessoa comum pode usar sem problemas.  Parte de
+  sua   filosofia   vem   de   seu   nome:  como   descrito   na   sua
+  \emph{homepage}\cite{UBUNTU2006} \emph{ubuntu}  é uma palavra antiga
+  africana  que quer  dizer  \emph{``Humanidade para  os outros''}  ou
+  \emph{``Sou o que sou pois todos somos assim.''}.}
+
+\subsection{SuSE}
+\begin{itemize}
+\item \textbf{Perfil:} \emph{Power User}
+\end{itemize}
+Recentimente adquirida pela Novell, a SuSE é uma distro conhecida pelo
+seu caráter  corporativo, incluindo aí facilidades  para instalação em
+massa, configuração  em massa, rotinas de  atualização centralizadas e
+suporte técnico de alto calibre. Baseada em RPM, a SuSE seguiu o mesmo
+caminho  que a Red  Hat, ``fechando''  sua distribuição  corporativa e
+criando  um  projeto  paralelo,  o OpenSuSE.  Utiliza  o  \texttt{yum}
+(\emph{Yellow Dog  Updater, Modified}  --- Atualizador do  Yellow Dog,
+Modificado), pego do Yellow Dog Linux, uma distro para Macintosh.
+
+\subsection{Arch Linux}
+\begin{itemize}
+\item \textbf{Perfil:} Técnico
+\end{itemize}
+Também  baseada em  uma comunidade,  a Arch  é uma  distro  baseada no
+conceito  de  simplicidade  e  tradição. Utiliza  um  sistema  chamado
+\texttt{pacman} para instalar  seus pacotes e não é  das mais simples,
+embora  tenha  uma comunidade  cativa  quase  tão  grande e  empolgada
+quanto as de suas ``primas'' Debian e Slackware.
+
+\subsection{Gentoo Linux}
+\begin{itemize}
+\item \textbf{Perfil:} Técnico
+\end{itemize}
+Gentoo  parte  de  um   princípio  completamente  diferente  quanto  a
+instalação  de  uma  distribuição:   ao  invés  de  instalar  binários
+pré-compilados,   ele  instala   algumas  ferramentas   básicas,  como
+compiladores,      \emph{kernel},     ferramentas      GNU     básicas
+(\texttt{binutils}) e o seu gerenciador de pacotes, o \texttt{emerge},
+e  depois baixa  da  Internet  o código-fonte  dos  programas a  serem
+instalados   e  os   compila   especificamente  para   a  máquina   em
+questão.  Como   dito,  utiliza   o  \texttt{emerge},  que   baixa  os
+códigos-fonte  da  Internet  e  os  compila.  Também  aceita  binários
+pré-compilados através do RPM.

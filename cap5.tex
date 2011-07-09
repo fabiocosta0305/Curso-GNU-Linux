@@ -1,0 +1,1627 @@
+\chapter{Administrando o sistema}
+
+O  sistema   GNU/Linux  é  um  sistema   operacional  multi-usuário  e
+multi-tarefa, o que torna muito importante e ocasionalmente complexa a
+sua administração. O objetivo desse tópico é que você conheça o básico
+da administração de um sistema GNU/Linux, basicamente operando em três
+frentes:
+
+\begin{itemize}
+\item Administração de usuários: criar, modificar as senhas e eliminar
+  usuários e grupos;
+\item  Administração  de  processos:  entender o  que  são  processos,
+  identificar processos no sistema e eliminar processos estranhos;
+\item  \emph{Backup}:  Entender  a  importância de  um  \emph{backup},
+  conhecer  os  utilitários envolvidos  no  \emph{backup} do  sistema,
+  criar e recuperar um \emph{backup};
+\end{itemize}
+
+Essas  operações são  todas feitas  como super-usuário(\texttt{root}),
+portanto toda cautela é pouca: basta um erro para causar instabilidade
+no sistema ou colocar todo o  seu sistema fora do ar. Por isso, estude
+esse capítulo com calma que tudo dará certo.
+
+Esse capítulo  deve ser enxergado como uma  introdução à administração
+do GNU/Linux.  Para aqueles  que desejam se  aprofundar no  assunto, o
+conselho  (após  a leitura  dessa  apostila)  é  estudar o  Guia  FOCA
+GNU/Linux,  Nível  Avançado\cite{FOCALINUX-ADV2005},  ou  o  \emph{The
+  Linux System Administrators'  Guide}\cite{SAG2005}, além de poder-se
+estudar  algum  dos  diversos  livros disponíveis  em  boas  livrarias
+técnicas. 
+
+\section{Criando usuários: \texttt{adduser}}
+\label{sec:adduser}
+
+Como já  cansamos de dizer nesse  documento, o GNU/Linux  é um sistema
+multi-usuário, o que quer dizer que você precisa de um nome de usuário
+para  entrar  nele,  como  dissemos no  Capítulo  \ref{cap:iniciando},
+quando     comentamos    a     filosofia    do     GNU/Linux    (Seção
+\ref{sec:filosofiaLinux},   Página   \pageref{sec:filosofiaLinux})   e
+quando  comentamos  o  processo  de  \emph{login}  no  sistema  (Seção
+\ref{sec:login},  Página   \pageref{sec:login}).  Naquele  caso,  você
+provavelmente  deve ter  usado ou  a conta  \texttt{root}  (tomando os
+devidos cuidados)  ou uma conta  de usuário especialmente  criada pelo
+administrador  do  sistema\footnote{para  um  curso como  esse,  seria
+aconselhável  o usuário  \texttt{guest}, senha  \texttt{guest}}. Agora
+que  conhecemos  todas  as   questões  envolvidas  com  o  sistema  de
+permissões de acesso e afins e como os usuários são afetados por isso,
+podemos agora ver  o processo envolvido com a criação  de uma conta de
+um usuário.
+
+Ao criar uma conta de  usuário no GNU/Linux, basicamente faz-se quatro
+coisas:
+
+\begin{enumerate}
+\item Dá-se um nome de usuário ao mesmo, associando um UID (\emph{User
+  Identification})  numérico  ao  mesmo   a  ser  usado  pelo  sistema
+  internamente;
+\item Estabelece-se uma senha para acessar-se o sistema com a conta de
+  usuário em questão;
+\item  Associa-se  o usuário  a  um  grupo  de usuários  (podendo  ser
+  inclusive ---  e esse é o padrão  do GNU/Linux --- um  grupo do ``eu
+  sozinho'', ao qual apenas o usuário faz parte), identificado através
+  de um UID (\emph{Group Identification}) numérico;
+\item Cria-se e  associa-se ao usuário um diretório  de uso pessoal, o
+  diretório \emph{home},  já comentado Cápitulo \ref{sec:dirgnulinux},
+  na Seção \ref{sec:homedir}, Página \pageref{sec:homedir};
+\end{enumerate}
+
+Esse processo pode ser feito de várias maneiras, inclusive pela edição
+manual de  arquivos de configuração  e cópias de  arquivos necessários
+(demonstrada no Capítulo 11  do \emph{The Linux System Administrators'
+  Guide}\cite{NEWUSER-SAG2005}), mas o GNU/Linux possui um comando que
+facilita  a vida  do administrador,  o comando  \texttt{adduser}.  Ele
+realiza esse  processo de  maneira automatizada para  o administrador,
+com   as   opções  corretas   selecionadas.    O   comando  padrão   é
+\texttt{adduser <usuario>}, mas esse comando  em geral só cria a conta
+do usuário  sem senha  e sem grupo  ou \emph{home}  associado (algumas
+distros  utilizam  \emph{alias}  aqui  para que  faça  algumas  dessas
+funções  de maneira mais  automática).  Por  isso, é  importante saber
+quais as melhores opções a serem usadas.
+
+No caso, vamos ver as opções mais úteis:
+
+\begin{itemize}
+\item  \texttt{-disable-password}:  não pede  uma  senha de  imediato,
+  pedindo no  momento em que o  usuário se logar pela  primeira vez no
+  sistema;
+\item \texttt{-uid}: Define um UID  específico ao usuário, ao invés de
+  simplesmente usar o próximo UID disponível no sistema. Isso pode ser
+  muito  interessante  quando você  quer  que  um determinado  usuário
+  reaproveite os arquivos de outro,  mas deve-se ter cuidado com isso,
+  pois no  caso de UIDs iguais  as permissões dos  dois usuários serão
+  iguais (o GNU/Linux  usa os UID para as suas funções,  e os nomes de
+  usuário são apenas uma referência  fácil que a pessoa tem para saber
+  informações  sobre o  uso do  sistema). Veremos  mais sobre  isso na
+  Seção \ref{sec:uidcaution}, Página \pageref{sec:uidcaution};
+\item  \texttt{-gid}: Especifica um  GID arbitrário  ao novo  grupo do
+  usuário. Como no caso do  UID, deve-se tomar cuidado, pois dois GIDs
+  iguais são  considerados iguais no  sistema, mesmo que os  nomes dos
+  grupos sejam direferentes;
+\item   \texttt{--home}:   Determina   o  diretório   \emph{home}   do
+  usuário. Muitas vezes,  utiliza-se o padrão \texttt{/home/<usuario>}
+  como  diretório  \emph{home}  do  usuário, mas  essa  opção  permite
+  definir  arbitrariamente o  \emph{home} do  usuário.  Isso  pode ser
+  muito útil  em sistemas cujo sistema  de arquivos\footnote{dentro do
+    mundo  GNU/Linux,  algumas vezes  os  termos \emph{dispositivo}  e
+    zemph{sistema   de   arquivos}  podem   ser   usados  de   maneira
+    intercambiáveis}  \texttt{/home}   esteja  lotado  ou   em  níveis
+  críticos, podendo permitir que a  conta seja criada em um sistema de
+  arquivos menos ocupado;
+\item \texttt{-p}: define uma senha padrão para o usuário. Perceba que
+  essa    opção    não    pode    ser   usada    em    conjunto    com
+  \texttt{-disable-password};
+\item \texttt{-s}:  define o \emph{shell} do usuário.  Uma coisa muito
+  interessante e  que você pode  definir como \emph{shell}  do usuário
+  \emph{qualquer} programa em absoluto. Ou seja, se você quiser que um
+  determinado usuário acessa apenas o programa \texttt{workprog}, você
+  pode definir  ele como o  \emph{shell} do mesmo. Ele  poderá acessar
+  apenas aquele programa e, ao sair  do mesmo, será levado de volta ao
+  \emph{login}. Você  pode até mesmo  definir que o  usuário \emph{não
+    terá  um shell}.  Isso é  útil para  servidores, criando  ilhas de
+  segurança  através de  usuários sem  \emph{shell}. Para  isso, basta
+  apontar  para  \texttt{/dev/null}  ou  para  os  \emph{null  shells}
+  (\emph{shells}  nulos) \texttt{/bin/true} e  \texttt{/bin/false}. Na
+  maioria  dos   sistemas  GNU/Linux,   o  \emph{shell}  padrão   é  o
+  \texttt{/bin/bash} (ou seu \emph{link} simbólico \texttt{/bin/sh});
+\end{itemize}
+
+Para mais opções, consulte a \emph{manpage} \texttt{adduser(8)}.
+
+Vamos a um exemplo:
+
+Imaginemos que  queremos criar um usuário  \texttt{adumbledore}, com o
+\emph{home}   em   \texttt{/hogwarts/principal}    e   com   a   senha
+\texttt{allflavorbeans}. O  \emph{shell} será  o padrão do  sistema, e
+aceitaremos  o  novo  UID  e  GID. Para  isso,  utilizamos  o  comando
+\texttt{adduser    -p   allflavorbeans    --home   /hogwarts/principal
+  adumbledore}. Toda vez que alguém digitar \texttt{~adumbledore}, irá
+listar o conteúdo de \texttt{/hogwarts/principal} e para entrar como o
+usuário     \texttt{adumbledore}    será     necessário     a    senha
+\texttt{allflavorbeans}.
+
+\subsection{O cuidado com os UID}
+\label{sec:uidcaution}
+
+Uma  coisa muito importante  a tomar-se  cuidado é  com a  questão dos
+UID. O  motivo desse é que,  citando por \citeonline{NEWUSER-SAG2005},
+``\emph{Na realidade, o kernel do Linux trata os usuários como simples
+  números}'': o uso de nomes de  usuário em listagens de arquivos e no
+\emph{login} são  apenas meras conveniências do sistema  para o acesso
+facilitado a  informações pelo  usuário. Por isso,  o UID deve  ser um
+identificador único.
+
+O principal  erro (e que pode  ser \emph{muito} grave) é  usar o mesmo
+UID para  dois usuários.  Nesse caso, os  dois usuários terão  a mesma
+permissão de acesso ao sistema.  Isso é uma brecha de segurança séria,
+e  um dos principais  modos de  se criar  um \emph{rootshell}  é esse:
+criar um  usuário comum, ``inofensivo'' e, adulterando  os arquivos de
+configuração, definir seu UID para \texttt{0}(UID do \texttt{root}). 
+
+Reaproveitar UIDs de usuários removidos do sistema pode não ser também
+uma boa  idéia, pois  o novo usuário  passará a  ser dono de  todos os
+arquivos  do  antigo dono.  Mas  isso  pode  também ser  interessante:
+imagine que um determinado usuário saiu da companhia e outro entrou em
+seu lugar.  Ao invés  de ter um  trabalho enorme mudando  permissões e
+configurando grupos,  você pode simplesmente definir o  UID do usuário
+em questão para o do antigo usuário.
+
+Por exemplo:  imaginemos que nosso  usuário \texttt{adumbledore} tenha
+sido removido,  e que  criaremos um usuário  \texttt{mmcgonagall}, que
+terá acesso aos arquivos e dados manipulados por \texttt{adumbledore}.
+Imaginemos que o UID de \texttt{adumbledore} seja 1024 e que o usuário
+\texttt{mmcgonagall} terá como senha \texttt{animagus}. Podemos usar o
+comando  \texttt{adduser -p  animagus --home  /hogwarts/principal -uid
+  1024    mmcgonagall}.     Isso    \emph{automagicamente}    tornaria
+\texttt{mmcgonagall} o  dono dos arquivos, diretórios,  programas e do
+diretório  \emph{home} do  antigo usuário  \texttt{adumbledore}. Esse,
+inclusive,  pode   ser  um   truque  interessante  para   impedir  que
+ex-funcionários   insatisfeitos   roubem   as  informações   com   que
+trabalhavam na empresa.
+
+\subsection{O diretório \texttt{/etc/skel}}
+
+Como      dissemos     na     Seção      \ref{sec:homedir},     Página
+\pageref{sec:homedir},  quando falamos  sobre o  diretório \emph{home}
+dos usuários,  uma das principais  funções do diretório  \emph{home} é
+guardar  os arquivos  de configuração  pessoal dos  programas.  Isso é
+muito  vantajoso para  oferecer  ao usuário  uma configuração  pessoal
+condizente com as  suas necessidades sem afetar os  demais usuários do
+sistema. 
+
+Porém, essa configuração é um pouco  chata, e pode ser útil que certos
+padrões,  como  papéis  de  parede para  ambientes  gráficos,  páginas
+iniciais  e parâmetros  de  configuração do  ambiente do  \emph{shell}
+possam  ser   definidos  em  certos  padrões.  Para   isso,  existe  a
+possibilidade  de   copiar-se  um  diretório  de   referência  como  o
+\emph{home} a ser definido para o usuário, depois trocando-se o dono e
+grupo  do arquivo para  o do  usuário. Esse  processo, porém,  torna a
+coisa toda maçante para o administrador. 
+
+O ponto  bom é que  o GNU/Linux, como  os Unix em geral,  pensou nessa
+possibilidade e  tornou possível criar-se  um padrão para  o diretório
+\emph{home} dos usuários. Esse padrão é o diretório \texttt{/etc/skel}
+(\emph{skel},  de   \emph{skeleton},  que  pode   ser  traduzido  como
+estrutura). No caso, tudo o que  o administrador tem a fazer é, depois
+de ter um  padrão para os novos usuários  configurado, copiar todos os
+arquivos  do \emph{home}  aonde o  padrão  foi criado  para dentro  de
+\texttt{/etc/skel}  e remover  quaisquer  arquivos de  uso pessoal  do
+usuário   em   questão   de   dentro  desse   diretório.   O   próprio
+\texttt{adduser} irá copiar para dentro do \emph{home} do novo usuário
+todos os arquivos e diretórios dentro do \texttt{/etc/skel} e passar a
+posse dos mesmos para o novo usuário, sem muita dificuldade.
+
+A  posse   dos  arquivos  e  do  diretório   \texttt{/etc/skel}  é  do
+\texttt{root}.  Embora o  diretório  permita que  o  usuário o  liste,
+\emph{não é}  uma boa idéia a  cópia direta pelo  usuário do diretório
+\texttt{/etc/skel} ou  de partes dele, primeiro  pela possibilidade de
+perder-se todas as configurações do ambiente, em segundo pois isso irá
+complicar as coisas, pois  o \texttt{root} terá que passar manualmente
+a posse dos arquivos copiados\ldots
+
+Mas mesmo  assim, o administrador  conseguirá sempre fazer bom  uso de
+\texttt{/etc/skel}.
+
+\subsection{O arquivo \texttt{/etc/passwd} e o arquivo
+\texttt{/etc/shadow}}
+
+Como  dissemos   anteriormente,  uma  vez  que  você   usa  o  comando
+\texttt{adduser}  para   criar  uma  conta  de   usuário,  você  envia
+informações para um arquivo de  configuração. Esse arquivo é o arquivo
+\texttt{/etc/passwd}. Ele é um arquivo de texto simples, que pode (mas
+não  deveria) ser  editado  manualmente  com o  uso  de editores  como
+\texttt{vi} ou \texttt{emacs}.  Um arquivo \texttt{/etc/passwd} típico
+se parece  com o  mostrado no Trecho  de Código  \ref{code:passwd}, na
+página \pageref{code:passwd}.
+
+\begin{codigo}[htp]   
+\footnotesize
+\begin{Verbatim}[frame=single,commandchars=+||]
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/bin/sh
+daemon:x:2:2:daemon:/sbin:/bin/sh
+adm:x:3:4:adm:/var/adm:/bin/sh
++ldots
+fecosta:x:500:500:FÃ¡bio Emilio Costa:/home/fecosta:/bin/bash
+mpd:x:84:81:system user for mpd:/var/lib/mpd:/bin/false
+tomcat:x:91:91:Tomcat:/usr/share/tomcat5:/bin/sh
+svn:x:92:92:system user for subversion:/var/lib/svn:/bin/false
+postgres:x:93:93:system user for postgresql:/var/lib/pgsql:/bin/bash
+webdav:x:501:501::/home/webdav:/bin/true
+adumbledore:x:502:502::/home/adumbledore:/bin/bash
+mmcgonagall:x:503:503::/home/mmcgonagall:/bin/bash
+ssnape:x:504:504::/home/ssnape:/bin/bash
+sblack:x:505:505::/home/sblack:/bin/bash
+hslughorn:x:506:506::/home/hslughorn:/bin/bash
+\end{Verbatim}
+\caption{Exemplo de \texttt{/etc/passwd}}
+\label{code:passwd}
+\end{codigo}
+
+Cada linha é referente a um determinado usuário, e é composta por:
+
+\begin{center}
+\begin{verbatim}
+user:password:uid:gid:gecos:home:shell
+\end{verbatim}
+\end{center}
+
+O campo \texttt{user} é bem claro:  é o nome do usuário. Perceba que o
+primeiro deles é o \texttt{root}, e assim por diante. Alguns serviços,
+como  o  MPD\footnote{\emph{Music  Player  Daemon} ---  reprodutor  de
+  música  que   pode  atuar   como  servidor  \emph{Shoutcast}}   e  o
+Subversion\footnote{sistema  de SCM (\emph{Source  Control Management}
+  --- Controle  de Código  Fonte)} criam  usuários especiais  para si,
+como \texttt{mpd}  e \texttt{svn}. Esses usuários são  apenas para que
+os  processos deles  não  ofereçam  riscos no  caso  de exploração  de
+falhas.
+
+O  campo \texttt{password}  é aonde  iria normalmente  as  senhas, mas
+atualmente são  poucas (se alguma)  as instalações aonde as  senhas do
+usuário são colocadas aí,  pois o arquivo \texttt{/etc/passwd} tem que
+ser de leitura  aberta a todos, o que tornava  muito fácil roubar-se o
+arquivo  e tentar-se quebrar  as senhas  por força  bruta. Atualmente,
+utiliza-se o  arquivo \texttt{/etc/shadow}, que pode  ser travado para
+leitura para  outros usuários fora  o \texttt{root}.  Esse  campo pode
+conter as  opções mostradas na Tabela  \ref{table:password}, na Página
+\pageref{table:password}.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c|l|}
+\hline
+{\centering \textbf{\textsc{Campo \texttt{password}}}} & {\centering \textbf{\textsc{Comentários}}}\\
+\hline\hline
+Seqüência de caracteres & senha criptografada\\
+Nada & Sem senha para essa conta\\
+\texttt{*} & A conta em questão está desativada\\
+\texttt{x} & A senha dessa conta está gravada em outro lugar\\
+\hline
+\end{tabular}
+\label{table:password}
+\caption{Valores típicos do campo \texttt{password} do \texttt{/etc/passwd}}
+\end{center}
+\end{table}
+
+Os campos \texttt{uid}  e \texttt{gid} contêm o UID  e o GID principal
+do  usuário  (o  principal grupo  ao  qual  o  usuário faz  parte)  do
+usuário. Esse valores são numéricos.
+
+O campo seguinte \texttt{GECOS} servia como uma espécie de registro de
+informações  sobre  o  usuário,  como  telefone, local  de  serviço  e
+afins.  Nos antigos  ambientes Unix,  essa informação  era  usada pelo
+utilitário  \texttt{finger},  e   acabou  sendo  mantida  por  motivos
+históricos. Atualmente, ela serve  apenas para registros diversos, sem
+função no sistema.
+
+O campo \texttt{home} indica o  diretório de \emph{home} do usuário em
+questão.   A estrutura  normal é  \texttt{/home/<usuario>}, mas  não é
+obrigatória (no  exemplo, o  \emph{home} do usuário  \texttt{tomcat} é
+\texttt{/usr/share/tomcat5}).  Alguns programas  utilizam  o diretório
+\emph{home}  como uma  forma  simples de  apontar  para diretórios  de
+configuração dele.
+
+O   último   campo,   \texttt{shell},   define   o   \emph{shell}   do
+usuário. Perceba que existem casos  de \emph{null shells}, como os dos
+usuários             \texttt{webdav}(\texttt{/bin/true})             e
+\texttt{svn}(\texttt{/bin/false}).
+
+\subsubsection{O arquivo \texttt{/etc/shadow}}
+
+Perceba que é razoavelmente  simples o arquivo \texttt{/etc/passwd}. O
+resto do controle  é feito no arquivo \texttt{/etc/shadow},  que tem a
+seguinte   estrutura   (segundo    o   \emph{Linux   Shadow   Password
+  HOWTO}\cite{SHADOW-HOWTO1996}):
+
+\begin{center}
+\begin{verbatim}
+user:password:last:may:must:warn:expire:disable:reserved
+\end{verbatim}
+\end{center}
+
+Aonde  \texttt{username} e \texttt{password}  são equivalentes  aos do
+\texttt{/etc/passwd}.  No  caso do  campo  \texttt{password} ele  pode
+conter as  opções mostradas na Tabela  \ref{table:password}, na Página
+\pageref{table:password}, exceto, obviamente, por \texttt{x}.
+
+O campo  \texttt{last} contêm o  dia em que  a senha foi  trocada pela
+última vez,  no formato ``Unix  \emph{timestamp}''\footnote{Um formato
+  aonde  o valor  é representado  no número  de dias  passados  do dia
+  1$^\circ$ de Janeiro de 1970}.  
+
+O  campo \texttt{may}  contêm  o número  de  dias que  o usuário  deve
+esperar antes de trocar sua senha por uma nova. Para evitar problemas,
+esse valor pode ser mantido baixo.
+
+O campo  \texttt{last} contêm  o número de  dias que o  usuário poderá
+usar essa senha antes de ser obrigado a trocá-la. 
+
+O campo \texttt{warn} contêm o número de dias que o usuário deverá ser
+informado de que sua senha está para expirar, de modo a trocá-la.
+
+O  campo \texttt{expire}  contêm o  número de  dias após  a  senha ter
+vencido que deve-se esperar até que a conta seja desabilitada. 
+
+O campo \texttt{disable} indica o  dia em que a conta foi desabilitada
+no formato  ``Unix \emph{timestamp}''.  E o campo  \texttt{reserved} é
+reservado para uso futuro.
+
+Portanto,   não    é   muito   complexo   o    estudo   dos   arquivos
+\texttt{/etc/passwd}  e   \texttt{/etc/shadow}.  Perceba  que  falamos
+apenas de \emph{estudo}.
+
+\begin{quotation}
+  \textbf{Atenção:}    A     manipulação    errônea    dos    arquivos
+  \texttt{/etc/passwd}    e    \texttt{/etc/shadow}   podem    possuir
+  conseqüências  desastrosas. Evite  o máximo  que  possível manipular
+  tais arquivos manualmente. Caso tenha que o fazer, faça uma cópia de
+  \emph{backup} de ambos os arquivos. \emph{Você foi avisado!!!}
+\end{quotation}
+
+Com isso, encerramos o assunto  usuários. Vamos falar agora dos grupos
+de usuários.
+
+\section{Criando grupos: \texttt{addgroup}}
+
+Os  \emph{grupos}  de usuários  são  muito  úteis  para estruturar  de
+maneira mais  granular o acesso  aos arquivos. Por exemplo,  você pode
+criar um diretório aonde o dono do arquivo seja você, mas você permita
+que  outros escrevam no  diretório também  (um \emph{sticky  bit} aqui
+pode   ser  muito   útil  para   impedir  outros   de   apagarem  seus
+arquivos). Para isso, é importante  que o usuário esteja cadastrado no
+grupo em questão. 
+
+Em geral, quando o usuário é  criado, o padrão é que ele seja inserido
+em um grupo especial só para  ele, que poderíamos chamar de ``grupo do
+eu sozinho'',  o que permite  o isolamento dos arquivos  pessoais. Mas
+algumas vezes  isso pode ser  inconveniente. Imagine, por  exemplo, um
+projeto aonde  vários usuários precisem dividir os  mesmos arquivos. A
+opção  se todos eles  estiverem em  ``grupos do  eu sozinho''  seria o
+\texttt{root}  ficar  copiando  os  arquivos  e mudando  a  posse  dos
+arquivos   para  cada  um   dos  participantes   periodicamente.  Isso
+ocasionaria todo o tipo de problemas.
+
+Para evitar isso, o GNU/Linux, como os Unix em geral, possui o sistema
+de permissão  por grupos. Se  configurado corretamente, um  grupo pode
+permitir  que usuários  diversos  utilizem-se dos  arquivos de  outros
+usuários, inclusive os editando, sem maiores inconvienentes.
+
+Para    adicionar    um    novo    grupo,   utiliza-se    o    comando
+\texttt{addgroup}.   Usam-se    as   mesmas   opções    do   caso   do
+\texttt{adduser}(Seção            \ref{sec:adduser},            Página
+\pageref{sec:adduser}), mas na realidade,  nenhuma delas é útil (com a
+possível exceção  de \texttt{-p}). Portanto,  vamos tratar normalmente
+dos comandos.
+
+Vamos  imaginar que  o  usuário \texttt{adumbledore}  deseje criar  um
+grupo  para sair  do  ``grupo do  eu  sozinho'', então  usa o  comando
+\texttt{addgroup} para criar o grupo \texttt{orderphoenix}. Para isso,
+ele usa o comando \texttt{addgroup orderphoenix}.
+
+\subsection{O cuidado com os GID}
+
+Muito cuidado se quiser reaproveitar  GIDs para novos grupos. Da mesma
+forma que  no caso dos UIDs, os  GIDs são fixados nos  arquivos, o que
+pode fazer  que usuários  de um grupo  com o GID  reaproveitado possam
+acessar arquivos que não deveriam.
+
+\subsection{O arquivo \texttt{/etc/group}}
+
+As   informações  sobre   os   grupos  são   armazenadas  no   arquivo
+\texttt{/etc/group},  que  o sistema  consulta  toda  vez que  precisa
+pesquisar acessos por grupo. No caso, a estrutura desse arquivo é:
+
+\begin{center}
+\begin{verbatim}
+NomedoGrupo:senha:GID:usuários
+\end{verbatim}
+\end{center}
+
+Aonde \texttt{NomedoGrupo} é o  nome do grupo criado, \texttt{senha} é
+a senha  para realizar-se operações  como esse grupo em  especial (que
+pode  também  estar  em  outro arquivo,  o  \texttt{/etc/gshadow}),  e
+\texttt{GID} mostra o número do GID do grupo em questão.
+
+A  parte importante  do  arquivo fica  logo  em seguida,  com o  campo
+\texttt{usuários},  aonde  ficam os  usuários  que  fazem parte  desse
+grupo.    O    Trecho   de   Código    \ref{code:group},   na   página
+\pageref{code:group}, mostra um exemplo de \texttt{/etc/group}.
+
+\begin{codigo}[htp]   
+\footnotesize
+\begin{Verbatim}[frame=single,commandchars=+||]
+root:x:0:
+bin:x:1:
+daemon:x:2:messagebus
+sys:x:3:
+adm:x:4:
+(+ldots)
+audio:x:81:
+video:x:82:
+users:x:100:
+nogroup:x:65534:
+(+ldots)
+mysql:x:79:
+gdm:x:422:
+canna:x:423:
+haclient:x:60:
+squid:x:424:
+sshd:x:83:
+slocate:x:425:
+fecosta:x:500:
+(+ldots)
+adumbledore:x:502:
+mmcgonagall:x:503:
+ssnape:x:504:
+sblack:x:505:
+hslughorn:x:506:
+hogwarts:x:507:adumbledore,mmcgonagall,ssnape,hhagrid
+orderphoenix:x:509:adumbledore
+aurors:x:510:amoody
+\end{Verbatim}
+\caption{Exemplo de \texttt{/etc/group}}
+\label{code:group}
+\end{codigo}
+
+Perceba que  a maioria dos grupos  são ``grupos do eu  sozinho'' e não
+mostram outros usuários: isso porque  o GNU/Linux, quando um grupo tem
+o mesmo nome do usuário, ele é considerado um ``grupo do eu sozinho''.
+Perceba  também que, da  mesma forma  que o  \texttt{/etc/passwd}, ele
+\emph{não possui ordem, exceto pela a de entradas no registro}.
+
+Porém, perceba,  o grupo \texttt{orderphoenix}: ele está  com senha em
+\texttt{/etc/gshadow}    e   tem    como   participante    o   usuário
+\texttt{adumbledore}.     No   caso,    seu   ``dono''    (o   usuário
+\texttt{adumbledore}) deseja  incluir os usuários \texttt{mmcgonagall}
+(que tem como grupo principal \texttt{hogwarts}), \texttt{hhagrid}(que
+tem como grupo  principal \texttt{hogwarts}) e \texttt{amoody}(que tem
+como  grupo  principal  \texttt{aurors}).   Para  isso,  ele  pede  ao
+\texttt{root} que edite o  \texttt{/etc/group} para incluir esses três
+usuários. O  \texttt{/etc/group} resultante fica  como o do  Trecho de
+Código \ref{code:group2}, na página \pageref{code:group2}.
+
+\begin{codigo}[htp]   
+\footnotesize
+\begin{Verbatim}[frame=single,commandchars=+||]
+root:x:0:
+bin:x:1:
+daemon:x:2:messagebus
+sys:x:3:
+adm:x:4:
+(+ldots)
+adumbledore:x:502:
+mmcgonagall:x:503:
+ssnape:x:504:
+sblack:x:505:
+hslughorn:x:506:
+hogwarts:x:507:adumbledore,mmcgonagall,ssnape,hhagrid
+orderphoenix:x:509:adumbledore,mmcgonagall,hhagrid,amoody
+aurors:x:510:amoody
+\end{Verbatim}
+\caption{Exemplo de alteração em \texttt{/etc/group}}
+\label{code:group2}
+\end{codigo}
+
+\subsection{Usando \texttt{adduser} para adicionar um ususuário a um
+  grupo extra}
+
+Existe  uma outra forma  de adicionar-se  usuários a  um grupo,  que é
+usando o  comando \texttt{adduser}. Para  isso, usa-se \texttt{adduser
+  <grupo> <usuario>}, de  modo que nesse caso não  será criado um novo
+usuário com o mesmo nome, mas sim o sistema irá adicionar o usuário ao
+novo grupo (um usuário para um grupo por vez).
+
+Retornando ao nosso exemplo: a  seguir, ele decide incluir os usuários
+\texttt{sblack}(que  tem  como  grupo  principal  \texttt{marauders}),
+\texttt{rlupin}(que  tem como  grupo  principal \texttt{marauders})  e
+\texttt{ssnape}(que  tem como  grupo  principal \texttt{deatheaters}).
+Para isso,  ele (na verdade,  o \texttt{root}, mas se  o \texttt{root}
+quiser ---  \emph{não é  recomendável} --- ele  pode deixar  o comando
+\texttt{adduser}  \emph{suid})   utiliza  a  combinação   de  comandos
+mostradas   noTrecho   de    Código   \ref{code:group3},   na   página
+\pageref{code:group3}, tendo o resultado listado na mesma listagem.
+
+\begin{codigo}[htp]
+\footnotesize
+\begin{Verbatim}[frame=single,commandchars=+||]
+[root@hufflepuff CursoGNULinux]# adduser orderphoenix sblack
+[root@hufflepuff CursoGNULinux]# adduser orderphoenix rlupin
+[root@hufflepuff CursoGNULinux]# adduser orderphoenix ssnape
+[root@hufflepuff CursoGNULinux]# cat /etc/group
+root:x:0:
+bin:x:1:
+daemon:x:2:messagebus
+sys:x:3:
+adm:x:4:
+(+ldots)
+deatheaters:x:3000:ssnape,lmalfoy,wmcnair,ppettigrew
+marauders:x:3000:jpotter,sblack,ppettigrew,rlupin
+adumbledore:x:502:
+mmcgonagall:x:503:
+ssnape:x:504:
+sblack:x:505:
+hslughorn:x:506:
+hogwarts:x:507:adumbledore,mmcgonagall,ssnape,hhagrid
+orderphoenix:x:509:adumbledore,mmcgonagall,hhagrid,amoody
+aurors:x:510:amoody
+\end{Verbatim}
+\caption{Exemplo  do uso  do comando  \texttt{adduser}  para adicionar
+  usuários a outros grupos, assim como o resultado desse uso}
+\label{code:group3}
+\end{codigo}
+
+Isso deve  bastar sobre adicionar  usuários nos grupos.  Vejamos agora
+sobre como usar a questão de grupos a seu favor.
+
+\subsection{Acessando  documentos com  outra  identificação de  grupo:
+  \texttt{sg}, \texttt{newgrp} e \texttt{id}}
+
+Em geral, uma vez que você  tenha entrado em um outro grupo, você pode
+acessar todos os arquivos  daquele grupo normalmente. Em alguns casos,
+porém,  você precisa  que  a \emph{identificação  de  grupo} sua  seja
+alterada  para aquele procedimento.  Existem duas  formas de  se fazer
+isso:
+
+\begin{enumerate}
+\item usando \emph{setgid} no arquivo/programa a ser manipulado;
+\item usando o comanto \texttt{sg} (\emph{substitute group});
+\end{enumerate}
+
+O \texttt{sg} lembra um pouco  o \texttt{su}, mas ele vale para apenas
+um comando. A  forma de uso é \texttt{sg  <grupo> '<comando'}. Ele irá
+pedir a  senha do grupo: se  esta estiver incorreta ou  não tiver sido
+definida, você não poderá realizar a operação.
+
+Qual a vantagem do uso \texttt{sg}? Normalmente, você está sempre como
+se  você fosse  do seu  ``grupo do  eu sozinho''.  É  possível alterar
+permanentemente   o    grupo   principal,   manipulando    o   arquivo
+\texttt{/etc/passwd} e  modificando manualmente o GID para  o do grupo
+desejado. Porém, isso não é recomendável (e muitas vezes nem possível,
+uma   vez    que   apenas    o   \texttt{root}   pode    escrever   no
+\texttt{/etc/passwd}).  Nesse  caso,  utiliza-se  o  \texttt{sg}  para
+``alternar-se''  para  outro grupo  e  poder  manipular  o arquivo  em
+questão.
+
+Por  exemplo:  imaginemos que  o  usuário \texttt{adumbledore}  esteja
+querendo ler  e fazer  comentários no arquivo  \texttt{voldieplans} do
+usuário \texttt{ssnape}.  Esse  arquivo tem como dono \texttt{ssnape},
+grupo  designado \texttt{orderphoenix} (ao  qual \texttt{adumbledore})
+também pertence)  e permissões \verb|rw-rw---|  (o que quer  dizer que
+apenas  o  dono  e o  grupo  sabe  da  existência do  arquivo).   Como
+\texttt{adumbledore} sabe da existência  do arquivo, ele apenas digita
+o comando \texttt{sg 'emacs voldieplans'}\footnote{Alvo Dumbledore usa
+  EMACS, pessoal!! E  o autor também! :P}. Ele passa  então a editar o
+arquivo   normalmente,   como   se   tivesse  como   grupo   principal
+\texttt{orderphoenix}. Assim que ele terminar, ele volta ao normal, ao
+seu ``grupo do eu sozinho''.
+
+É  possível alterar-se  durante uma  sessão  o grupo  efetivo de  uso,
+através  do  comando \texttt{newgrp  <grupo>}.   Nesse  caso, o  grupo
+torna-se   efetivo  até   que  o   usuário  digite   \texttt{exit}  ou
+\texttt{newgrp -}. De outra forma  ele opera exatamente da mesma forma
+que o comando \texttt{sg}.
+
+Como  final, o comando  \texttt{id} mostra  as informações  do usuário
+atual  (pode-se  usar  \texttt{id  <usuario>}  para ver  as  de  outro
+usuário). Nesse caso, mostra-se tanto  o UID/GID real quanto o efetivo
+(que pode ser mudado por \texttt{su}, \texttt{sg} ou \texttt{newgrp}).
+
+\subsection{Alterando senhas: o comando \texttt{passwd}}
+
+Algumas vezes,  precisamos mudar a senha  de um usuário  (ou o próprio
+usuário   mudar   sua   senha).    Para   isso,   usa-se   o   comando
+\texttt{passwd}. Esse comando abre  uma janela simples aonde pede-se a
+senha antiga, a nova senha e uma confirmação da nova senha. Em versões
+mais  atuais, o  \texttt{passwd} utiliza  o  utilitário \texttt{crack}
+para checar a força da senha. Caso não seja forte o suficiente, alerta
+o usuário para que ele forneça uma senha mais forte\footnote{ou que se
+  conforme se algo acontecer de errado no futuro :P}. Apenas o dono de
+uma  conta ou  o \texttt{root}  pode alterar  a senha  da  conta. Para
+alterar-se   uma   senha,   usa-se   \texttt{passwd   <usuario>}.   Se
+\texttt{<usuario>} não for fornecido, admite-se o usuário atual como o
+que terá a senha trocada.
+
+Também é  possível usar-se \texttt{passwd}  para trocar a senha  de um
+grupo.  Essa  operação só  pode ser feita  pelo \texttt{root}  ou pelo
+administrador  do  grupo  (o  primeiro  usuário listado  na  lista  de
+usuários do  grupo, ou o  próprio usuário, no  caso de grupos  ``do eu
+sozinho''). Para isso, usa-se a sintaxe \texttt{passwd -g <grupo>}.
+
+O comando \texttt{passwd} possui  mais uma grande quantidade de opções
+de administração  que não  veremos aqui, pois  são específicas  para o
+\texttt{root},  podendo   causar  bloqueio  de   contas  e  configurar
+parâmetros de validade e alternância de senhas.  Para isso, consulte a
+\emph{manpage}   \texttt{passwd(1)}.  Se   quiser  saber   mais  sobre
+administração de grupos, inclusive bloqueio de grupos, consulte  a
+\emph{manpage} do utilitário \texttt{gpasswd(1)}.
+
+\subsection{Removendo usuários e grupos: \texttt{userdel} e \texttt{groupdel}}
+
+Algumas  vezes,  precisamos  remover  usuários  e  grupos  por  vários
+motivos, seja pela demissão do  usuário ou apenas pelo cancelamento de
+seus projetos. O ideal é que você  não remova contas, a não ser que os
+usuários em questão tenham deixado  a instituição ou perdido o direito
+de uso ao sistema. Nesse caso, a sugestão é:
+
+\begin{enumerate}
+\item  Realize \emph{backup}  dos  arquivos pessoais  do usuário  para
+  qualquer   eventualidade.   Veremos  mais   sobre   isso  na   Seção
+  \ref{sec:backup}, \pageref{sec:backup};
+\item  Desabilite a  conta do  usuário (ela  ainda estará  lá,  mas na
+  prática o usuário não conseguirá mais se logar;
+\item Apague  qualquer arquivo ou  diretório desnecessário e  troque a
+  posse dos demais arquivos e  diretórios. Isso atua tanto para salvar
+  espaço em disco quanto para impedir falhas de segurança;
+\item Elimine a conta do usuário;
+\end{enumerate}
+
+A primeira parte (\emph{backup}) é  simples e envolve pouco esforço. O
+segundo passo pode ser feito de duas formas:
+
+\begin{enumerate}
+\item   Editando  manualmente   o  arquivo   \texttt{/etc/passwd}  (ou
+  \texttt{/etc/shadow}) e no campo \texttt{password} deles e colocando
+  o  símbolo  \texttt{*}  na   frente  da  senha  criptografada  (esse
+  procedimento  \emph{não é  recomendável},  uma vez  que  um erro  na
+  edição manual desses arquivo pode por todo o sistema a pique);
+\item Usando o comando \texttt{passwd -l <usuário>} para desabilitar a
+  conta (recomendável);
+\end{enumerate}
+
+Esse último passo pode ser feito como uma segurança, por exemplo, caso
+o usuário em questão saia de férias.
+
+A  terceira parte  envolve os  comandos que  já estudamos  no Capítulo
+\ref{cap:iniciando},   na  Página   \pageref{cap:iniciando},   como  o
+\texttt{cp},  \texttt{rm}   e  \texttt{chowm}.  O   \emph{backup}  dos
+arquivos antes  é para permitir que  arquivos acidentalmente deletados
+possam ser recuperados em caso de necessidade.
+
+A última etapa é a remoção  propriamente dita do usuário, com o uso do
+comando \texttt{userdel},  que remove todas as entradas  do usuário em
+arquivos de  configuração (\texttt{/etc/passwd}, \texttt{/etc/shadow},
+\texttt{/etc/group},   \ldots),  sendo  que   sua  sintaxe   normal  é
+\texttt{userdel <usuario>}.  Uma opção útil é a opção \texttt{-r}, que
+remove  os arquivos  do  usuário (incluindo  seu  \emph{home}), o  que
+permite  poupar algumas  etapas (basta  copiar os  arquivos importates
+daquele usuário para outro diretório).
+
+Para    remover   um    grupo,    você   irá    utiliza   o    comando
+\texttt{groupdel}.  Esse   comando  remove   a  entrada  do   grup  em
+\texttt{/etc/group}. No  caso, ele  tem uma ``pegadinha'':  você nunca
+poderá remover um grupo primário  de um usuário (em geral, os ``grupos
+do eu  sozinho'') sem  antes remover  o usuário em  questão. O  uso de
+\texttt{groupdel} é \texttt{groupdel <usuario>}.
+
+Todos  esse comandos  foram oferecidos  apenas como  uma  introdução à
+administração do  usuário. Existem muitos outros  comandos úteis, como
+\texttt{usermod(8)},    \texttt{groupmod(8)},    \texttt{groupmod(8)},
+\texttt{chfn(1)}  e \texttt{chsh(1)},  mas não  trataremos  deles aqui:
+consulte as \emph{manpages} deles para maiores informações.
+
+Agora que terminamos o tópico  usuários, vamos passar para o tópico de
+administração dos programas  em execução. Ou como chamamos  em Unix (e
+GNU/Linux), de \emph{administração de processos}.
+
+\section{Entendendo processos e \emph{jobs}}
+
+No GNU/Linux, como no Unix, todos os programas do usuário são chamados
+de \emph{processos}. Na prática, todo programa que está carregado é um
+\emph{processo}.  O  objetivo dessa  seção  é  que  você compreenda  o
+funcionamento  dos processos  e entenda  como eles  funcionam, consiga
+identificar e solucionar problema com processos.
+
+\subsection{O que é um processo}
+
+No  GNU/Linux,  quando uma  cópia  de  um  programa é  carregada  para
+memória,  certas alocações  de recursos  como memória,  discos, portas
+TCP,  \ldots  são  realizadas  pelo sistema  operacional,  através  de
+programas  conhecidos   como  \emph{loaders}\footnote{Isso  apenas  no
+  primeiro momento. Depois  dele, a carga de recursos  em tempo real é
+  responsabilidade do  próprio programa}. Em geral,  o \emph{loader} é
+embutido no  programa, portanto  chamar o programa  já automaticamente
+dispara o  \emph{loader} para que  o mesmo seja carregado  na memória.
+Uma vez que o \emph{loader}  carregue todas as informações do programa
+para  que ele  possa  ser  executado, ele  envia  informações sobre  o
+programa   carregado  na  memória   para  um   trecho  de   código  do
+\emph{kernel}   chamado  \emph{escalonador   de   processos},  que   é
+responsável  pelo controle do  tempo de  execução dos  processos. Isso
+porque,  embora falemos que  o GNU/Linux  é multi-tarefa,  na prática,
+exceto  em  sistemas  multiprocessados,  o sistema  executa  \emph{uma
+  tarefa por vez}. O escalonador  de processos passa então a controlar
+quanto tempo o processo está  trabalhando, para que, após algum tempo,
+o controle do sistema seja passado para outro programa.
+
+Quando  o  \emph{loader}  passa  as  informações  do  sistema  para  o
+escalonador de  processos, o escalonador  ``cria'' um processo  para o
+programa  carregado\footnote{Na  prática, quem  cria  o  processo é  o
+  \emph{loader},  mas essa  pequena  alteração pode  ser  útil para  a
+  compreensão da idéia  de processo}, sendo que o  mesmo recebe um PID
+(\emph{process   ID}  ---  identificador   de  processo),   dado  pelo
+escalonador,   que  também   passa  a   manter  certos   registros  de
+contabilidade  do acesso do  processo aos  recursos do  sistema, assim
+como informações sobre o  usuário e grupo \emph{efetivos} que disparou
+o   programa\footnote{lembrando  que   essas  informações   podem  ser
+  alteradas por  permissões e  comandos especiais, como  \emph{suid} e
+  \texttt{sg}} e  \emph{grau de prioridade} do processo  no sistema. A
+partir  de   todas  essas  informações,  principalmente   no  grau  de
+prioridade  (ou \emph{prioridade},  para resumir),  o  escalonador vai
+determinando como os processos usarão os recursos do sistema.
+
+\subsubsection{Processos de primeiro e segundo plano}
+
+Normalmente,  em   todo  sistema  multitarefa,   existem  milhares  de
+processos em  execução. O sistema precisa decidir,  portanto, como ele
+irá proceder com cada um. Mas isso em geral é transparente ao usuário,
+para o  qual apenas importa em  qual programa ele  está trabalhando no
+momento.
+
+O GNU/Linux utiliza, como  outros sistemas operacionais multitarefa, o
+conceito  de \emph{primeiro plano}(\emph{foreground})  e \emph{segundo
+  plano}(\emph{background}).
+
+Um processo em  geral é considerado de \emph{primeiro  plano} quando o
+usuário está  o manipulando \emph{interativamente} e  espera receber a
+saída do mesmo. Por exemplo:  um comando \texttt{ls -la} é um processo
+de  primeiro  plano, pois  o  usuário  precisará  receber a  saída  do
+comando, assim  como quando um  usuário está usando  o \texttt{emacs},
+por exemplo.  Só pode haver  \emph{um} processo em primeiro  plano por
+usuário.
+
+Processos  em \emph{segundo  plano}  são processos  cujo resultados  o
+usuário não precisa de imediato. Em geral, servidores no GNU/Linux são
+executados em  \emph{segundo plano}, pois os resultados  dos acessos a
+ele podem ser  acompanhados via \emph{logs} do sistema.  Um programa é
+carregado em  segundo-plano no GNU/Linux  quando usa-se diante  dele o
+símbolo \texttt{\&}(\emph{e} comercial). 
+
+\begin{quotation}
+  \textbf{Atenção:} O fato de que um processo foi enviado para segundo
+  plano  \emph{não  quer  dizer   que  ele  não  irá  devolver  nehuma
+    saída}.  Para evitar  tornar  o seu  \emph{shell}  uma bagunça,  é
+  interessante  que a  saída  de  um programa  em  segundo plano  seja
+  redirecionada para um arquivo;
+
+  \textbf{Atenção:}    No   GNU/Linux,   programas    gráficos   estão
+  \emph{todos} em  segundo plano. Apenas o servidor  X-Windows fica em
+  primeiro  plano. É  importante essa  distinção, pois  ao  invocar um
+  programa gráfico  você pode  travar o seu  \emph{shell}, não  mais o
+  podendo  utilizar.  Veremos  mais  sobre  isso  quando  falarmos  de
+  Interfaces    Gráficas     no    Capítulo    \ref{sec:wm}    (Página
+  \pageref{sec:wm}).
+\end{quotation}
+
+A principal vantagem do uso de  processos de segundo plano é o fato de
+que você pode  automatizar comandos e não precisar  ficar esperando ou
+operando  interativamente. Combinando redirecionamento  e \emph{pipes}
+(que    falamos   no    Capítulo    \ref{cap:iniciando},   na    Seção
+\ref{sec:redirect},  Página  \pageref{sec:redirect})   com  o  uso  de
+programas em segundo plano, você pode automatizar uma série de tarefas
+administrativas.
+
+\subsection{Diferença entre programas multi-thread e programas de
+  múltiplos processos}
+
+O GNU/Linux,  como muitos servidores, além de  ser multitarefa, aceita
+aplicações    \emph{multithreaded}.    Os    programas    dotados   de
+\emph{multithread} executam partes internas dele em paralelo, da mesma
+forma que  o SO  multitarefa executa muitas  tarefa em  paralelo. Para
+isso, em alguns  casos, utiliza-se tanto de um  escalonador interno ao
+processo quanto, no caso do GNU/Linux, bibliotecas que fazem com que o
+escalonador  de  processos  considere  as  \emph{threads}\footnote{uma
+  \emph{thread} é parte  do processo pai, mas embora  rode em paralelo
+  em relação a outras \emph{threads}, compartilha o acesso a memória e
+  outros recursos com as demais \emph{threads}.} dentro do sistema.
+
+Muitos  servidores  antigos,  como o  Apache  até  a  versão 2.0  e  o
+PostgreSQL são servidores multi-processos:  o servidor que é carregado
+pelo  sistema  tem  como  função  apenas gerar  outros  processos  que
+realizem a  requisição efetuada.  Isso causa um  certo \emph{overhead}
+pois o sistema tem que ser  interrompido para que o novo processo seja
+gerado (\emph{process  spawn}) e para  que recursos sejam  alocados ao
+mesmo.  Além   disso,  em  alguns  casos,  o   processo  gerador  fica
+interrompido,  impedindo que  ele  gere novos  processos para  atender
+novas requisições.  Em geral isso ocorre quando  um determinado número
+de processos-filhos  foram gerados.   Uma terceira dificuldade  é que,
+como cada processo-filho possui  seu próprio espaço de memória alocada
+e recursos, isso pode aumentar \emph{rapidamente} o consumo da memória
+e  dos recursos  computacionais  do sistema,  além  de acarretar  mais
+processamento por parte do escalonador de processos.
+
+Por  sua  vez, processo  \emph{multithread}  atendem suas  requisições
+gerando  novas  \emph{threads}  dentro   deles.   Isso  tem  um  menor
+\emph{overhead} do que  o \emph{process spawn}, além de  impedir que o
+processo fique travado ou que  o escalonador de processos tenha mais o
+que processar (mesmo quando o processamento das \emph{threads} é feito
+pelo escalonador  do sistema,  isso permite que  várias \emph{threads}
+possam ser  atendidas quando  uma ou mais  delas necessitem  ou tenham
+tempo de processamento disponível). Em compensação, é muito fácil para
+um processo \emph{multi-thread}  mal-implementado gerar uma \emph{race
+  condition}\footnote{condição    de     disputa    na    qual    dois
+  processos/\emph{threads}  necessitam   de  determinado  recurso}  ou
+\emph{deadlocks}\footnote{situação  em  que  um  programa A  exige  um
+  recurso que  um programa B está  alocando, que por sua  vez exige um
+  recurso que  um programa C está  alocando, que por sua  vez exige um
+  recurso  que um  programa A  está alocando,  e todos  os  três estão
+  esperando que os recursos desejados estejam disponíveis para liberar
+  os recursos  que estão usando} do que  em programas multi-processos,
+pois em geral  os recursos entre processos não  são disputados (tem ou
+não tem disponível).
+
+Em  que isso  afeta a  administração do  sistema? Quando  você  tem um
+servidor  \emph{multithread}  você  possui  apenas um  processo  desse
+servidor,  enquanto  no caso  de  servidores  multiprocessso você  tem
+vários  processos.  Veremos  melhor  isso  quando  usarmos  o  comando
+\texttt{ps}  para vermos  os acontecimentos  dentro do  sistema (Seção
+\ref{sec:ps}, Página \pageref{sec:ps}).
+
+\subsection{Estado de processos}
+
+Por causa  do escalonamento, existem  vários processos ao  mesmo tempo
+``em execução''  no sistema (lembrando  que o escalonador  de processo
+libera  apenas  um  processo  por  vez  a  ser  executado  por  alguns
+instantes, passando a execução  para outro logo em seguida). Portanto,
+cada   um  dos   vários  processos   no  sistema   possui   um  estado
+diferente. Basicamente existem quatro estados no qual um processo pode
+estar:
+
+\begin{itemize}
+  \item \textbf{Processo  em primeiro plano  (\emph{foreground}):} são
+    processos  que  estão  bloqueando  o  terminal.   Normalmente  são
+    processos  que  exijem interatividade,  como  ler \emph{email}  ou
+    digitar um texto no \texttt{vi};
+  \item  \textbf{Processo em  segundo plano  (\emph{background}):} são
+    processo que,  embora estejem recebendo e enviando  dados, ele não
+    exige interatividade de nenhum  tipo.  Em geral, os servidores (ou
+    \emph{daemons})  do sistema  contam como  exemplo de  processos em
+    segundo plano, assim como os programas rodando sobre uma interface
+    gráfica;
+  \item   \textbf{Processos   parados:}   são  processos   que   estão
+    paralizados por algum motivo, mas que voltarão a ser executado. Um
+    exemplo é o processo \texttt{init}: ele inicializa todo o sistema,
+    realizando uma  série de configurações,  que por sua  vez culminam
+    com o  disparo de processos  \texttt{login}, quando então  ele vai
+    para  o  estado  parado.  Por  sua vez,  \texttt{login}  também  é
+    normalmente um processo parado:  uma vez que um \emph{login} tenha
+    sido feito de maneira bem sucedida, o processo \texttt{login} gera
+    um processo  do \emph{shell} apropriado ao usuário  e fica parado,
+    voltando  a  ser  executado   quando  o  usuário  abandona  aquele
+    \emph{shell},  quando \texttt{login}  espera um  novo \emph{login}
+    bem sucedido, que irá gerar  um novo processo \emph{shell} e assim
+    \emph{ad  infinitum}. Ao processo  que fica  parado após  gerar um
+    processo  é  chamado \emph{processo  pai}  e  ao  que foi  gerado,
+    \emph{processo filho};
+  \item  \textbf{Processos  zumbis:} Algumas  vezes,  um processo  pai
+    ``morre'' (ou  seja, é  encerrado) antes de  um processo  filho. O
+    normal é  que o  processo pai, ao  ``morrer'', ``mate''  também os
+    processos  filhos.   Também  é  responsabilidade do  processo  pai
+    desalocar os recursos usados pelo processo filho.  Pode acontecer,
+    porém, de o processo filho  não ``morrer'' por algum motivo. Nesse
+    caso,  pode acontecer  do  processo filho,  ao ``morrer'',  tentar
+    devolver recursos  ao processo pai (``morto'') e  não o conseguir.
+    Nesse caso, o processo  filho simplesmente ``congela'', virando um
+    processo zumbi.   O problema desses  processos é que  eles amarram
+    consigo recursos  preciosos para o  sistema. É possível  forçar um
+    processo a  ficar ativo mesmo  depois do seu pai  ter ``morrido'',
+    mas  sem correr o  risco de  torná-lo zumbi,  por meio  do comando
+    \texttt{nohup}        (Seção        \ref{sec:nohup},        Página
+    \pageref{sec:nohup}).   Outro motivo para  um processo  virá zumbi
+    pode acontecer  se \emph{``um programa  cria um processo  e demora
+      para  consultar  seu  resultado  após seu  término,  o  processo
+      permanece como `zumbi'.  Geralmente, é um bug do programa pai do
+      processo.  Se  existirem  muitos  processos  "zumbi",  pode  ser
+      necessário terminar  o programa pai  para desocupar a  tabela de
+      processos do kernel.''}\cite{ZAGO2006};
+\end{itemize}
+
+É  muito  importante  sabermos  distinguir  como  os  processos  estão
+situados no  sistema, principalmente por causa dos  zumbis. Para isso,
+precisamos  saber  como vistoriar  o  sistema  atrás  de processos.  O
+comando para isso é o \texttt{ps}.
+
+\subsection{O comando \texttt{ps}}
+\label{sec:ps}
+
+O  comando   \texttt{ps}  (\emph{process  scan}   ---  verificação  de
+processos) permite ao usuário  investigar quais processos estão em que
+situação.  Para  isso,  basta  usar  o comando  \texttt{ps}.  É  muito
+interessante  que a  saída do  \texttt{ps} seja  redirecionada  para o
+\texttt{less} via \emph{pipe}.
+
+O normal é apenas listar-se os processos do usuário, mas o \texttt{ps}
+possui      algumas     opções     interessantes,      retirada     de
+\citeonline{FOCALINUX2005}.   Perceba  que  as opções  no  \texttt{ps}
+\emph{não levam} \texttt{-}:
+
+\begin{itemize}
+  \item  \texttt{a}:  mostra os  processos  em  execução  de todos  os
+    usuários;
+  \item  \texttt{x}: mostra  processos  que não  são controlados  pelo
+    terminal;
+  \item \texttt{u}:  mostra quem disparou  o processo (UID  efetivo) e
+    quando ele foi iniciado;
+  \item \texttt{m}: mostra o consumo de memória no processo;
+  \item \texttt{f}:  mostra uma  árvore mostrando quem  é pai  de quem
+    (útil  para  detectar,  junto  com outras  opções,  para  detectar
+    processos zumbis e seus pais);
+  \item \texttt{w}:  mostra o que  não couber na linha  na(s) linha(s)
+    seguinte(s). Normalmente, cada processo ocupa apenas uma linha;
+\end{itemize}
+
+Existem muitas outras  opções no \texttt{ps}, e para  saber mais sobre
+elas  a consulta  à \emph{manpage}  \texttt{ps(1)}  é \emph{altamente}
+recomendável.
+
+O \texttt{ps} mostra vários campos úteis, contendo o PID, nome e grupo
+real e efetivos do usuário que disparou o processo, tempo de execução,
+memória consumida e outros. Mas  a coluna mais interessante para nós é
+a coluna \texttt{s},  ou \texttt{stat}, que apresenta para  nós qual o
+estado de cada processo dentro do sistema:
+
+\begin{itemize}
+  \item      \texttt{D}:     processo      dormente      em     estado
+    ininterrupto. Normalmente fica nesse estado processos que dependem
+    de uma operação de I/O, como servidores de arquivo;
+  \item  \texttt{R}: processo  que está  ou pode  vir a  ser executado
+    (\emph{ready}, pronto);
+  \item  \texttt{S}: dormindo,  pode ser  chamado por  um  processo ou
+    \emph{system  call}. Normalmente fica  nesse estado  processos que
+    estejam esperando  outros processos serem  processados para agirem
+    em cima de seus resultados  (um servidor Web durante a execução de
+    um CGI, por exemplo);
+  \item \texttt{T}: paralizado, normalmente aparece quando um programa
+    está sofrendo depuração;
+  \item \texttt{W}: paginado, mandado  para a memória virtual (caiu na
+    versão 2.6 do \emph{kernel} Linux);
+  \item \texttt{Z}: processo zumbi.
+\end{itemize}
+
+Outra coluna útil é a  \texttt{\%CPU}, que retorna a quantidade de CPU
+consumida pelo  processo em  questão. A soma  de todas as  entradas da
+coluna  \texttt{\%CPU} \emph{não costumam  totalizar 100\%}  (sempre é
+necssário  um certo  processamento para  o \emph{kernel},  em especial
+pelos sistemas  de memória e escalonamento de  processo, que \emph{não
+  aparece no \texttt{ps}}).
+
+Outra  coluna útil  é a  \texttt{\%MEM}, que  retorna o  percentual de
+memória  consumido pelo  processo.   Esse pode  totalizar 100\%,  pois
+considera   apenas  o  \emph{user   space}\footnote{\textbf{espaço  do
+    usuário}, aonde  as aplicações  do usuário são  alocadas} e  não o
+\emph{kernel space}\footnote{\textbf{espaço  do \emph{kernel}}, espaço
+  reservado  exclusivamente  para  o  \emph{kernel} e  seus  processos
+  internos}.
+
+Como  muitas vezes,  ao usar-se  \texttt{ps},  recebe-se \emph{muitos}
+resultados, um utilitário muito útil  para ser usado com o \texttt{ps}
+(e com muitos  outros comandos do GNU/Linux) é  o \texttt{grep}. Ele é
+um poderos sistema de  \emph{expressões regulares} que pode comparar a
+entrada padrão ou um arquivo  a um padrão determinado. Na prática isso
+quer dizer que  ele pode encontrar trechos de  texto dentro do arquivo
+ou saída em questão.
+
+Por  exemplo, imagine  que você  queira achar  todas as  instâncias do
+\texttt{bash}, use o comando  \texttt{ps} ligado por um \emph{pipe} ao
+\texttt{grep} e forneça ao  \texttt{grep} o comando a ser investigado,
+no caso \texttt{bash}. O comando final ficará assim: \verb+ps aux | grep bash+.
+
+O  Trecho  de  Código  \ref{code:psaux}, na  Página  \ref{code:psaux},
+mostra um exemplo de uma saída do \texttt{ps aux}. Procure atentar aos
+processos dos diversos tipos.
+
+\begin{codigo}[htp]   
+\tiny
+\begin{Verbatim}[frame=single,commandchars=+||]
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.0   1564   536 ?        S    Apr22   0:00 init [5]  
+root         2  0.0  0.0      0     0 ?        SN   Apr22   0:00 [ksoftirqd/0]
+root         3  0.3  0.0      0     0 ?        S<   Apr22   0:03 [events/0]
+root         4  0.0  0.0      0     0 ?        S<   Apr22   0:00 [khelper]
+root         5  0.0  0.0      0     0 ?        S<   Apr22   0:00 [kthread]
+root         7  0.0  0.0      0     0 ?        S<   Apr22   0:00 [kacpid]
+root        79  0.0  0.0      0     0 ?        S<   Apr22   0:00 [kblockd/0]
+root       111  0.0  0.0      0     0 ?        S    Apr22   0:00 [pdflush]
+root       112  0.0  0.0      0     0 ?        S    Apr22   0:00 [pdflush]
+root       114  0.0  0.0      0     0 ?        S<   Apr22   0:00 [aio/0]
+root       113  0.0  0.0      0     0 ?        S    Apr22   0:00 [kswapd0]
+root       703  0.0  0.0      0     0 ?        S    Apr22   0:00 [kseriod]
+root       780  0.0  0.0      0     0 ?        S    Apr22   0:00 [kjournald]
+root       922  0.0  0.0   1560   500 ?        S<s  Apr22   0:00 udevd -d
+root      1077  0.0  0.0      0     0 ?        S    Apr22   0:00 [khubd]
+root      1415  0.0  0.0      0     0 ?        S    Apr22   0:00 [scsi_eh_0]
+root      1416  0.0  0.0      0     0 ?        S    Apr22   0:00 [usb-storage]
+root      2552  0.0  0.0    828   376 ?        S    Apr22   0:00 /sbin/zcip -s -i eth0:9
+rpc       2702  0.0  0.0   1684   588 ?        Ss   Apr22   0:00 portmap
+root      4264  0.0  0.0   1608   640 ?        Ss   Apr22   0:00 syslogd -m 0 -a /var/spool/postfix/dev/log
+root      4272  0.0  0.1   2340  1348 ?        Ss   Apr22   0:00 klogd -2
+root      4324  0.0  0.0   1548   596 ?        Ss   Apr22   0:00 /usr/sbin/acpid
+root      4370  0.0  0.0   1688   724 ?        Ss   Apr22   0:00 rpc.statd
+root      4426  0.0  0.2   5496  2456 ?        Ss   Apr22   0:00 cupsd
+xfs       4815  0.0  0.2   4216  2592 ?        Ss   Apr22   0:00 xfs -port 
+71        4840  0.0  0.1   2224  1192 ?        Ss   Apr22   0:00 dbus-daemon-1 --system
+root      4865  0.0  0.2   4080  2696 ?        Ss   Apr22   0:00 hald
+root      4929  0.0  0.0   1828   704 ?        Ss   Apr22   0:00 /usr/sbin/mandi -d
+root      5088  0.0  0.0   2612   748 ?        S    Apr22   0:00 /usr/bin/kdm -nodaemon
+root      5095  0.0  0.0   2800   672 ?        Ss   Apr22   0:00 nifd -n
+root      5115  2.9  0.9  15600  9224 tty7     Ss+  Apr22   0:25 /etc/X11/X
+root      5167  0.0  0.1   3552  1884 ?        S    Apr22   0:00 -:0                   
+daemon    5259  0.0  0.0   1684   612 ?        Ss   Apr22   0:00 /usr/sbin/atd
+root      5284  0.0  0.1   4276  1648 ?        Ss   Apr22   0:00 /usr/sbin/sshd
++ldots
+root      5970  0.0  0.1   2660  1108 ?        Ss   Apr22   0:00 /usr/bin/lisa -c /etc/lisarc
+root      6062  0.0  0.0   1544   440 tty1     Ss+  Apr22   0:00 /sbin/mingetty tty1
+root      6063  0.0  0.0   1544   440 tty2     Ss+  Apr22   0:00 /sbin/mingetty tty2
+root      6064  0.0  0.0   1548   440 tty3     Ss+  Apr22   0:00 /sbin/mingetty tty3
+root      6065  0.0  0.0   1548   444 tty4     Ss+  Apr22   0:00 /sbin/mingetty tty4
+root      6066  0.0  0.0   1548   440 tty5     Ss+  Apr22   0:00 /sbin/mingetty tty5
+root      6067  0.0  0.0   1544   436 tty6     Ss+  Apr22   0:00 /sbin/mingetty tty6
++ldots
+fecosta   6331  0.0  1.4  27840 14076 ?        S    Apr22   0:00 korgac --miniicon korganizer
+fecosta   6333  0.1  0.0      0     0 ?        Z    Apr22   0:00 [kdesu] <defunct>
+fecosta   6337  0.0  0.5  15856  5712 ?        S    Apr22   0:00 /usr/bin/kdesud
++ldots
+root      6354  0.0  0.0      0     0 ?        Z    Apr22   0:00 [ifup-post] <defunct>
+fecosta   6451  0.2  0.0      0     0 ?        Z    Apr22   0:02 [net_monitor] <defunct>
+fecosta   6457  0.1  0.0      0     0 ?        Z    Apr22   0:00 [kdesu] <defunct>
+fecosta   6674  0.5  1.5  28424 15392 ?        S    00:00   0:03 konsole [kdeinit]
+fecosta   6675  0.0  0.1   3160  1832 pts/1    Ss   00:00   0:00 /bin/bash
+fecosta   6717  0.1  0.0      0     0 ?        Z    00:00   0:00 [kdesu] <defunct>
+root      7135  0.0  0.0   1580   524 ?        Ss   00:00   0:00 /sbin/ifplugd -b -i wlan0
+postfix   7214  0.0  0.1   4416  1564 ?        S    00:00   0:00 qmgr -l -t fifo -u -c
+root      7238  0.0  0.1   2548  1212 pts/1    S+   00:01   0:00 su -c ./smarturpmi.sh
+root      7241  0.0  0.1   2480  1236 pts/1    S+   00:01   0:00 /bin/sh ./smarturpmi.sh
++ldots
+fecosta   7266  0.0  0.1   3152  1808 pts/2    Ss   00:01   0:00 /bin/bash
+root      7362  0.0  0.1   2544  1212 pts/2    S    00:02   0:00 su
+root      7365  0.0  0.1   2652  1572 pts/2    S+   00:02   0:00 bash
+fecosta   7416  2.4  2.0  41160 20948 ?        Sl   00:03   0:11 /usr/bin/gaim
+fecosta   7472  0.0  0.1   3160  1836 pts/3    Ss   00:08   0:00 /bin/bash
+fecosta   7530  1.4  0.7  10572  7480 ?        S    00:10   0:00 emacs
+fecosta   7531  0.0  2.0  41144 20944 ?        S    00:10   0:00 /usr/bin/gaim
+fecosta   7532 11.6  1.7  31276 18020 pts/3    S    00:10   0:01 kwrite
+fecosta   7537  0.0  0.0   2572   836 pts/3    R+   00:11   0:00 ps aux
+\end{Verbatim}
+\caption{Exemplo do comando \texttt{ps aux}}
+\label{code:psaux}
+\end{codigo}
+
+Se  você  quiser   monitorar  continuamente  a  \emph{performance}  do
+sistema, você  pode utilizer-se  do comando \texttt{top},  um programa
+interativo  que  é  uma  solução  mais interessante  do  que  usar  um
+\texttt{watch  'ps'}.   Como  não   é  nosso  foco  aqui  falar  sobre
+\emph{todas} as opções para fazer-se as coisas no GNU/Linux, você pode
+consultar   bons    guias   de   referência,   como    o   Guia   Foca
+GNU/Linux\cite{FOCALINUX2005} ou,  claro, a \emph{manpage}  do comando
+\texttt{top(1)}.
+
+\subsection{Mandando um processo para segundo plano e o trazendo de
+  volta: \texttt{bg} e \texttt{fg}}
+
+Algumas  vezes,  você  pode  desejar  interromper  temporariamente  um
+processo  interativo  (que  são   chamados  na  terminologia  Unix  de
+\emph{trabalhos},  ou \emph{jobs})  de primeiro  plano para  operar no
+\emph{shell}  por  alguns instantes  ou  passar  para outro  processo.
+Quase todos os programas GNU/Linux  possuem uma forma de passar para o
+\emph{shell},  seja  disparando um  \emph{shell}  dentro do  processo,
+quanto permitindo que o  usuário paralise temporariamente o \emph{job}
+(através de \Ctrl +  \keystroke{C}) para voltar ao \emph{shell}.  Esse
+atalho é padrão para a maioria dos programas interativos do GNU/Linux,
+e manda temporariamente o \emph{job} para segundo plano.
+
+Quando você sai, ele apresenta uma mensagem como a do Trecho de Código
+\ref{code:ctrlc}, Página \pageref{code:ctrlc}. Nesse caso, pode-se ver
+que o texto  mostra um \verb|[1]| ou outro número  qualquer.  Esse é o
+\emph{número  do  \emph{job}  em   execução}  ou  \emph{job  id}  (não
+confundir com o  PID) do programa executado pelo  usuário. Quase todos
+os  próximos  comandos usam  esse  \emph{job  id}  para realizar  suas
+funções. Uma  opção mais complexa é  fornecer o PID  da aplicação, que
+você sempre pode obter usando \texttt{ps}.
+
+\begin{codigo}[htp]   
+\footnotesize
+\begin{Verbatim}[frame=single,commandchars=+||]
+[2]+  Stopped                 cat >teste
+\end{Verbatim}
+\caption{Exemplo de  resultado de \Ctrl+\keystroke{Z} e  do seu número
+  do trabalho (\emph{job id})}
+\label{code:ctrlc}
+\end{codigo}
+
+A primeira  coisa que você precisa  saber é que é  possível ter vários
+\emph{jobs} para vários usuários rodando  ao mesmo tempo em um sistema
+GNU/Linux,  mas  \emph{apenas um  pode  estar  em  primeiro plano  por
+  usuário}\footnote{Na  verdade,  por sessão  aberta,  sendo que  cada
+  sessão equivale a um \emph{shell} ou terminal no qual o usuário está
+  logado.   Como não  estamos vendo  muito sobre  \emph{sessões} nesse
+  documento, a  ``regra de casa''  de um \emph{job} em  primeiro plano
+  por usuário  continua válida. Vamos  falar mais sobre  seções quando
+  falarmos mais  sobre interfaces gráficas}.  Os  demais (se possível)
+continuarão  processando suas  informações.  Para  trazer de  volta um
+determinado  \emph{job}  para  o  primeiro plano,  utilize  o  comando
+\texttt{fg}(\emph{foreground})  com  o   \emph{job  id}  do  processo,
+precedido por um \% (por exemplo: \texttt{fg \%1}).
+
+Da  mesma  forma, você  pode  mandar  um  determinado \emph{job}  para
+segundo  plano.   O normal  ao  usar-se  \Ctrl+\keystroke{C}  é que  o
+\emph{job} passe para o  estado de dormência (\texttt{S} ou \texttt{D}
+na  lista de estado  do processo  no \texttt{ps}).   Ou seja,  ele irá
+parar de ser  executado. Isso pode não ser  interessante algumas vezes
+(por exemplo, se você deixou um cálculo grande ser processado enquanto
+editava um texto  no \texttt{emacs}).  Nesse caso, você  pode mandar o
+\emph{job}  para o  segundo  plano  com o  comando  \texttt{bg} com  o
+\emph{job  id}  do  processo,   precedido  por  um  \%  (por  exemplo:
+\texttt{bg \%1}).
+
+O  normal é  que apareça  uma  linha similar  ao do  Trecho de  Código
+\ref{code:ctrlc}, Página \pageref{code:ctrlc}, mas com o comando sendo
+seguido de um \texttt{\&}, o que reflete o fato do comando agora estar
+em segundo plano.
+
+\subsection{Vendo os processos de segundo plano: \texttt{jobs}}
+
+Algumas  vezes  você pode  querer  saber  quais  \emph{jobs} estão  em
+segundo plano naquele  momento e como eles estão.  A  opção de usar um
+\texttt{ps} é  possível, mas  pouco viável, pois  você teria  que usar
+muitos  outros utilitários  ligados  por \emph{pipes}  para filtrar  o
+conteúdo desejado. Para isso, o  GNU/Linux, como todos os Unix oferece
+um      comando      para      mostrar     os      \emph{jobs}      em
+execução. Surpreendentemente, o nome do comando é \texttt{jobs}.
+
+O normal do  comando \texttt{jobs} é que ele  retorne uma listagem com
+os seguintes dados, uma linha para cada \emph{job} no sistema, como no
+exemplo   do    Trecho   de   Código    \ref{code:jobs},   na   Página
+\pageref{code:jobs}:
+
+\begin{center}
+\begin{verbatim}
+jobId jobAtual Estado Comando
+\end{verbatim}
+\end{center}
+
+\begin{codigo}[htp]   
+\footnotesize
+\begin{Verbatim}[frame=single,commandchars=+||]
+[1]   Running                 ogg123 -zq /mnt/winE/Músicas\ Especiais/ &
+[2]-  Stopped                 cat >teste
+[3]+  Stopped                 /usr/bin/mc -P "$MC_PWD_FILE" "$@"
+\end{Verbatim}
+\caption{Exemplo da saída de um comando \texttt{jobs}}
+\label{code:jobs}
+\end{codigo}
+
+Aonde  \texttt{jobId}  é o  \emph{job  id}  do  \emph{job} listado  em
+questão.  \texttt{jobAtual}  normalmente  será  um espaço  em  branco,
+exceto em dois  \emph{jobs}, um marcado com o sinal  de \texttt{+} e o
+outro  com o  sinal de  \texttt{-}. O  \texttt{+} indica  o \emph{job}
+atual, enquanto  o \texttt{-}  indica o \emph{job}  ao qual  o sistema
+devolverá o usuário  assim que ele encerrar o  \emph{job} marcado pelo
+sinal de \texttt{+}.
+
+\texttt{Estado}  mostra  uma mensagem  informando  o  estado atual  do
+\emph{job}  em  questão,  sendo eles:  \textbf{Running}(em  execução),
+\textbf{Done}(encerrado com sucesso)\footnote{O  POSIX, padrão do Unix
+  ao qual  o GNU/Linux segue,  exige que todo processo  ao encerrar-se
+  envie um valor de \emph{status}  de volta ao sistema --- normalmente
+  um  número inteiro  sem  sinal. Um  processo  terminado com  sucesso
+  retorna valor  \texttt{0}, enquanto processos  encerrados com falhas
+  ou abruptamente retornam valores de status diferentes de \texttt{0}.
+  As \emph{manpages} e \emph{infopages}  dos comandos e utilitários do
+  GNU/Linux trazem  explicações sobre que  tipo de erro  provocou cada
+  valor de  status. Independente de  qualquer outra coisa, o  valor de
+  retorno  \texttt{0}  é \emph{obrigatório}  e  esperado  de todos  os
+  utilitários, comandos  e programas}, \textbf{Done(status)}(encerrado
+com sucesso, mas que retornou um valor de \texttt{status} diferente de
+\texttt{0},  indicado por \texttt{status}\footnote{Algumas  vezes isso
+  quer  dizer  que  o  programa foi  encerrado  ``elegantemente''  ---
+  devolvendo todos  os recursos  alocados ao sistema  --- e  que houve
+  algum  tipo de  falha na  execução do  prograa})  e \textbf{Stopped}
+(paralizado)  ou   \textbf{Suspended}  (suspenso).  O   último  campo,
+\texttt{comando}, indica o comando do \emph{job} em questão.
+
+Como opções, \texttt{jobs} oferece  as opções \texttt{-l}, que retorna
+uma listagem  mais completa que  a anterior, trazendo  informações que
+normalmente seriam inclusas no \texttt{ps},  o que pode ser muito útil
+para  levantar a  \emph{performance} dos  \emph{jobs} sem  recorrer ao
+\texttt{ps},  e \texttt{-p}, que  apenas lista  o PID  dos \emph{jobs}
+atuais.
+
+Com isso  acabamos com o comando \texttt{jobs}.  Vamos seguir adiante,
+explicando como eliminamos processos com problemas.
+
+\subsection{``Matando'' processos: \texttt{kill} e \texttt{killall}}
+
+Algumas  vezes,  processos ficam  congelados  ou  travads por  motivos
+bobos.  Outras, precisamos mesmo é eliminar o processo, principalmente
+no caso  de processos  mal-executados ou maliciosos,  garantindo assim
+que o  sistema não  irá travar.  Nesse caso, a  solução é  ``matar'' o
+problema\footnote{Por favor,  não levem essa  idéia para a  vida real!
+  Isso  vale   apenas  na  administração  dos   processo  em  sistemas
+  GNU/Linux.    Não    tenter    resolver   seus    problemas    dessa
+  forma. \emph{Você  foi avisado!!!!}  :P}. Para isso,  utilizaremos o
+comando \texttt{kill}.
+
+Esse comando  normalmente recebe como  parâmetro o PID ou  o \emph{job
+  id} do sistema (precedido  de \texttt{\%}).  Ele tentará ``matar'' o
+  processo  normalmente.  Mas  algumas  vezes o  processo pode  querer
+  ``engrossar''.   Nesse caso,  você pode  entrar junto  com o  PID ou
+  \emph{job   id}  um   nível   de  sinal\footnote{\emph{Sinais}   são
+  utilizados para que processos dos sistemas Unix (GNU/Linux incluído)
+  saibam quais comportamentos deverão assumir ao se encerrar} entre os
+  vários   que   o   sistema   disponibiliza,  mostrados   na   Tabela
+  \ref{table:siglevels}, Página \pageref{table:siglevels}, retirada do
+  ``Guia Foca GNU/Linux''\cite{FOCALINUX2005}.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c|c|c|l|}
+\hline
+{\centering \textbf{\textsc{Nome do}}}  & {\centering  \textbf{\textsc{Valor do}}} & &\\
+{\centering \textbf{\textsc{Sinal}}} & {\centering  \textbf{\textsc{Sinal}}}  & {\centering \textbf{\textsc{Ação}}}  & {\centering \textbf{\textsc{Comentários}}}\\
+\hline\hline
+ \texttt{HUP} & 1 & A & Travamento detectado no terminal de \\
+ & & & controle ou finalização do processo \\
+ & & & controlado\\
+ \texttt{INT} & 2 & A & Interrupção através do teclado\\
+ \texttt{QUIT} & 3 & C & Sair através do teclado\\
+ \texttt{ILL} & 4 & C & Instrução Ilegal\\
+ \texttt{ABRT} & 6 & C & Sinal de abortar enviado pela \\
+& & & função \texttt{abort}\\
+ \texttt{FPE} & 8 & C & Exceção de ponto Flutuante\\
+ \texttt{KILL} & 9 & AEF & Sinal de destruição do processo\\
+ \texttt{SEGV} & 11 & C & Referência Inválida de memória\\
+ \texttt{PIPE} & 13 & A & \emph{Pipe} Quebrado: escreveu para o \emph{pipe} \\
+ & & & sem leitores\\
+ \texttt{ALRM} & 14 & A & Sinal do Temporizador da chamada do\\
+ & & & sistema \texttt{alarm}\\
+ \texttt{TERM} & 15 & A & Sinal de Término\\
+ \texttt{USR1} & 30,10,16 & A & Sinal definido pelo usuário 1\\
+ \texttt{USR2} & 31,12,17 & A & Sinal definido pelo usuário 2\\
+ \texttt{CHLD} & 20,17,18 & B & Processo filho parado ou terminado\\
+ \texttt{CONT} & 19,18,25 & & Continuar a execução, se interrompido\\
+ \texttt{STOP} & 17,19,23 & DEF & Interromper processo\\
+ \texttt{TSTP} & 18,20,24 & D & Interromper digitação no terminal\\
+ \texttt{TTIN} & 21,21,26 & D & Entrada do terminal para o processo \\
+ & & & em segundo plano\\
+ \texttt{TTOU} & 22,22,27 & D & Saída do terminal para o processo\\
+ & & & em segundo plano\\
+\hline
+\end{tabular}
+\label{table:siglevels}
+\caption{Sinais do sistema segundo POSIX}
+\end{center}
+\end{table}
+
+Desse vários  sinais, o  normal é usar  os sinais  \texttt{TERM} (15),
+\texttt{KILL}  (9), ou  \texttt{HUP}  (1). Esses  sinais querem  dizer
+\emph{encerrar o  programa normalmente}, \emph{``matar''  (eliminar) o
+  processo} e \emph{reiniciar o processo}. O padrão do \texttt{kill} é
+usar o sinal \texttt{TERM} (15). 
+
+Nesse caso, você mata um processo  por vez. Mas e se você quiser matar
+vários  processo de  uma vez,  principalmente baseando-se  no  nome do
+aplicativo (por exemplo, para  matar um processo malicioso que dispara
+milhares de si próprio para destruir sua rede ou redes alheias). Nesse
+caso,  apenas  um  ``tiro''   não  funciona,  você  precisará  de  uma
+``metralhadora''.    E    essa    ``metralhadora''   é    o    comando
+\texttt{killall}.
+
+Na  prática,  \texttt{killall}  é  uma  versão  turbinada  do  comando
+\texttt{kill},  que caça  dentro dos  processos ativos  um determinado
+nome passado  como parâmetro.  Na prática,  o comando \texttt{killall}
+tem  como  sintaxe  \texttt{killall  <sinal>  <nome>}.   Por  exemplo,
+imaginemos que você  queira matar todos os processo  cujo comando seja
+\texttt{horcrux} com  um sinal \texttt{KILL}. Nesse caso,  o comando a
+ser disparado  é \texttt{killall -KILL horcrux}  ou \texttt{killall -9
+horcrux}. 
+
+Existem algumas opções para  \texttt{killall} que podem ser úteis, mas
+não  iremos comentar  elas  aqui. Uma  boa  consulta à  \emph{manpage}
+\texttt{killall(1)} deve resolver. Existe  também um comando que seria
+a   ``bomba    atômica''   dessa    história,   que   é    o   comando
+\texttt{killall5}, que manda um sinal de encerramento para \emph{todos
+  os  processos}.  Esse  comando  \emph{não deveria}  ser  usado  para
+desligar  ou  reiniciar  o  sistema (prefira  comandos  simples,  como
+\texttt{halt} e \texttt{shutdown}).
+
+Isso deve encerrar esse tópico  sobre o \texttt{kill}. Vamos seguir em
+frente.
+
+\subsection{Aumentando  a  prioridade  do  processo:  \texttt{nice}  e
+  \texttt{renice}}
+
+Em  geral,  o escalonador  de  processos  do  GNU/Linux define  certas
+prioridades  aos processos,  e  essas prioridades  são suficientes  na
+grande  maioria dos  casos.  Porém, algumas  vezes  precisamos que  um
+determinado  processo rode  \emph{realmente}  rápido ou  pode ser  que
+precisemos diminuir  a prioridade de  um processo que  está consumindo
+muito  processamento,  além  do  devido.  Nesse  caso,  utilizamos  os
+comandos \texttt{nice} e \texttt{renice}. 
+
+Esses  dois  comandos tem  o  mesmo  objetivo,  que é  reconfigurar  a
+prioridade dos processos no sistema. A diferença é que o \texttt{nice}
+é usado quando o processo é criado (\emph{leia-se:} quando o comando é
+dado) e o  \texttt{renice} pode ser usado para  alterar as prioridades
+de processo já carregados.
+
+No  caso, a  sintaxe de  ambos é  parecida:  \texttt{nice <prioridade>
+  '<comando>'}   e  \texttt{renice   <prioridade>  <pid>}.   No  caso,
+  \texttt{nice}  não  possui   nenhuma  opção  interessante,  enquanto
+  \texttt{renice}  possui  uma  muito  interessante,  que  é  a  opção
+  \texttt{-u}  (\emph{user}  --- usuário),  que  permite modificar  as
+  prioridades  do  sistema  para   \emph{todos}  os  processos  de  um
+  determinado  usuário.  Isso pode  ser  útil  tanto  para aumentar  o
+  processamento de  um determinado  usuário que precisa  de resultados
+  rápidos  quanto para  diminuir  a prioridade  dos  processos dde  um
+  espertinho que  procurou aumentar as  prioridades de um  programa de
+  DVD... 
+
+Agora, a  pergunta que não quer calar  é: como é que  são definidas as
+prioridades. 
+
+O escalonador  de processos do  GNU/Linux utiliza certos  valores para
+definir o grau de prioridade do usuário no sistema. Para isso, além de
+certos valores internos, ele  utiliza o \emph{niceness} (gentileza) do
+processo. Em geral, todos os  processos, sem exceção, são lançados com
+\emph{niceness} \texttt{0}, que é o  limite que um usuário típico pode
+lançar.  É  possível  aumentar-se  o  \emph{niceness}  pelos  comandos
+\texttt{nice}/\texttt{renice},  o que  de certa  forma quer  dizer que
+o processo estará mais propenso a ceder sua vez na execução de comando
+(daí o  \emph{niceness}), até  um valor \texttt{19}  (menor prioridade
+possível).   É   possível   também   definir  valores   negativos   de
+\emph{niceness}, que querem dizer  que o processo estará mais exigente
+quanto  à  sua posição  no  escalonamento  de  processos. Porém,  para
+impedir que usuários  inescrupulosos aproveitassem-se e transformassem
+o  escalonamento de processos  em uma  verdadeira luta-livre  para ver
+quem conseguiria  mais recursos e tempo de  processamento, o GNU/Linux
+impede  que  um usuário  normal  utilize  um \emph{niceness}  negativo
+(apenas  o \texttt{root}  pode utilizar  \emph{niceness}  negativo). A
+maior prioridade é \texttt{-19}. 
+
+Para  um  artigo  introdutório   bem  interessante  sobre  o  asssunto
+escalonamento      de     processo     no      GNU/Linux,     consulte
+\citeonline{COELHO2003}.
+
+\subsection{``Congelando'' um processo: \texttt{nohup}}
+\label{sec:nohup}
+
+Como  dissemos   anteriormente,  em  geral  quando   um  processo  pai
+``morre'', os processos filho ``morrem'' com ele. Isso, porém, é muito
+ruim. O exemplo clássico disso  é o aplicativo gráfico que, aberto via
+um \emph{shell} é derrubado quando o \emph{shell} é fechado. 
+
+Para evitar  esse problema, o Unix  (e o GNU/Linux com  ele) possui um
+comando chamado  \texttt{nohup} (\emph{no hangup} ---  sem queda), que
+impede o  processo a  ser aberto ``morra''  quando o seu  processo pai
+``morra''.   A  sintaxe   desse  comando   é   simples:  \texttt{nohup
+'<comando>'}
+
+Com   esse   comando,  terminamos   a   parte   da  administração   de
+processos. Seguiremos agora em frente com a parte de \emph{backup}.
+
+\section{\emph{Backup}}
+\label{sec:backup}
+
+Há   um  fato   inevitável  na   informática:  cedo   ou   tarde  você
+\emph{perderá} dados com os quais estava trabalhando. É fato: basta um
+comando mal-dado ou salvar um arquivo em uma localidade errada e lá se
+vai  todo  o trabalho  de  anos que  você  tinha,  ou aquela  apostila
+especial que você estava produzindo. Em um ambiente multi-usuário como
+o  GNU/Linux  isso  é  ainda  pior: embora  as  permissões  de  acesso
+restrinjam  de   certa  forma  ``acidentes'',  nada   impede  que  uma
+combinação   de  erro   (ou  procedimento   malicioso)   e  permissões
+mal-configuradas podem colocar todo o trabalho de uma equipe a perder,
+ou até  mesmo aquele projeto  crítico em que  a equipe de  Pesquisa \&
+Desenvolvimento estava trabalhando. 
+
+Para impedir  (ou ao menos minimizar)  impactos por causa  da perda de
+dados  provocado  por  comandos  mal-dados ou  arquivos  removidos  de
+maneira  errônea, o  GNU/Linux  oferece uma  série  de utilitários  de
+\emph{backup} de  dados de todos  os tipos, desde  ferramentas simples
+como   o  \texttt{cpio}   até   ferramentas  proprietárias   altamente
+sofisticadas   com   rotação   automática   de   fitas,   sistema   de
+\emph{storage} e muito mais.
+
+Mas a  principal ferramenta de  \emph{backup} no GNU/Linux  é composto
+pelo conjunto  de ferramentas \texttt{tar} + GNU  \texttt{gzip} ou GNU
+\texttt{bzip2}.
+
+\subsection{Os     utilitários    \texttt{tar},     \texttt{gzip}    e
+  \texttt{bzip2}}
+
+O  utilitário \texttt{tar} (\emph{tape  archiver} ---  arquivador para
+fitas) é um dos mais antigos  utilitários do ambiente Unix em geral, e
+é  a principal  ferramenta de  \emph{backup}  do mundo  Unix, por  sua
+simplicidade e  versatilidade. Na prática,  tudo o que  o \texttt{tar}
+faz  é pegar  uma massa  de  arquivos e  os transformar  em uma  saída
+formatada  de bits  (\emph{stream}) que  pode ser  transformada  em um
+arquivo    ou    enviada     para    um    dispositivo    físico    de
+armazenamento\footnote{Demonstrando  o  poder  de  um  dos  principais
+princípios  do  Unix  em  geral,  portado para  o  GNU/Linux,  o  KISS
+(\emph{Keep It Simple  and Safe} --- mantenha tudo  simples e seguro),
+ou seja, de que um utilitário deve fazer apenas \emph{uma} tarefa, mas
+deve fazê-la \textsc{muito} bem}.  Isso gera um arquivo com transporte
+facilitado para ser enviado por vários meios. 
+
+O problema é  que um arquivo \texttt{tar} costuma  ter o mesmo tamanho
+do   arquivo/diretório,  senão  mais.   Isso  porque   o  \texttt{tar}
+\emph{não oferece}  compressão. A idéia  é que a compressão  dos dados
+fosse feita  pelo \emph{hardware}  dos dispositivos de  fita, portanto
+poupando o  sistema de uma  tarefa ingrata e custosa  em processamento
+(para  os  minicomputadors nos  quais  as  primeiras  versões do  Unix
+rodavam). Quando  a coisa ficava para transmissões  por meios digitais
+como  redes  UUCP\footnote{\emph{Unix to  Unix  Copy}  --- um  sistema
+  rudimentar de transferência de  informações entre ambientes Unix} ou
+via  Internet,  o  problema   da  falta  de  compressão  continuava-se
+presente. 
+
+O primeiro utilitário que foi construído para compactar os dados de um
+arquivo \texttt{tar}  (ou de  qualquer tipo) foi  o \texttt{compress},
+que sofria de um sério problema:  uma patente sobre o algoritmo LZW de
+compressão que era  de posse da Unisys e que impedia  a criação de uma
+versão livre  do \texttt{compress}.  Para  evitar isso, o  projeto GNU
+construiu  sua  própria  ferramenta  de  compressão,  o  GNU  Zip,  ou
+\texttt{gzip}. Usando ele, poderia-se comprimir um pacote \texttt{tar}
+e  enviá-lo com  compressão similar  (em  alguns casos  melhor) que  a
+oferecida    pelo   \texttt{compress}    e    livre   de    algoritmos
+patenteados. Além disso, o formato \texttt{gzip} foi descrito na forma
+de RFCs\footnote{\emph{Request For Comments}, documentos que, de certa
+forma, são considerados os padrões de protocolos da Internet}(no caso,
+as     RFCs      1950\cite{ZLIB1996},     1951\cite{DEFLATE1996}     e
+1952\cite{GZIP1996})\cite{GZIP2003}. 
+
+Com  o   tempo  e  o   processamento  dos  sistemas   melhorando,  foi
+desenvolvido  um protocolo ainda  melhor de  compressão de  dados para
+Unix,      o     \texttt{bzip2},      desenvolvido      por     Julian
+Seward\cite{BZIP2005}.  Esse formato chega  a conseguir  10 a  15\% de
+compressão  a mais  em  cima  do \texttt{gzip},  além  de, assim  como
+\texttt{gzip} ser um utilitário \emph{free software}.
+
+É essa trinca que é usada para nossos \emph{backups}. Vamos nesse caso
+ser um  pouco diretos quanto aos  comandos a serem  usados, pois esses
+comandos são razoavelmente complexos.  Como dica, fica a sugestão para
+ler-se    as   \emph{manpages}    \texttt{tar(1)},   \texttt{gzip(1)},
+\texttt{gunzip(1)},  \texttt{bzip2(1)},   \texttt{bunzip2(1)}  e  suas
+\emph{infopages}.
+
+\subsection{Criando um \emph{backup} com o utilitário \texttt{tar}}
+
+Para criar um \emph{backup},  em geral usamos o \texttt{tar} associado
+ao \texttt{gzip} ou \texttt{bzip2} via \emph{pipe}. Normalmente usa-se
+algumas  combinações padrão  de  opções no  \texttt{tar}.  No caso,  o
+padrão é usar-se\cite{CINEIROS2005}:
+
+\begin{center}
+\begin{Verbatim}[commandchars=+;;]
+tar cvf <arquivo> <dir> | gzip -
+\end{Verbatim}
+ou
+\begin{Verbatim}[commandchars=+;;]
+tar cvf <arquivo> <dir> | bzip2 - 
+\end{Verbatim}
+\end{center}
+
+Essas opções padrão do \texttt{tar} querem dizer. 
+
+\begin{itemize}
+\item  \texttt{c}  ---  indica  que  irá  se  criar  um  novo  arquivo
+\texttt{tar}.
+\item \texttt{v} --- cria um padrão de identificação de ``pedaços'' do
+  arquivo \texttt{ar}. Esse é muito útil quando você vai trabalhar com
+  várias fitas e usa o \texttt{tar} para gerar o \emph{backup}
+\item  \texttt{f}  ---  Fornece  um  nome a  ser  usado  pelo  arquivo
+\texttt{tar}
+\end{itemize}
+
+No caso,  a idéia é  que o \texttt{tar}  monte o arquivo.  Depois esse
+arquivo  é passado ao  \texttt{gzip} ou  ao \texttt{bzip2}  pela saída
+padrão.  Por  sua  vez,  eles  vão compactar  o  arquivo  em  questão,
+adicionando suas  próprias extensões ao final  do arquivo (normalmente
+\texttt{.gz} e  \texttt{.bz2} respectivamente), devolvendo  ao sistema
+esse  arquivo  final  (conhecido  no  mundo Unix  algumas  vezes  como
+\emph{tarball}, principalmente para os arquivos \texttt{.tar.gz}). 
+
+Esse passo  do pipe  pode ser facilmente  pulado usando-se  os comando
+\texttt{tar  cvzf  <arquivo>}  ou  \texttt{tar  cvjf  <arquivo>}.   Os
+símbolos  \texttt{z}  e \texttt{j}  fazem  respectivamente  com que  o
+\texttt{tar} chame por conta própria a compressão por \texttt{gzip} ou
+\texttt{bzip2}.  Essas  opções, porém, são  próprias da versão  GNU do
+\texttt{tar}.  Portanto,  se você for  utilizar essas dicas  em outros
+ambientes,  pode acontecer  dessas dicas  não funcionar  com  você. De
+qualquer modo.
+
+Existe uma série enorme  (enorme \emph{mesmo}) de opções que oferecem,
+entre outras  coisas, possibilidades de  \emph{backup} incremental (ou
+seja, apenas fazer cópia de  arquivos que tenham sido alterados depois
+de algum  tempo), filtragem  dos arquivos a  serem copiados, e  por aí
+afora.  É   muito  recomendável  a  consulta   das  \emph{manpages}  e
+\emph{infopages} do  comando \texttt{tar}, principalmente  pela grande
+variedade de  comandos possíveis e opções  que podem ser  úteis. O que
+demos aqui foi uma introdução na questão do \emph{backup}. 
+
+\begin{quotation}
+\textbf{Atenção:}  Lembre-se  de salvar  os  \emph{backups} em  mídias
+confiáveis e, caso  seja para uma empresa, possuir  uma estratégia que
+permita a rápida recuperação do \emph{backup}.
+\end{quotation}
+
+\subsection{Recuperando um \emph{backup} com o utilitário \texttt{tar}}
+
+Como dissemos  no começo  dessa seção,  o fato é  que, cedo  ou tarde,
+\emph{você  irá perder  dados}! Essa  é  uma das  maiores certezas  da
+informática, que não importa o  quão você seriamente você proteja seus
+dados ou que  você seja cuidadoso ao salvar  arquivos, basta uma tecla
+errada, uma opção mal-selecionada e  os dados vão-se embora, e sua paz
+com eles. 
+
+Mas para isso é que fazemos \emph{Backup}, de qualquer modo. 
+
+Mas precisamos restaurá-los. Para isso, vamos fazer a operação reversa
+da criação de um arquivo,  a \emph{extração} de dados do arquivo. Para
+isso usamos:
+
+\begin{center}
+\begin{Verbatim}[commandchars=+;;]
+gunzip <arquivo> | tar xf -
+\end{Verbatim}
+ou
+\begin{Verbatim}[commandchars=+;;]
+bunzip2 <arquivo> | tar xf - 
+\end{Verbatim}
+\end{center}
+
+No caso, o que fazemos aqui é o oposto exato do processo de criação do
+arquivos: primeiro os  utilitários \texttt{gunzip} ou \texttt{bunzip2}
+(conforme  que  compactou  o  arquivo  originalmente)  descompactam  o
+arquivo \texttt{.tar}  que é enviado  pelo \emph{pipe} para  o comando
+\texttt{tar}, sendo  que esse realiza  a extração dos dados  dentro do
+arquivo. 
+
+\begin{quotation}
+\textbf{Atenção:} É \emph{extremamente} aconselhável que essa extração
+seja  feita em  um diretório  à  parte, de  modo que  o usuário  possa
+selecionar os arquivos a serem restaurados sem que perca dados e acabe
+piorando a  situação (por exemplo,  sobrescrevendo um arquivo  com uma
+versão mais antiga do mesmo).
+\end{quotation}
+
+Como no  caso da  compactação, é possível  evitar-se a  necessidade de
+usar-se  o  \emph{pipe}  com  o   a  adição  da  chave  \texttt{z}  ou
+\texttt{j}, conforme o compactador usado ao gerar-se o arquivo. 
+
+Antes de terminar-mos essa seção,  queremos reiterar que o que falamos
+aqui foi o básico do básico sobre \emph{backup}. Existem muitas opções
+e formas de usar-se a  combinação do \texttt{tar} com \texttt{gzip} ou
+\texttt{bzip2}, além de haver outros utilitários para \emph{backup} de
+dados.  No  caso, esse  processo  é  um  pouco rudimentar,  mas  muito
+efetivo.  Na Internet  pode-se encontrar  com facilidade  métodos mais
+modernos de \emph{backup} para GNU/Linux. 
+
+Com  isso  terminamos  esse  Capítulo,  aonde  falamos  do  básico  da
+administração de um sistema  GNU/Linux. No próximo capítulo, falaremos
+sobre a conectividade  em rede, um outro elemento  muito importante na
+administração de um sistema GNU/Linux. Para se aprofundar no tópico da
+Administração do  sistema GNU/Linux o  conselho já foi dado  no começo
+desse  capítulo  e que  reiteramos,  que é  a  consulta  ao Guia  FOCA
+GNU/Linux,  Nível  Avançado\cite{FOCALINUX-ADV2005},  ou ao  \emph{The
+Linux System Administrators' Guide}\cite{SAG2005}, além de qualquer um
+dos  variados livros  sobre o  assunto que  podem ser  encontrados nas
+prateleiras de lojas especializadas.

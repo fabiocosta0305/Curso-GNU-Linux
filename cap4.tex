@@ -1,0 +1,422 @@
+\chapter{Acessando dispositivos no GNU/Linux}
+\label{sec:storage}
+Com seu sistema de arquivos de árvore única, o acesso à informação no
+GNU/Linux (como no  Unix em geral) sempre foi  voltado à possibilidade
+de  adicionar-se  espaço de  armazenamento \emph{on-the-fly},  com  o
+mínimo de  \emph{downtime} possível. Para isso, o  GNU/Linux recorre a
+procedimentos de montagem e desmontagem  de dispositivos e a pontos de
+montagens estruturados.
+
+Nesse capítulo,  nosso objetivo é que o leitor compreenda  esses dois
+conceitos, assim como os  comandos necessáios para montar e desmontar
+dispositivos e um arquivo  muito importante de configuração dos pontos
+de montagem do sistema, o \texttt{/etc/fstab}.
+
+\section{Conceito de ``montagem de dispositivos''}
+
+Um conceito errôneo formado pelos sistemas automatizados de leitura de
+discos  removíveis é de que  os dispositivos  de  armazenamento ficam
+prontamente disponíveis  uma vez  inseridos no sistema.  Na realidade,
+apenas  um dele  (o disco  rígido)  o fica,  e ainda  assim graças  ao
+sistema   de   \emph{bootstraping}\footnote{\emph{bootstraping} é  o
+  processo  pelo  qual  o  BIOS  dispara a  inicialização  do  sistema
+  operacional, em combinação com os programas de \emph{bootstrap}}. 
+
+Na   realidade,   todo   dispositivo   de   armazenamento   deve   ser
+\emph{montado} antes  de ser usado  e \emph{desmontado} após o  uso. O
+termo ``\emph{montar}'' um dispositivo  quer dizer informar ao sistema
+que o  dispositivo está pronto para  ser usado. O  Unix, para aumentar
+sua   eficiência,  \emph{não}   procura  entre   os   dispositivos  de
+armazenamento  quais deles estão  prontos para  o uso  (embora algumas
+distros    de   GNU/Linux    possua   um    sistema    atualizado,   o
+\texttt{automount},  que faz  esse  serviço): o  administrador (ou  os
+usuários, com as corretas  configurações) deve informar ao sistema que
+o dispositivo está preparado e pode ser usado.
+
+Em  alguns casos,  após o  uso,  o sistema  deve ser  informado que  o
+dispositivo  em questão  não será  mais utilizado  e será  retirado do
+sistema.   A  isso,  chamamos  de  ``desmontagem''.   No  Unix  (e  no
+GNU/Linux),  esse processo  é muito  importante, pois,  novamente para
+questão de eficiência,  o sistema \emph{nem sempre} grava  os dados no
+dispositivo de  armazenamento no momento  em que eles  são ``salvos'',
+algumas  vezes  mantendo  os  dados  em  um  \emph{cache}  na  memória
+principal até que  os dados são gravados em  definitivo no dispositivo
+de  armazenamento   (o  que  é  chamado   de  \emph{sincronização}  ou
+\emph{syncing}).  Remover  um  dispositivo  sem o  ``desmontar''  pode
+acarretar  na   corrupção  de   dados  ou  até   mesmo  em   danos  ao
+dispositivo.  De qualquer  modo,  fica o  recado.  No caso  de uso  de
+sistemas de automontagem,  como o \texttt{automount}, essa preocupação
+é desnecessária, pois o dispositivo é sincronizado de imediato.
+
+A vantagem  disso é  que é posssível,  através de sistemas  remotos de
+arquivos,   como  o  NFS   (\emph{Network  File   System}),  montar-se
+dispositivos em servidores remotos,  com coletâneas de programas muito
+grandes, como por exemplo o sistema \TeX -- \LaTeX.
+
+Esclarecido esse conceito, vamos ao conceito dos ``pontos de montagem''.
+
+\section{Pontos de montagem}
+\label{sec:mountpoints}
+Em  Unix   (portanto,  no  GNU/Linux),  ``pontos   de  montagem''  são
+diretórios  especialmente  designados aonde  o  sistema  irá montar  a
+estrutura de arquivos de dispositivos que estejam ``montados''.
+
+Na prática, qualquer diretório pode  ser um ``ponto de montagem'', mas
+sugere-se que sejam  diretórios vazios (pois a montagem  faz com que a
+estrutura  de  arquivos  no  dispositivo  sobreponha  a  existente  no
+diretório, embora  os dados em questão não  desapareçam, podendo serem
+acessados após a desmontagem do dispositivo) e estruturados em relação
+ao sistema de arquivos principal (\texttt{/}).
+
+Uma característica  interessante do GNU/Linux  permitida graças árvore
+de diretório  única é  que partes do  sistema possam ser  dispostas em
+partições  (ou  até  mesmo  dispositivos) diferenciados.  Isso  porque
+pode-se  usar  \emph{qualquer}   diretório  como  ponto  de  montagem,
+portanto  pode-se,  por  exemplo,  montar-se um  dispositivo  (ou  uma
+partição  ---   para  o  GNU/Linux,  partições  dentro   de  um  mesmo
+dispositivo  são  considerados   dispositivos  diferentes)  como,  por
+exemplo, o diretório \texttt{/home}. Isso ajuda em algumas coisas:
+
+\begin{itemize}
+\item Limita o  consumo de espaço em disco  para determinados tipos de
+  informação dentro do sistema: se você quer que os dados dos usuários
+  do  sistema ocupem  no  máximo  20 Gigabytes,  você  pode criar  uma
+  partição  de 20  Gigas  em seu  disco  e montá-lo  como o  diretório
+  \texttt{/home};
+
+\item Facilita  o \emph{backup},  o \emph{upgrade} e  o \emph{disaster
+  recovery} do sistema: exceto pela eventualidade de um \texttt{rm -rf
+  /},  uma boa  estrutura de  diretórios permite  que você  possa, por
+  exemplo,  reinstalar  um sistema  que  perca  seu \emph{kernel}  (do
+  diretório   \texttt{/boot})  sem  afetar   os  dados   dos  usuários
+  (\texttt{/home}), desde que ambos estejam, em dispositivos/partições
+  diferentes. Isso também afeta estratégias de \emph{backup} (você não
+  precisará   de  \emph{backups}  de   \texttt{/usr},  ao   menos  não
+  frequentemente) e assim por diante;
+
+\item Permite  o uso de  algumas estratégias de QoS  (\emph{Quality of
+  Service}): você  pode montar em  um disco rígido rápido  o diretório
+  aonde ficam  os dados do  servidor de banco  de dados, e  colocar em
+  discos mais lentos os dados dos usuáios no servidor de arquivos, por
+  exemplo;
+
+\item  Montagem remota  de  grandes volumes  de informações  repetidas
+  permitem  poupar   o  disco  do   usuário,  embora  exija   uma  boa
+  infraestrutura de rede: programas  como \LaTeX, GNU \texttt{emacs} e
+  X-Windows  podem ser compartilhados  via NFS  e montados  no sistema
+  local, sendo  que suas  configurações seriam localizadas  (apenas os
+  binários dos programas seriam compartilhados).
+\end{itemize}
+
+Uma boa estratégia para montagem de dispositivos pode oferecer grandes
+ganhos em tempo, performance e  menos dores de cabeça ao administrador
+do sistema.
+
+\subsection{Dispositivos removíveis e pontos de montagem}
+
+Em geral,  os dispositivos  removíveis em um  sistema são  montados em
+pontos  de montagem  dentro  de  \texttt{/mnt} ou,  o  padrão da  FHS,
+\texttt{/media}\cite{FHS2004}. Em ambos  os casos, sugere-se que sejam
+criados   diretórios  especificos  para   cada  um   dos  dispositivos
+removíveis       com       nomes       característicos(\texttt{cdrom},
+\texttt{cdrecorder},  \texttt{dvd}, \texttt{pen}, \texttt{digicamera},
+\texttt{olympus},  \ldots).  Isso  ajuda  (e  muito)  a  localizar  os
+dispositivos  removíveis  dentro  da  estrutura  de  árvore  única  do
+GNU/Linux.
+
+Agora  que  vimos  o   suficiente  sobre  os  conceitos  de  montagem,
+desmontagem  e ponto  de montagem,  vamos colocá-los  na  prática para
+acessarmos dispositivos.
+
+\section{Montando e desmontando dispositivos: \texttt{mount} e \texttt{umount}}
+\label{sec:mount}
+
+O   Unix   possui   comandos    para   montagem   e   desmontagem   de
+dispositivo.  Como esse processo  é considerado  \emph{muito perigoso}
+(desmontar um  dispositivo \emph{on-the-fly} ou  montar um dispositivo
+sobre um diretório  em uso pode ser algo  catastrófico quando feito de
+maneira  errada), em  geral apenas  o \texttt{root}  consegue realizar
+essas operações.
+
+O  comando  \texttt{mount}  tem  como sintaxe  \texttt{mount  <opções>
+  <dispositivo>  <ponto\_montagem>}, aonde ele  pega o  dispositivo em
+\texttt{dispostivo}   (em   geral   indicado   como  um   arquivo   em
+\texttt{/dev}) e  o monta  em \texttt{<ponto\_montagem>}. Em  geral os
+dispositivos    são    nomeados    como   demonstrados    na    Tabela
+\ref{table:devicefiles}, página  \pageref{table:devicefiles}. Em todos
+os casos,  você precisará indicar qual partição  do dispositivo deverá
+ser acessada.  Para isso,  pegue o  número da partição  e o  coloque a
+frente  do nome  do dispostivo.  Por exemplo,  a primeira  partição do
+primeiro disco IDE  é referenciada usando \texttt{/dev/hda1}, enquanto
+que  a quinta  partição  do segundo  disco  SCSI dentro  do sistema  é
+referenciada com \texttt{/dev/sdb5}, por exemplo. O ponto de montagems
+é simplesmente um diretório do sistema (preferencialmente vazio) aonde
+o dispositivo será montado.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|r|l|}
+\hline
+{\centering \textbf{\textsc{nome do dispositivo}}} & {\centering \textbf{\textsc{Dispositivo}}}\\
+\hline\hline
+\texttt{/dev/hda} & Primeiro disco IDE \\
+\texttt{/dev/hdb} & Segundo disco IDE \\
+\texttt{/dev/hdc} & Terceiro disco IDE \\
+\texttt{/dev/hdd} & Quarto disco IDE \\
+\texttt{/dev/fd} & Unidades de disquete \\
+\texttt{/dev/sda} & Primeiro dispositivo SCSI ou unidade USB \\
+\texttt{/dev/sdb} & Primeiro dispositivo SCSI ou unidade USB \\
+\texttt{/dev/sdc} & Primeiro dispositivo SCSI ou unidade USB \\
+\hline
+\end{tabular}
+\caption{Alguns exemplos de nomes de dispositivos}
+\label{table:devicefiles}
+\end{center}
+\end{table}
+
+Em geral, o GNU/Linux consegue detectar o tipo de conteúdo que está no
+dispositivo,  mas algumas  vezes pode  ser útil  determinar o  tipo de
+sistema  de  arquivo  do  dispositivo.   Para isso,  utilize  a  opção
+\texttt{-t}(\emph{type}  --- tipo),  informando o  tipo de  sistema de
+arquivos a  ser usado.  No caso,  algumas opções muito  comuns a serem
+usadas no GNU/Linux  estão listadas na Tabela \ref{table:filesystems},
+na        Página        \pageref{table:filesystems}(inspirada       em
+\citeonline{CASHA2001}). Para saber quais os sistemas de arquivo que o
+\emph{kernel}    pode    montar,    use    o    comando    \texttt{cat
+  /proc/filesystem}, pois  ele irá listar todos os  módulos de sistema
+de arquivos compilados no sistema
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c|l|}
+\hline
+{\centering \textbf{\textsc{Nome do}}} & \\
+{\centering \textbf{\textsc{dispositivo}}} & {\centering \textbf{\textsc{Comentários}}}\\
+\hline\hline
+\multicolumn{2}{|c|}{\emph{Sistemas padrão}} \\
+\hline
+\texttt{ext2} & Sistema de arquivos original do GNU/Linux \\
+\texttt{swap} & Partição de memória virtual do GNU/Linux \\
+\texttt{iso9660} & Sistema de arquivos de CD-ROMs\\
+ & Permite acessar ISOs\footnotemark de CDs \\
+\hline
+\multicolumn{2}{|c|}{\emph{Sistemas externos}} \\
+\hline
+\texttt{vfat} & FAT-16 ou FAT-32 (DOS/Windows) \\
+\texttt{ntfs}\footnotemark & WindowsNT/2000/XP (Apenas-Leitura)\\
+\texttt{hpfs} & OS/2 \\
+\texttt{hfs} & Apple System 7/MacOS \\
+\hline
+\multicolumn{2}{|c|}{\emph{Sistemas com \emph{journaling}\footnotemark}} \\
+\hline
+\texttt{ext3} & Evolução do \texttt{ext2} \\
+\texttt{reiser} & ReiserFS, sistema \emph{journaled} alternativo  \\
+\texttt{xfs} & Padrão do Irix, porte nativo no Linux \\
+\texttt{jfs} & Desenvolvido pela IBM para sistemas de alta \emph{performance} \\
+\hline
+\multicolumn{2}{|c|}{\emph{Sistemas de Rede}} \\
+\hline
+\texttt{nfs} & Volume remoto via \emph{Network File System} \\
+\texttt{smb} & Pastas compartilhadas Windows/SaMBa \\
+\hline
+\end{tabular}
+\label{table:filesystems}
+\caption{Alguns sistemas de arquivos que podem ser acessados pelo GNU/Linux}
+\end{center}
+\end{table}
+\addtocounter{footnote}{-3}
+\footnotetext{Experimental, nas  versões mais atuais  do \emph{kernel}
+  do GNU/Linux  o sistema pode  gravar em arquivos já  existentes, mas
+  não criar novos arquivos/diretórios}
+\footnotetext{Imagens de CD prontas  para serem gravadas, muito usadas
+  nas trocas de distros GNU/Linux}
+\stepcounter{footnote}
+\footnotetext{Sistema  que permite  rápida recuperação  do  sistema em
+  caso de falha}
+
+Algumas  vezes,  pode  ser  útil  montar um  dispositivo  apenas  para
+leitura, mesmo que  ele permita escrita (como um HD  que acabou de ser
+invadido  por um  invasor  de  sistemas). Para  isso,  usamos a  opção
+\texttt{-r}(\emph{read-only} ---  apenas). Por exemplo,  para montar o
+dispositivo  \texttt{/dev/sda1}, que  tem como  sistema de  arquivos o
+\texttt{vfat},  no  diretório  \texttt{/mnt/pen},  utilize  o  comando
+\texttt{mount -t vfat /dev/sda1 /mnt/pen}, como \texttt{root}. Ele não
+deverá retornar nenhuma mensagem se  estiver tudo OK. Nesse caso, você
+poderá fazer  qualquer uso do dispositivo montado,  como, por exemplo,
+listar os arquivos  dentro do dispositivo, como mostrado  no Trecho de
+Código \ref{code:mounted}, na Página \pageref{code:mounted}.
+
+\begin{codigo}[htp]   
+\tiny
+\begin{Verbatim}[frame=single]
+[root@hufflepuff ~]# ls -la /mnt/pen
+total 107116
+drwxrwxrwx   8 root root    22016 Dez 31  1969 .
+drwxr-xr-x  27 root root     4096 Abr 20 18:22 ..
+-rwxrwxrwx   1 root root    36352 Abr 14 13:14 00%20-revis%E3o%20para%20a%20prova.doc
+-rwxrwxrwx   1 root root   697788 Abr 17 16:12 1145055685803.pdf
+-rwxrwxrwx   1 root root   849465 Abr 20 13:38 2005-02-17 Aula 1.pdf
+-rwxrwxrwx   1 root root    10036 Abr 17 15:13 4321.jpg
+-rwxrwxrwx   1 root root    10478 Abr 17 16:11 4347.jpg
+-rwxrwxrwx   1 root root    22670 Abr 14 16:20 aaai-named.bst
+-rwxrwxrwx   1 root root   132195 Abr 17 16:36 abntex-0.9-beta.noarch.rpm
+-rwxrwxrwx   1 root root    54108 Abr 17 14:03 AUGIE.ttf
+-rwxrwxrwx   1 root root   659720 Abr 20 13:41 Aula_2_?????_HTTP_e_FTP.pdf
+-rwxrwxrwx   1 root root   179022 Abr 20 13:41 Aula_3_DNS.pdf
+-rwxrwxrwx   1 root root   526827 Abr 20 13:42 Aula_4_-_Sistema_Completo.pdf
+-rwxrwxrwx   1 root root      610 Abr 13 19:20 .log
+-rwxrwxrwx   1 root root     8588 Abr 18 17:53 mandamentosrpm.html
+drwxrwxrwx   2 root root     8192 Abr  6 10:15 NerdTV
+-rwxrwxrwx   1 root root    36046 Abr 17 13:58 OOo Professional.otp
+-rwxrwxrwx   1 root root   297176 Abr 17 14:11 squares.otp
+drwxrwxrwx   2 root root     2048 Abr 18 00:40 Upgrading to 2.2 from 2.0 - Apache HTTP Server_arquivos
+-rwxrwxrwx   1 root root    12598 Abr 18 00:40 Upgrading to 2.2 from 2.0 - Apache HTTP Server.html
+-rwxrwxrwx   1 root root 35140553 Abr 18 16:31 UTILS.zip
+\end{Verbatim}
+%$
+\caption{Exemplo do comando \texttt{ls} em um dispositivo ``montado''}
+\label{code:mounted}
+\end{codigo}
+
+O  \emph{mount}   possui  uma   grande  quantidade  de   opções  úteis
+específicas  para  cada tipo  de  sistema  de  arquivos. Para  maiores
+informações, consulte a \emph{manpage} \texttt{mount(1)}
+
+Uma vez que  você tenha feito todas as  operações desejadas, você pode
+(na  verdade  deveria)  desmontar  o  dispositivo,  usando  o  comando
+\texttt{umount}. Para  desmontar o  dispositivo, você pode  usar tanto
+fazer referência ao  dispositivo quanto ao ponto de  montagem. No caso
+anterior,   tanto  \texttt{umount  /dev/sda1}   quanto  \texttt{umount
+  /mnt/pen} devem funcionar para desmontar o dispositivo.
+
+Perceba  que,   por  segurança,  o  GNU/Linux  não   irá  autorizar  a
+desmontagem de um dispositivo que tenha:
+
+\begin{enumerate}
+\item arquivos abertos;
+\item usuários acessando arquivos;
+\item usuários dentro de sua árvore de diretórios;
+\end{enumerate}
+
+Nesse casos, pode-se usar comandos como \texttt{lsof} para detectar os
+usuários que  estão utilizando o  sistema, procurando assim  formas de
+como fazer com que estes usuários terminem seus usos.
+
+Após todos  os usuários  terem saído do  ponto de montagem,  o comando
+\texttt{umount}  pode  ser  disparado   sem  problemas.  Ele  força  o
+\emph{sync} do dispositivo a  ser desmontado e devolve o \emph{prompt}
+do \texttt{root}, indicando operação bem sucedida.
+
+O  maior   inconveniente  do  uso  do   \texttt{mount}  está  naqueles
+dispositivos que  devem ser montados  a cada inicialização.  Isso fica
+ainda pior  quando, por falta  de espaço em  um disco, você o  troca e
+precisa desmontar o  sistema antigo para ativar o  sistema novo. Nesse
+caso,   você  pode   ``forçar''  a   inicialização   dos  dispositivos
+necessários. Isso é feito  automaticamente pelo sistema, através de um
+arquivo de configurações, o \emph{/etc/fstab}.
+
+\section{O \texttt{/etc/fstab}}
+\label{sec:etc-fstab}
+
+O  \texttt{/etc/fstab}  (de  \emph{filesystem  table}  ---  tabela  do
+sistema  de arquivos) contêm  os registros  de como  é a  estrutura do
+sistema de  arquivos do  GNU/Linux. Na prática  isso quer dizer  que o
+\texttt{/etc/fstab} contêm  quais são os dispositivos  e partições que
+fazem parte do  sistema de arquivos e como eles  devem ser montados. O
+arquivo é um  arquivo texto puro, sendo possível  editá-lo por meio de
+programas simples  como \texttt{vi}  ou \texttt{emacs}. Um  exemplo de
+\texttt{/etc/fstab},        retirado        do        Guia        Foca
+GNU/Linux\cite{FOCALINUX2005}, pode ser encontrado no Trecho de Código
+\ref{code:fstab}, na Página \pageref{code:fstab}.
+
+\begin{codigo}[htp]   
+\footnotesize
+\begin{Verbatim}[frame=single]
+/dev/hda1           /                 ext2    defaults           0    1
+/dev/hda2           /boot             ext2    defaults           0    2
+/dev/hda3           /dos              msdos   defaults,noauto,rw 0    0
+/dev/hdg            /cdrom            iso9660 defaults,noauto    0    0
+\end{Verbatim}
+\caption{Exemplo de \texttt{/etc/fstab}}
+\label{code:fstab}
+\end{codigo}
+
+A  configuração  do \texttt{/etc/fstab}  é  formada  por seis  campos,
+separados por espaços, e cada  linha deve incluir um dispositivo a ser
+montado/desmontado. Os campos são:
+
+\begin{enumerate}
+\item \textbf{Dispositivo:} o dispositibo a ser montado;
+\item  \textbf{Ponto de montagem:}  o local  aonde o  dispositivo será
+  montado;
+\item \textbf{Tipo  de sistema  de arquivos:} aqui,  diferentemente do
+  caso de  um comando  \texttt{mount}, é \emph{obrigatório}  indicar o
+  tipo  de sistema de  arquivos para  que o  \texttt{/etc/fstab} possa
+  realizar adequadamente sua função;
+\item  \textbf{Opções:} essas  opções são  em geral  específicas  a um
+  determinado  sistema   de  arquivos  e  podem   ser  encontradas  na
+  \emph{manpage}  \texttt{mount(1)}. Porém,  existem  algumas que  são
+  comuns a todas e extremamente úteis dentro do \texttt{/etc/fstab}:
+\begin{itemize}
+  \item \texttt{defaults} --- valores  padrões de montagem para o tipo
+    de sistema de arquivo;
+  \item   \texttt{noauto}   ---   \emph{não   monta}   o   dispositivo
+    automaticamente na inicialização. Essa opção é muito interessante,
+    por exemplo,  para mídias de  \emph{backup} e meio que  oferece um
+    atalho para  a montagem  do dispositivo \emph{a  posteriori} (para
+    montar  um  dispositivo listado  em  \texttt{/etc/fstab}, basta  o
+    comando \texttt{mount <ponto\_montagem>}
+  \item \texttt{ro} --- monta  o dispositivo como apenas leitura. Pode
+    ser  útil,  por exemplo,  para  um  sistema  de arquivos  contendo
+    programas  (o  \texttt{root}  poderia  criar  um  outro  ponto  de
+    montagem aonde a montagem  permitisse escrita para ele usar quando
+    precisasse instalar um programa);
+  \item \texttt{user} --- permite que usuários comuns montem/desmontem
+    o  dispositivo. Embora  o Guia  FOCA GNU/Linux\cite{FOCALINUX2005}
+    afirmar  que  não  é  bom  por  motivo de  segurança  (e  o  autor
+    concordar), é interessante que alguns dispositivos, principalmente
+    em sistemas  \emph{desktop} ou em  \emph{workstations}, possam ser
+    montados pelo usuário para  \emph{backup} pessoal e afins. O ideal
+    é  que  \emph{apenas}  dispositivos  removíveis,  como  CD-ROMs  e
+    disquetes possam ser montados pelos usuários;
+  \item \texttt{sync}  --- força  a sincronização dos  dados (gravação
+    dos dados  no meio  físico) após cada  operação de  escrita. Muito
+    útil para  dispositivos removíveis (evitando  corrupção de dados),
+    mas  com  o  inconveniênte  de degradar  a  \emph{performance}  do
+    sistema. Caso não use-se essa opção, pode-se ocasionalmente forçar
+    a sincronização com o uso  do comando \texttt{sync} (na prática, o
+    próprio sistema faz isso, em média, a cada minuto);
+  \item  \texttt{noexec} ---  impede  que qualquer  arquivo dentro  do
+    dispositivo    sejam   tratados   como    executáveis,   inclusive
+    \emph{scripts}.  Embora isso possa  ser inconveniente por tolher a
+    possibilidade de  uso de \emph{shell scripts},  em certos sistemas
+    de  arquivos, como  \texttt{/tmp} e  \texttt{/etc}, aonde  não são
+    esperado  executáveis,  impede  uma  potencial e  séria  falha  de
+    segurança,  aonde esses  diretórios são  utilizados  como depósito
+    para  \emph{rootshells} e  \emph{backdoors}\footnote{Programas que
+      liberam  \emph{shells}  de  super-usuário  para  um  invasor  em
+      potencial}
+  \item   \texttt{nosuid}    ---   um   pouco    menos   radical   que
+    \texttt{noexec}, impede que programas dentro do dispositivo possam
+    ser acionados  com \emph{suid} ativo.  Isso pode  ainda dar chance
+    para  o acesso  ilegal, mas,  ao impedir  a execução  de programas
+    daquele  sistema  de  arquivos  em  modo  \emph{suid},  já  impede
+    \texttt{rootshells};
+\end{itemize}
+\item    \textbf{\texttt{dump}:}    Configura    a   freqüência    dos
+  \emph{backups}    do   dispositivo    por    meio   do    utilitário
+  \texttt{dump}. Em geral,  mantêm-se em \texttt{0} (desativado), pois
+  o  \emph{dump}  consome  muito  espaço  em disco  e  é  muito  lento
+  comparado com outras estratégias de \emph{backup};
+\item  \textbf{Seqüencia de \texttt{fsck}:}  No caso  de uma  queda de
+  energia ou falha de sistema,  esse número define a prioridade no uso
+  do  utilitário  \texttt{fsck} para  verificação  da integridade  dos
+  sistemas de arquivo. Se estiver zerado, o dispositivo em questão não
+  é checado.  O ideal é  que o dispositivo  com o sistema  de arquivos
+  \texttt(/) seja  o primeiro  a ser verificado  sempre. A ordem  é do
+  menor para o maior;
+\end{enumerate} 
+
+Isso deve  bastar sobre \texttt{/etc/fstab}, o que  encerra esse nosso
+tópico  sobre dispositivos. No  próximo tópico,  vamos falar  um pouco
+sobre a administração de um sistema GNU/Linux.

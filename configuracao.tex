@@ -1,0 +1,46 @@
+\addtolength{\headheight}{3pt}
+%% \addtolength{\textwidth}{\marginparwidth}
+%% \addtolength{\marginparwidth}{-\marginparwidth}
+%% \addtolength{\textwidth}{-4cm}
+%% \addtolength{\marginparwidth}{4cm}
+
+
+\makeatletter
+\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
+  \hbox{}
+  \vfill
+  \begin{center}
+    \par\mbox{}
+  \end{center}
+  \vfill
+  \thispagestyle{empty}
+  \newpage\fi}
+\makeatother
+
+
+    \pagestyle{fancy}                       % Sets fancy header and footer
+    \fancyfoot{}                            % Delete current footer settings
+    \renewcommand{\chaptermark}[1]{         % Lower Case Chapter marker style
+      \markboth{\chaptername\ \thechapter.\ #1}{}} %
+    \renewcommand{\sectionmark}[1]{         % Lower case Section marker style
+      \markright{\thesection.\ #1}}         %
+    \fancyhead[LE,RO]{\bfseries\thepage}    % Page number (boldface) in left on even
+                                            % pages and right on odd pages
+    \fancyhead[RE]{\bfseries\leftmark}      % Chapter in the right on even pages
+    \fancyhead[LO]{\bfseries\rightmark}     % Section in the left on odd pages
+    \renewcommand{\headrulewidth}{0.3pt}    % Width of head rule
+
+\usepackage{float}      
+\usepackage{fancyvrb}
+
+%===== Códigos Fonte =====
+\newenvironment{codeverbatim}{\VerbatimEnvironment \small
+   \begin{Verbatim}[xleftmargin=20mm]}
+   {\end{Verbatim}}
+%=======
+\floatstyle{plain}  % tipos: plain, boxed, ruled
+\newfloat{codigo}{tbp}{lop}[section]  % numera os captions com  número de seção.
+\floatname{codigo}{Trecho de Código}
+% nome para ser usado no sumário
+\newcommand{\listofcodename}{Lista de Trechos de Código}
+%=========================

@@ -1,0 +1,60 @@
+\contentsline {codigo}{\numberline {2.1.1}{\ignorespaces Exemplo de mensagem de \emph {Login}}}{20}
+\contentsline {codigo}{\numberline {2.1.2}{\ignorespaces \emph {Prompt} do \emph {password}}}{20}
+\contentsline {codigo}{\numberline {2.1.3}{\ignorespaces \emph {Prompt} do \emph {shell}}}{21}
+\contentsline {codigo}{\numberline {2.3.1}{\ignorespaces Exemplo do comando \texttt {man}}}{22}
+\contentsline {codigo}{\numberline {2.3.2}{\ignorespaces Resultado de \texttt {man bash}}}{23}
+\contentsline {codigo}{\numberline {2.3.3}{\ignorespaces Exemplo do comando \texttt {man} com n\'umero de se\c c\~ao}}{24}
+\contentsline {codigo}{\numberline {2.3.4}{\ignorespaces Exemplo do comando \texttt {info}}}{25}
+\contentsline {codigo}{\numberline {2.3.5}{\ignorespaces Resultado do comando \texttt {info coreutils cat}}}{26}
+\contentsline {codigo}{\numberline {2.3.6}{\ignorespaces Exemplo do comando \texttt {info --apropos}}}{26}
+\contentsline {codigo}{\numberline {2.4.1}{\ignorespaces Exemplo do comando \texttt {ls}}}{29}
+\contentsline {codigo}{\numberline {2.4.2}{\ignorespaces Exemplo do comando \texttt {ls -lh}}}{31}
+\contentsline {codigo}{\numberline {2.4.3}{\ignorespaces Exemplo do comando \texttt {cp -v}}}{36}
+\contentsline {codigo}{\numberline {2.4.4}{\ignorespaces Listagem de exemplo para mostrar coringas}}{37}
+\contentsline {codigo}{\numberline {2.4.5}{\ignorespaces Listagem de exemplo com o coringa \texttt {*}}}{38}
+\contentsline {codigo}{\numberline {2.4.6}{\ignorespaces Listagem de exemplo com o coringa \texttt {?}}}{39}
+\contentsline {codigo}{\numberline {2.4.7}{\ignorespaces Listagem de exemplo com o uso de dois \texttt {?}}}{39}
+\contentsline {codigo}{\numberline {2.5.1}{\ignorespaces Exemplo do comando \texttt {mkdir -pv}}}{42}
+\contentsline {codigo}{\numberline {2.5.2}{\ignorespaces Exemplo do comando \texttt {rmdir -pv}}}{42}
+\contentsline {codigo}{\numberline {2.5.3}{\ignorespaces Exemplo do comando \texttt {pwd}}}{43}
+\contentsline {codigo}{\numberline {2.6.1}{\ignorespaces Exemplo do comando \texttt {su}}}{45}
+\contentsline {codigo}{\numberline {2.7.1}{\ignorespaces Exemplo do comando \texttt {su}}}{48}
+\contentsline {codigo}{\numberline {2.7.2}{\ignorespaces Lista de um diret\'orio antes de ter seu usu\'ario dono trocado}}{52}
+\contentsline {codigo}{\numberline {2.7.3}{\ignorespaces Lista de um diret\'orio ap\'os troca de posse de alguns arquivos}}{53}
+\contentsline {codigo}{\numberline {2.7.4}{\ignorespaces Lista de um diret\'orio ap\'os troca maci\c ca de posse de arquivos}}{54}
+\contentsline {codigo}{\numberline {2.7.5}{\ignorespaces Lista de um diret\'orio ap\'os troca de grupos}}{55}
+\contentsline {codigo}{\numberline {2.8.1}{\ignorespaces Exemplo do comando \texttt {cat}}}{57}
+\contentsline {codigo}{\numberline {2.8.2}{\ignorespaces Exemplo do comandos \texttt {cat -n} e \texttt {cat -b}}}{58}
+\contentsline {codigo}{\numberline {2.9.1}{\ignorespaces Exemplo de uma liga\c c\~ao simb\'olica}}{63}
+\contentsline {codigo}{\numberline {4.3.1}{\ignorespaces Exemplo do comando \texttt {ls} em um dispositivo ``montado''}}{85}
+\contentsline {codigo}{\numberline {4.4.1}{\ignorespaces Exemplo de \texttt {/etc/fstab}}}{86}
+\contentsline {codigo}{\numberline {5.1.1}{\ignorespaces Exemplo de \texttt {/etc/passwd}}}{95}
+\contentsline {codigo}{\numberline {5.2.1}{\ignorespaces Exemplo de \texttt {/etc/group}}}{99}
+\contentsline {codigo}{\numberline {5.2.2}{\ignorespaces Exemplo de altera\c c\~ao em \texttt {/etc/group}}}{100}
+\contentsline {codigo}{\numberline {5.2.3}{\ignorespaces Exemplo do uso do comando \texttt {adduser} para adicionar usu\'arios a outros grupos, assim como o resultado desse uso}}{101}
+\contentsline {codigo}{\numberline {5.3.1}{\ignorespaces Exemplo do comando \texttt {ps aux}}}{113}
+\contentsline {codigo}{\numberline {5.3.2}{\ignorespaces Exemplo de resultado de \keystroke {Ctrl}+\keystroke {Z} e do seu n\'umero do trabalho (\emph {job id})}}{114}
+\contentsline {codigo}{\numberline {5.3.3}{\ignorespaces Exemplo da sa\IeC {\'\i }da de um comando \texttt {jobs}}}{115}
+\contentsline {codigo}{\numberline {6.3.1}{\ignorespaces Exemplo de \texttt {/etc/HOSTNAME}}}{141}
+\contentsline {codigo}{\numberline {6.3.2}{\ignorespaces Exemplo de \texttt {/etc/hosts}}}{142}
+\contentsline {codigo}{\numberline {6.3.3}{\ignorespaces Exemplo de \texttt {/etc/hosts} separado por linhas}}{143}
+\contentsline {codigo}{\numberline {6.3.4}{\ignorespaces Exemplo de \texttt {/etc/hosts} separando nomes de m\'aquina e \emph {aliases}}}{143}
+\contentsline {codigo}{\numberline {6.3.5}{\ignorespaces Exemplo de \texttt {/etc/network} para a rede da Figura \ref {fig:nethogwarts2}}}{144}
+\contentsline {codigo}{\numberline {6.3.6}{\ignorespaces Exemplo de \texttt {/etc/hosts} para a rede da Figura \ref {fig:nethogwarts2}}}{146}
+\contentsline {codigo}{\numberline {6.4.1}{\ignorespaces Exemplo de \texttt {/etc/hosts.conf}}}{148}
+\contentsline {codigo}{\numberline {6.4.2}{\ignorespaces Exemplo de \texttt {/etc/resolv.conf}}}{150}
+\contentsline {codigo}{\numberline {6.5.1}{\ignorespaces Exemplo de \texttt {/etc/rc.d/init.d/network}}}{152}
+\contentsline {codigo}{\numberline {6.5.2}{\ignorespaces Exemplo de \texttt {/etc/rc.d/init.d/network}(Continua\c c\~ao)}}{153}
+\contentsline {codigo}{\numberline {6.5.3}{\ignorespaces Exemplo de \texttt {/etc/rc.d/init.d/network}(Continua\c c\~ao)}}{154}
+\contentsline {codigo}{\numberline {6.5.4}{\ignorespaces Exemplo de \texttt {/etc/rc.d/init.d/network}(Continua\c c\~ao)}}{155}
+\contentsline {codigo}{\numberline {6.5.5}{\ignorespaces Exemplo de \texttt {/etc/rc.d/init.d/network}(Continua\c c\~ao)}}{156}
+\contentsline {codigo}{\numberline {6.5.6}{\ignorespaces Exemplo de \texttt {/etc/rc.d/init.d/network}(Continua\c c\~ao)}}{157}
+\contentsline {codigo}{\numberline {6.5.7}{\ignorespaces Exemplo de \texttt {/etc/sysconfig/network}}}{158}
+\contentsline {codigo}{\numberline {6.6.1}{\ignorespaces Exemplo de \texttt {/etc/proftpd.conf}}}{166}
+\contentsline {codigo}{\numberline {6.6.2}{\ignorespaces Exemplo de \emph {script} com conex\~ao FTP}}{169}
+\contentsline {codigo}{\numberline {6.6.3}{\ignorespaces Exemplo de \texttt {/etc/samba/smb.conf}}}{174}
+\contentsline {codigo}{\numberline {7.2.1}{\ignorespaces Janela inicial do \texttt {vim}}}{191}
+\contentsline {codigo}{\numberline {7.2.2}{\ignorespaces Janela do \texttt {vim} em modo de edi\c c\~ao}}{192}
+\contentsline {codigo}{\numberline {7.3.1}{\ignorespaces Janela inicial do \texttt {emacs}}}{201}
+\contentsline {codigo}{\numberline {7.3.2}{\ignorespaces Janela do \texttt {emacs} com \emph {buffer}}}{205}
+\contentsline {codigo}{\numberline {7.3.3}{\ignorespaces Exemplo de arquivo \texttt {~/.emacs}}}{211}

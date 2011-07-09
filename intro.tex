@@ -1,0 +1,120 @@
+\chapter{Introdução}
+
+GNU/Linux (ou apenas \emph{Linux})  não é mais \emph{apenas} o futuro,
+mas  sim  também é  uma  alternativa  séria  e viável  para  ambientes
+computacionais   que    precisem   de   alta    \emph{performance}   e
+confiabilidade   mas   não   possuem   condições   para   montar   uma
+infraestrutura  baseada em  sistemas como  o Windows  e a  maioria das
+variantes  do Unix. Baseado  em \emph{software  livre}, ele  é barato,
+confiável e  poderoso, além de oferecer a  oportunidade de aprendizado
+com  o seu  código  fonte.  Porém,  ele  não é  exatamente simples  de
+aprender,  uma vez que  são muitos  comandos, programas  e utilitários
+(mais    de    3000    em    uma   distribuição    GNU/Linux    típica
+atualmente)\footnote{Abril de 2006}.
+
+Essa  é uma  apostila básica  do GNU/Linux,  que foi  produzida  com o
+objetivo de servir de referência para  um curso básico no mesmo, e tem
+como objetivo ser \emph{apenas} uma  introdução ao uso do GNU/Linux. O
+objetivo  final dessa  apostila é  oferecer  as condições  para que  a
+pessoa possa seguir a diante  no GNU/Linux sem problemas. Em resumo, o
+objetivo  aqui é  oferecer  o ``caminho  das  pedras'', explicando  os
+principais recursos do mesmo de maneira rápida e sucinta.
+
+Essa  apostila foi desenvolvida  para ser  adotada em  um curso  de 20
+horas e  sem ser voltada  a nenhuma distribuição em  especial, podendo
+ser  adotada  aquela  que  o  tutor  (ou mesmo  o  aluno)  achar  mais
+adequada. A idéia  é que o aluno saia com  alguns conceitos e comandos
+úteis para ``caminhar por suas próprias pernas'', além de contar com a
+sugestão  de  recursos úteis  e  comandos  alternativos  para o  aluno
+pesquisar.
+
+Não é minha intenção aqui  mostrar todas as potencialidades e comandos
+do GNU/Linux, até porque não  seria possível fazer isso. Como exemplo,
+o   projeto   \emph{Linux   Documentation  Project}\cite{LDP2006}   já
+disponibiliza mais de 20  mil páginas em documentação sobre GNU/Linux,
+boa  parte delas traduzida  para outros  idiomas (Português  do Brasil
+incluído) e  ainda assim  é pouco. Existem  na Internet bons  guias de
+diversos  tipos,   desde  obras  veteranas  como   o  \emph{The  Linux
+  Manual}\cite{CINEIROS2005}   de  Hugo   Cineiros,   existente  desde
+Novembro de  1997 e que (apesar  do nome) foi o  primeiro documento de
+grande nível escrito sobre o GNU/Linux no Brasil, a obras novas como o
+``Entendendo  e Dominando o  Linux''\cite{MORIMOTO2005}, de  Carlos E.
+Morimoto,  ``criador'' da  distro \emph{Kurumin  Linux}  e referências
+completas  como  o  ``Guia  Foca  GNU/Linux''\cite{FOCALINUX2005},  de
+Gleydson  Mazioli   da  Silva,  uma  verdadeira   referência  sobre  o
+GNU/Linux.
+
+\sloppy{Considero  essa  apostila a  minha  ``paga''  ao movimento  do
+  Software Livre,  que ofereceu esses sistemas  de altíssima qualidade
+  como o GNU/Linux, sendo que este modesto documento espero que chegue
+  aos pés das obras citadas anteriormente.}
+
+\section*{Sobre a licença}
+
+Essa apostila é  licenciada segundo a Creative Commons,  em sua versão
+2.5,  com os  atributos  \emph{Atribuição-Compartilhamento pela  Mesma
+  Licença}. De maneira mais direta, isso quer dizer que:
+
+\begin{enumerate}
+  \item  Você pode  usar essa  apostila em  cursos comerciais.  Não me
+    importo  muito  com  isso,  mas  gostaria  de  um  reconhecimento,
+    principalmente  pela  indicação  do  autor  (eu).  Uma  cópia  dos
+    materiais usados ou um ``agradinho'' também não é nada mal. :-P;
+  \item Você  pode personalizar essa apostila  para suas necessidades,
+    além  de  poder  gerar  \emph{slides}  e  apresentações  especiais
+    conforme  suas necessidades.  Porém, esses  materiais \emph{devem}
+    ser divulgados segundo as licenças Creative Commons. Cá entre nós,
+    não é nada justo que você  pegue meu material, crie em cima e saia
+    dizendo que é seu, né? :-P
+\end{enumerate}
+
+Se   você   precisar   de   contato  para   maiores   esclarecimentos,
+agradecimentos,  comentários,  reclamações e  sugestões,  me envie  um
+\emph{email} para \texttt{fabiocosta0305\@gmail.com}.
+
+\section*{Agradecimentos}
+
+\fussy{Queria agradecer a:}
+
+\begin{itemize}
+\item  Ao  meu amigo  Leonardo  Prado (DNA),  o  primeiro  a ver  essa
+  apostila;
+\item  Aos amigos  do  Serviço Municipal  de  Vigilância Sanitária  da
+  Prefeitura de Ouro Fino/MG (VISA), pela compreensão;
+\item Aos  professores Eduardo Augusto Cosa,  Takaite Takehara, Thiago
+  Zucarelli e Tarcísio Nunes, pelo estímulo;
+\item À  professora Dalva Gonzales Santiago, coordenadora  do Curso de
+  Desenvolvimento de Software da ASMEC, pelo espaço aberto;
+\item  A Linus  Torvalds,  Richard Stallman  e  outros, pelo  software
+  livre, que está cada dia melhor;
+\item   Ao    Gleydson   Mazioli   da   Silva,    pelo   ``Guia   Foca
+GNU/Linux''\cite{FOCALINUX2005}, que serviu de referência e inspiração
+a essa apostila;
+\item Ao Donald Knuth, pelo \TeX{} e ao Leslie Lamport, pelo \LaTeX{},
+  poderosos sistemas de tipografia aonde essa apostila foi produzida;
+\item  A Jean-Michel Jarre,  Enya, Pato  Fu, Loreena  McKennitt, Silly
+  Wizard, Kitaro,  Kraftwerk, Ceolbeg, Wolfstone,  Legião Urbana, John
+  Willians, Manu Chao,  Mano Negra, Hot Pants e  outros, pelas músicas
+  que acompanharam o desenvolvimento desse material;
+\item Aos meus pais, pela paciência e força nos momentos difíceis;
+\item A Deus, pela vida que Ele me deu e dá todos os dias;
+\end{itemize}
+
+\chapter*{Sobre o autor}
+
+Fábio Emilio  Costa é Tecnólogo  em Desenvolvimento de  Software pelas
+Faculdades ASMEC de  Ouro Fino/MG e Técnico de  Processamento de Dados
+pela Escola Agrotécnica Federal de Inconfidentes (EAFI). Desenvolvedor
+nas linguagens C/C++, PHP, Python,  Ruby, Delphi, Visual Basic, Java e
+Clipper,  atualmente  trabalha como  Analista  de  Software Básico  no
+Serviço Federal de  Processamento de Dados (SERPRO), em  São Paulo. Já
+atuou  como consultor  em Desenvolvimento  de Software,  Programador e
+Palestrante  em GNU/Linux,  tendo conhecido  o primeiro  em  1998.  Já
+trabalhou com as distribuições Conectiva/Mandriva, Slackware, Kurumin,
+Ubuntu e SuSE. Tem 28 anos.
+
+\vfill
+
+\begin{center}
+\Huge{Produzido em \LaTeX}
+\end{center}

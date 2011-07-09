@@ -1,0 +1,79 @@
+\documentclass[a4,12pt,openright]{book}
+\usepackage[english,portuguese,brazilian,brazil]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage{pxfonts}
+%\usepackage{lmodern}
+%\usepackage{textcomp}
+\usepackage{fancyhdr}
+\usepackage{psboxit}
+\usepackage{hyphenat}
+  \usepackage[stepnumber=1,style=\script,frameround=fttt]{listings}
+\usepackage{keystroke}
+\usepackage{xy}
+%\input xy
+\xyoption{all}
+\include{configuracao}
+\include{hifenizacao}
+%\ifpdf
+%    \usepackage[pdftex]{graphicx}
+    %\usepackage[pdftex, bookmarks=true, colorlinks=false, hyperindex=false]{hyperref}
+%\else
+    \usepackage[dvips]{graphicx}
+%    \usepackage[dvips, bookmarks=true, colorlinks=false, hyperindex=false]{hyperref}
+%\fi
+\usepackage[alf,abnt-etal-text=emph]{abntcite}
+\begin{document}
+\title{Uma Introdução ao GNU/Linux}
+\author{Fábio Emilio Costa}
+\date{\today}
+\frontmatter
+\newcommand{\Meta}{\keystroke{Meta}}
+\begin{titlepage}
+\par\mbox{}
+\vspace{5cm}
+\begin{flushright}
+	\Huge{\textbf{\emph{Uma Introdução ao GNU/Linux}}}\par
+	\rule[10pt]{\textwidth}{2.5pt}
+	\Large{\textit{Fábio Emilio Costa}}\par
+	\vfill
+\end{flushright}
+\end{titlepage}
+
+\include{folharosto}
+
+\sloppy
+\tableofcontents
+				\fussy
+\listoftables
+\listoffigures
+\addcontentsline{toc}{chapter}{\listofcodename}
+\listof{codigo}{\listofcodename}  % Lista de Códigos 
+
+\include{intro}
+
+\mainmatter
+
+\include{cap1}
+\include{cap2}
+\include{cap3}
+\include{cap4}
+\include{cap5}
+\include{cap6}
+%\include{cap6a}
+\include{cap7}
+\include{cap8}
+\include{cap9}
+\include{cap10}
+\include{cap11}
+\include{cap12}
+
+\appendix
+
+\include{licenca}
+
+\bibliographystyle{abnt-alf}
+
+\bibliography{curso}
+
+\end{document}

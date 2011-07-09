@@ -1,0 +1,79 @@
+This is BibTeX, Version 0.99c (Web2C 7.5.4)
+The top-level auxiliary file: curso.aux
+A level-1 auxiliary file: folharosto.aux
+A level-1 auxiliary file: intro.aux
+A level-1 auxiliary file: cap1.aux
+A level-1 auxiliary file: cap2.aux
+A level-1 auxiliary file: cap3.aux
+A level-1 auxiliary file: cap4.aux
+A level-1 auxiliary file: cap5.aux
+A level-1 auxiliary file: cap6.aux
+A level-1 auxiliary file: cap6a.aux
+A level-1 auxiliary file: cap7.aux
+A level-1 auxiliary file: cap8.aux
+A level-1 auxiliary file: cap9.aux
+A level-1 auxiliary file: cap10.aux
+A level-1 auxiliary file: cap11.aux
+A level-1 auxiliary file: cap12.aux
+A level-1 auxiliary file: licenca.aux
+The style file: abnt-alf.bst
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Database file #1: abnt-options.bib
+Database file #2: curso.bib
+Warning--you've nested cross references--entry "SHADOW-HOWTO1996"
+refers to entry "HOWTO2006", which also refers to something
+Warning--you've nested cross references--entry "NET31999"
+refers to entry "HOWTO2006", which also refers to something
+Warning--you've nested cross references--entry "ETHERNET2003"
+refers to entry "HOWTO2006", which also refers to something
+Warning--you've nested cross references--entry "WIRELESS2002"
+refers to entry "HOWTO2006", which also refers to something
+Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
++---------------------------------------------------------+
+| Estilo bibliografico abnt-alf.bst versao 1.52           |
+| Implementa a NBR6023, NBR10520 e NBR10523               |
+| Em caso de duvidas ou problemas com este estilo procure |
+| http://abntex.codigolivre.org.br                        |
++---------------------------------------------------------+
+You've used 57 entries,
+            6523 wiz_defined-function locations,
+            1487 strings with 16011 characters,
+and the built_in function-call counts, 34051 in all, are:
+= -- 2962
+> -- 615
+< -- 3
++ -- 270
+- -- 199
+* -- 2096
+:= -- 4319
+add.period$ -- 268
+call.type$ -- 59
+change.case$ -- 345
+chr.to.int$ -- 58
+cite$ -- 55
+duplicate$ -- 1653
+empty$ -- 3631
+format.name$ -- 930
+if$ -- 8882
+int.to.chr$ -- 5
+int.to.str$ -- 0
+missing$ -- 921
+newline$ -- 271
+num.names$ -- 170
+pop$ -- 1185
+preamble$ -- 1
+purify$ -- 178
+quote$ -- 0
+skip$ -- 2186
+stack$ -- 1
+substring$ -- 1049
+swap$ -- 659
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 2
+warning$ -- 0
+while$ -- 227
+width$ -- 0
+write$ -- 850
+(There were 4 warnings)

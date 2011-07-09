@@ -1,0 +1,24 @@
+File Edit Options Buffers Tools Help                                            
+Welcome to GNU Emacs, one component of a Linux-based GNU system.
+
+Get help           C-h  (Hold down CTRL and press h)
+Undo changes       C-x u       Exit Emacs               C-x C-c
+Get a tutorial     C-h t       Use Info to read docs    C-h i
+Ordering manuals   C-h RET
+Activate menubar   F10  or  ESC `  or   M-`
+(`C-' means use the CTRL key.  `M-' means use the Meta (or Alt) key.
+If you have no Meta key, you may instead type ESC followed by the character.)
+
+GNU Emacs 21.3.2 (i386-redhat-linux-gnu)
+ of 2004-10-18 on tweety.build.redhat.com
+Copyright (C) 2001 Free Software Foundation, Inc.
+
+GNU Emacs comes with ABSOLUTELY NO WARRANTY; type C-h C-w for full details.
+Emacs is Free Software--Free as in Freedom--so you can redistribute copies
+of Emacs and modify it; type C-h C-c to see the conditions.
+Type C-h C-d for information on getting the latest version.
+
+
+
+-uuu:---F1  *scratch*         (Lisp Interaction)--L1--All-----------------------
+For information about the GNU Project and its goals, type C-h C-p.

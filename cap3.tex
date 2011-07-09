@@ -1,0 +1,491 @@
+\chapter{Estrutura de diretórios do GNU/Linux}
+\label{sec:dirgnulinux}
+
+Agora  que vimos  os comandos  básicos do  GNU/Linux,  podemos começar
+realmente  a aprofundarmo-nos  nos funcionamentos  internos  do mesmo.
+Antes   de   seguirmos  para   outros   tópicos,   vamos  falar   mais
+aprofundadamente do  sistema de arquivos e da  estrutura de diretórios
+do GNU/Linux. Perceba que, ainda assim, não falaremos aprofundadamente
+sobre  ela.   Para  isso,  você  pode  sempre  consultar  o  documento
+\emph{Filesystem  Hierarchy  Standard}\cite{FHS2004}.  Esse  documento
+funciona  como uma  especificação  da estrutura  esperada de  arquivos
+dentro de  um sistema GNU/Linux,  e faz parte do  \emph{Linux Standard
+Base}\cite{LSB2005}. A maioria das  distros seguem uma estrutura que é
+bastante similar  à essa,  portanto ela deve  ser o suficiente  para a
+compreensão inicial.
+
+\section{Entendendo os diretórios em GNU/Linux}
+
+O GNU/Linux,  como todos os  sistemas operacionais Unix, é  um sistema
+operacional que trabalha com sistemas de arquivo de \emph{árvore única
+de diretório}. Na realidade, isso quer dizer que todos os dispositivos
+de  armazenamento do  GNU/Linux  estão montados  dentro  de uma  única
+estrutura  de árvore  de  diretório, diferentemente,  por exemplo,  do
+Windows\texttrademark,  aonde cada  dispositivo possui  uma  árvore de
+diretório independente. 
+
+Isso é muito interessante, pois facilita a procura por arquivos dentro
+de  diversos  dispositivos,  mas  ao  mesmo tempo  é  muito  perigoso:
+anteriormente,    na     Seção    \ref{sec:rmcommand},    na    Página
+\pageref{sec:rmcommand}   comentamos   que   \textsc{jamais}   deveria
+utilizar-se  \texttt{rm -rf  /}.  Como  o  GNU/Linux é  um sistema  de
+\emph{árvore   única   de  diretório},   todos   os  dispositivos   de
+armazenamento  do  GNU/Linux  estão   montados  dentro  de  uma  única
+estrutura   de  árvore   de   diretório,  que   começa  no   diretório
+\texttt{`/'}\footnote{chamado  de diretório  raiz ou  \emph{root}}. Um
+comando \texttt{rm  -rf /} iria  destruir não apenas  dadose programas
+GNU/Linux, mas \emph{de qualquer dispositivo o qual não esteja montado
+como  somente-leitura}  (veremos   mais  sobre  montagem  no  Capítulo
+\ref{sec:storage},  mais exatamente  na Seção  \ref{sec:mount}, Página
+\pageref{sec:mount}). Ou  seja, muito  provalmente até mesmo  dados de
+\emph{backup}  e dispositivos  RAID\footnote{\emph{Redundant  Array of
+Inexpansive  Disks}  --- Conjunto  Redundante  de  Discos Baratos,  um
+mecanismo usado para \emph{backup}  e alta disponibilidade que garante
+o máximo  de \emph{uptime}  --- tempo de  máquina funcional ---  com o
+mínimo de custo, através da  combinação de discos comuns e tecnologias
+avançadas de espelhamento de dados} seriam destruídos. 
+
+Agora  que temos  uma noção  da seriedade  do sistema  de  arquivos do
+GNU/Linux,  vejamos  um  pouco  sobre  três  diretórios  especiais  do
+GNU/Linux,    os     diretórios    \texttt{`.'},    \texttt{`..'}    e
+\texttt{`\~{}'},  antes  de  passarmos  para  a  estrutura  padrão  de
+diretórios do GNU/Linux.
+
+\subsection{O diretório \texttt{`.'}}
+
+O diretório \texttt{`.'}  faz  referência ao \emph{diretório atual}. O
+uso  de \texttt{`.'}   é muito  vantajoso em  alguns comandos,  como o
+\texttt{cp}   pois,   diferentemente   do   caso   dos   comandos   no
+MS-DOS\texttrademark{}ou  Windows\texttrademark, os  no  GNU/Linux não
+associam  um alvo de  destino a  comandos.  Isso  é feito  para evitar
+comandos  mal-executados  que  possam  sobrepor  todo  o  conteúdo  de
+arquivos,  podendo até  mesmo danificar  o sistema.   Nesse  caso, por
+exemplo, se  você quiser  copiar dados para  o diretório atual,  use o
+comando \texttt{cp <arquivo> .}.
+
+Além  disso, o  uso  do  \texttt{`.'}  pode  ser  feito para  procurar
+programas dentro do diretório atual. Por padrão, o GNU/Linux \emph{não
+  executa} comandos  ou \emph{scripts}  dentro do diretório  atual, de
+maneira a  evitar que algum espertinho  copie comandos administrativos
+dentro de diretórios  aonde o usuário pode acessar  e utilizá-los para
+violar  a segurança  do sistema.  Porém, isso  algumas vezes  pode ser
+ruim,   principalmente  se  você   precisar  testar   novos  programas
+recém-compilados.   Nesse    caso,   você   pode    usar   o   comando
+\texttt{./<comando>},    forçando   o    sistema   a    procurar   por
+\texttt{<comando>} dentro do diretório atual.
+
+De   qualquer  forma,  isso   deve  bastar   para  falarmos   sobre  o
+\emph{diretório atual}  (\texttt{`.'}). Vamos falar  agora sobre outro
+diretório especial, o \texttt{`..'}.
+
+\subsection{O diretório \texttt{`..'}}
+
+O diretório  especial \texttt{`..'}  (ponto-ponto) é um  diretório que
+leva  você ao  \emph{diretório anterior}  ao seu  (diretório-pai).  Na
+prática, o  \texttt{..} é muito  usado para acessar-se  diretórios que
+estão dentro do mesmo diretório. Por exemplo, imagine que você tenha a
+seguinte estrutura  de diretórios, sendo  que no momento você  está no
+diretório \texttt{/home/hpotter}:
+
+\begin{figure}
+\begin{displaymath}
+\xymatrix{   &   \txt{\texttt{/home}}   \ar[dl]   \ar[d]   \ar[dr]   &
+  \\     \txt{\texttt{hpotter}}     &    \txt{\texttt{hgranger}}     &
+  \txt{\texttt{rweasley}} }
+\end{displaymath}
+\caption{Exemplo de estrutura de diretórios}
+\end{figure}
+
+Se  você  precisar de  um  arquivo  \texttt{potionessay} do  diretório
+\texttt{/home/hgranger},            você           pode           usar
+\texttt{../hgranger/potionessay}  para  o  acessar (supondo  que  você
+tenha  permissões  de  acesso  suficientes).   O mesmo  vale  se  você
+estivesse, por  exemplo, no diretório  \texttt{/home/rweasley}. A isso
+chama-se \emph{caminho relativo} de um arquivo (ou seja, o caminho que
+deve-se   seguir   de   um   determinado  diretório   até   um   outro
+arquivo/diretório).
+
+Com  isso, encerramos esse  tipo de  diretório. Falta  apenas falarmos
+sobre um diretório especial, o \texttt{\~{}}.
+
+\subsection{O diretório `\texttt{\~{}}'}
+\label{sec:homedir}
+
+O  diretório \texttt{\~{}}, chamado  também de  diretório \emph{home},
+identifica  o  \emph{diretório pessoal}  designado  ao usuário.   Esse
+diretório é registrado em geral junto com várias outras informações do
+usuário no arquivo \texttt{/etc/passwd}  e normalmente fica debaixo do
+diretório  \texttt{/home}.   Falaremos  mais  sobre esses  arquivos  e
+diretórios  adiante. Por  enquanto, o  que  importa é  saber que  usar
+\texttt{\~{}}   nos  leva   ao   nosso  diretório   pessoal,  e   usar
+\texttt{\~{}<nomeusuario>} nos leva  ou referencia o diretório pessoal
+de outro usuário qualquer.
+
+O diretório pessoal armazena, além dos documentos pessoais do usuário,
+os arquivos de  configuração pessoal do usuário dos  programas que ele
+usa,  normalmente em  diretórios  ou arquivos  \emph{desinteressantes}
+(\emph{ocultos}) dentro do  \emph{home}. Por exemplo, as configurações
+específicas   deste    usuário   para   o    \emph{shell}   ficam   em
+\texttt{.bashrc},   enquanto    as   do   \texttt{emacs}    ficam   em
+\texttt{.emacs}   e  as  do   programa  de   edição  de   imagens  The
+GIMP\footnote{de \emph{GNU Image Manipulation Program} --- programa de
+manipulação  de imagens  do  projeto GNU}  ficam  dentro do  diretório
+\texttt{.gimp}.   É   importante   ressaltar   uma  regra   do   mundo
+Unix.  Arquivos  e  diretórios  ocultos  (ou, usando  o  jargão  Unix,
+``desinteressantes'') devem começar com o \texttt{.} Isso é importante
+pois os arquivos ``desinteressantes''  passam por comandos de exclusão
+como \texttt{rm  *}, tendo que ser  excluídos \emph{explicitamente} ou
+serem ``vítimas'' de exclusão recursiva.
+
+Voltando ao exemplo anterior:  imagine que o usuário \texttt{hgranger}
+tenha  como  diretório  pessoal  \texttt{/home/hgranger} e  o  usuário
+\texttt{hpotter}       tenha        como       diretório       pessoal
+\texttt{/home/hpotter}. Imagine  que você esteja  no diretório pessoal
+do   usuário    \texttt{hpotter}   e   precise    copiar   o   arquivo
+\texttt{potionessay}     do    diretório     pessoal     do    usuário
+\texttt{hgranger}.   Qualquer   um  dos  seguintes   comandos  fará  a
+função\footnote{claro, desde que  você tenha as permissões necessárias
+  para isso}:
+
+\begin{itemize}
+\item  \texttt{cp  /home/hgranger/potionessay /home/hpotter}  (comando
+  completo);
+\item  \texttt{cp  /home/hgranger/potionessay  .}  (usando  \texttt{.}
+  para substituir o diretório atual);
+\item  \texttt{cp  ../hgranger/potionessay  .}  (usando  o  \texttt{.}
+  para  substituir o diretório  atual e  \texttt{..}  para  definir um
+  \emph{caminho    relativo}    até    o    diretório    do    usuário
+  \texttt{hgranger});
+\item  \texttt{cp \~{}hgranger/potionessay  .}   (usando o  \texttt{.}
+  para  substituir  o  diretório  atual e  \texttt{\~{}hgranger}  para
+  indicar  ao sistema  que  deseja-se obter  um  arquivo do  diretório
+  pessoal de \texttt{hgranger});
+\item     \texttt{cp     \~{}hgranger/potionessay    \~{}}     (usando
+  \texttt{\~{}hgranger} para indicar ao sistema que deseja-se obter um
+  arquivo  do diretório pessoal  de \texttt{hgranger}  e \texttt{\~{}}
+  para indicar que o destino é o diretório pessoal do usuário que está
+  lançando o  comando.  Nesse caso,  esse comando deve ser  usado pelo
+  usuário \texttt{hpotter} para alcançar-se o objetivo desejado);
+\end{itemize}
+
+Com  isso,  terminamos  de  falar  sobre os  diretórios  especiais  do
+GNU/Linux.  Vamos agora  falar da  estrutura padrão  de  diretórios do
+mesmo.
+
+\section{A estrutura padrão de diretórios}
+
+O GNU/Linux permite,  ao menos em teoria, que  os arquivos e programas
+do sistema  fiquem dispostos conforme a  conveniência do administrador
+do sistema. Porém,  isso tornaria o sistema uma  verdadeira zona. Para
+desestimular tal comportamento, a  hierarquia de diretórios e arquivos
+esperados em um sistema  GNU/Linux foi padronizada na \emph{Filesystem
+  Hierarchy Standard}(Padrão de Hierarquia de arquivos)\cite{FHS2004},
+parte    do   \emph{Linux   Standard    Base}\cite{LSB2005}(Bases   de
+Padronização do Linux). Dessa  forma, podemos esperar que determinados
+arquivos  e programas  estejam dentro  de determinados  diretórios, de
+forma  que não  precisemos nos  preocupar  muito com  isso. Veremos  a
+seguir como funciona essa estrutura de arquivos, segundo o FHS.
+
+A estrutura típica de arquivos de um sistema GNU/Linux \emph{básico} é
+a seguinte:
+
+\begin{figure}
+\begin{displaymath}
+\xymatrix{
+\texttt{bin} & \texttt{boot} & \texttt{dev} & & \texttt{etc} & \texttt{home}  & \texttt{lib}\\
+& & & & & & \\
+& & &  \texttt{/}\ar[uulll]\ar[uull]\ar[uul]\ar[uur]\ar[uurr]\ar[uurrr]\ar[ddlll]\ar[ddll]\ar[ddl]\ar[ddr]\ar[ddrr]\ar[ddrrr]& & & \\
+& & & & & & \\
+\texttt{mnt} & \texttt{opt} & \texttt{root} & & \texttt{sbin} & \texttt{tmp} & \texttt{usr}}
+\end{displaymath}
+\caption{Estrutura padrão do GNU/Linux}
+\end{figure}
+
+\subsection{\texttt{/usr}}
+
+O  diretório \texttt{/usr}  contêm os  principais programas  dentro do
+sistema GNU/Linux, além de informações necessárias para sua execução e
+uso (exceto  configurações, que são desviadas para  outro diretório, o
+\texttt{/etc}),  além de informações  de uso  geral. Na  prática, esse
+diretório contêm a maioria dos programas e arquivos de utilidade geral
+do  sistema.   Pela  FHS,   o  diretório  \texttt{/usr}   deveria  ser
+considerado  compartilhado (ou  seja, todos  os usuários  deveriam ser
+capazes de acessar os comandos dentro dele) e apenas-leitura (apenas o
+\texttt{root} poderia escrever arquivos dentro dele). Vejamos um pouco
+sobre os diretórios dentro de \texttt{/usr}, que são os seguintes:
+
+\begin{figure}
+\begin{displaymath}
+\xymatrix{
+& & & \texttt{/}\ar[dd] & & &\\
+& & & & & & \\
+& & & \texttt{usr}\ar[ddlll]\ar[ddll]\ar[ddl]\ar[ddr]\ar[ddrr]\ar[ddrrr] & & & \\
+& & & & & & \\
+\texttt{bin} & \texttt{doc} & \texttt{local} & & \texttt{lib} &\texttt{share} &\texttt{src}}
+\end{displaymath}
+\caption{Estrutura do diretório \texttt{/usr}}
+\end{figure} 
+
+\subsubsection{\texttt{/usr/bin}}
+
+O  diretório  \texttt{/usr/bin} armazena  os  programas e  utilitários
+principais, exceto no caso de programas utilitários específicos para o
+super-usuário (que  em geral ficam  ou em \texttt{/sbin} ou  dentro de
+\texttt{/usr/sbin}). Normalmente, são  colocado dentro desse diretório
+apenas  aqueles aplicativos  que  vão ser  compartilhado  em toda  uma
+infraestrutura de rede  e/ou aqueles que são instalados  com a própria
+distro, para facilitar sua manutenção.
+
+\subsubsection{\texttt{/usr/doc}}
+
+Esse  diretório não  é parte  do FHS,  mas em  geral é  um \emph{link}
+simbólico  para  \texttt{/usr/share/doc} (que,  por  sua vez,  \emph{é
+  parte}  do   FHS).  Nele,  ficam  contidos  todos   os  arquivos  de
+documentação comum  do sistema. Perceba que isso  \emph{não inclui} os
+arquivos de \emph{manpages} e  \emph{infopages}, mas sim, por exemplo,
+documentações em formatos como TXT e HTML.
+
+\subsubsection{\texttt{/usr/lib}}
+
+Nesse diretório ficam as  bibliotecas de desenvolvimento de programas,
+além  de bibliotecas  de ligação  dinâmica  do GNU/Linux.  No caso  do
+desenvolvimento  de  programas  em  C/C++, os  arquivos  de  cabeçalho
+(\emph{header files}) ficam no diretório \texttt{/usr/include}.
+
+\subsubsection{\texttt{/usr/src}}
+
+A  FHS afirma  que \emph{``códigos  fonte podem  ser  colocados dentro
+  desse            diretório            \textbf{apenas            para
+    referências}''}\cite{FHS2004}.  Na mesma  FHS,  afirma-se que  não
+deveria ser permitido o  \emph{build} (compilação) de programas dentro
+de  /usr/src.  Na  prática,  em   geral,  apenas  o  código  fonte  do
+\emph{kernel} do GNU/Linux é compilado dentro de \texttt{/usr/src}. Em
+sistemas   cujo   gerenciador  de   pacotes   é   o  \texttt{rpm},   o
+\texttt{/usr/src} também  é utilizado para empacotar  e copiar pacotes
+RPM gerados dentro do sistema, dentro de \texttt{/usr/src/RPM}
+
+\subsubsection{\texttt{/usr/share}}
+
+O diretório \texttt{/usr/share} atua como um depósito para arquivos de
+programa que não sejam dependente de plataforma. Isso permite que você
+possa   compilar  os   programas  conforme   a  plataforma   e  manter
+documentações  e  informações  que  sejam independente  de  plataforma
+isolados  e uniformes  para qualquer  situação. O  principal diretório
+dentro  dele  é \texttt{/usr/share/man},  que  contêm  os arquivos  de
+\emph{manpage}.  Esse é o  único diretório  que as  especificações FHS
+consideram     obrigatório.      Além     dele,     pode-se     citar:
+\begin{itemize}
+\item    \texttt{/usr/share/info},     que    guarda    os    arquivos
+  \emph{infopage};
+\item \texttt{/usr/share/dict},  que registra listas  de palavras para
+  sistemas de dicionário;
+\item   \texttt{/usr/share/locale},   que   armazena  informações   de
+  localização de \emph{software} do sistema;
+\end{itemize}
+
+\subsubsection{\texttt{/usr/local}}
+
+O objetivo de \texttt{/usr/local}  é permitir que programas compilados
+no sistema  sejam instalados sem prejudicar ou  serem prejudicados por
+atualizações do  GNU/Linux. Na prática,  dentro de \texttt{/usr/local}
+encontra-se uma hierarquia completa  similar à de \texttt{/usr} (com a
+óbvia   exceção   de   \texttt{/usr/local}).   Ou   seja,   você   tem
+\texttt{/usr/local/bin}, \texttt{/usr/local/lib}\ldots.
+
+Essa é a base do diretório \texttt{/usr}. Vamos seguir em frente.
+
+\subsection{\texttt{/sbin}}
+
+\texttt{/sbin}  armazena os utilitários  mais importantes  do sistema,
+comandos  de  administração  e  de  inicialização  e  desligamento  do
+sistema.   Utilitários como  \texttt{shutdown}  (desliga o  computador
+corretamente),  \texttt{fsck}  (checagem   do  sistema  de  arquivos),
+\texttt{init}  (responsável  pela   preparação  inicial  do  sistema),
+\texttt{route} (configuração de roteamento em redes IP) e outros podem
+estar todos dentro desse  diretório. Por esse motivo, aconselha-se que
+tal diretório possa ser acessado \emph{apenas} pelo \texttt{root},
+
+\subsection{\texttt{/boot}}
+
+Nesse  diretório  costumam  ser  armazenados  os  \emph{boot  loaders}
+(carregadores  do sistema)  e os  arquivos do  \emph{kernel} compilado
+(tanto o \emph{kernel} estático quanto quaisquer módulos dinamicamente
+carregados).   Além  disso,  contém   arquivos  de   configuração  dos
+\emph{boot loaders}.
+
+\subsection{\texttt{/root}}
+
+\texttt{/root} é o diretório \emph{home} do super-usuário. Normalmente
+aqui ficam  \emph{scripts} de usp pessoal do  super-usuário para ajuda
+na administração do sistema. Como
+
+\subsection{\texttt{/home}}
+
+Dentro  desse  diretório  ficam  todos os  diretórios  \emph{home}  de
+usuários (diretórios pessoais). Essa hierarquia é considerada opcional
+pela FHS, mas é interessante  mantê-la por causa do POSIX. Além disso,
+essa hierarquia  torna muito mais simples o  \emph{backup} de arquivos
+do  usuário e  a manutenção  do sistema  (isole o  diretório  em outra
+partição e,  caso haja uma falha  no sistema, é  possível recuperar os
+arquivos do usuário muito rapidamente).
+
+\subsection{\texttt{/etc}}
+
+O   diretório  \texttt{/etc}  contêm   arquivos  de   configuração  do
+sistema. Pela FHS\cite{FHS2004}, um arquivo de configuração é definido
+como ``estático e não podendo  ser binário executável''. Além disso, o
+diretório  não devem existir  arquivos executáveis.  Segundo a  FHS, é
+esperado os seguintes diretórios e arquivos:
+
+\begin{itemize}
+\item\texttt{/etc/opt}:  diretório de  configuração para  os programas
+  instalados em \texttt{/opt};
+\item\texttt{/etc/X11}: diretório com os arquivos de configuração para
+  o ambiente de interface gráfica X11;
+\item\texttt{/etc/passwd} e \texttt{/etc/group}: arquivos responsáveis
+  pela manutenção  dos registros  de autenticação (usuários,  senhas e
+  grupos pertencentes)  do sistema, quando o mesmo  não utilizar-se de
+  outros mecanismos (LDAP/PAM);
+\item\texttt{/etc/hosts}:  arquivo  com a  configuração  dos nomes  de
+  máquinas, quando a mesma não está usando DNS;
+\item\texttt{/etc/fstab}: Informações  sobre os sistemas  de arquivo a
+  serem disponibilizados pelo sistema;
+\item\texttt{/etc/inittab}:  Configuração do sistema  de inicialização
+  \texttt{init};
+\item\texttt{/etc/motd}:       \emph{\textbf{m}essage      \textbf{o}f
+  \textbf{t}he  \textbf{d}ay}  --- mensagem  do  dia:  mensagem a  ser
+  exibida após o \emph{login} do usuário via texto;
+\item\texttt{/etc/profile}:  configurações  padrão  para  \emph{shell}
+  bourne (\texttt{bash} incluido);
+\item\texttt{/etc/csh.login}: igual  a \texttt{/etc/profile}, mas para
+  \emph{shell} C-Shell;
+\item\texttt{/etc/HOSTNAME}: contém o nome exclusivo da máquina local
+\end{itemize}
+
+A estrutura do \texttt{/etc} ficaria então assim:
+
+\begin{figure}
+\begin{displaymath}
+\xymatrix{
+\texttt{csh.login} & \texttt{passwd} & \texttt{group}  & \texttt{hosts} & \texttt{fstab} \\
+ & & & & \\
+\texttt{X11/} & &  \texttt{/etc}\ar[ll]\ar[uull]\ar[uul]\ar[uu]\ar[uur]\ar[uurr]\ar[rr]\ar[ddll]\ar[ddl]\ar[dd]\ar[ddr]\ar[ddrr]& & \texttt{opt/} \\
+& & & &  \\
+\texttt{inittab} & \texttt{motd} & \texttt{profile} & \texttt{HOSTNAME} & \texttt{\ldots}
+}
+\end{displaymath}
+\caption{Estrutura do diretório \texttt{/etc}}
+\end{figure}
+
+Na realidade, existirão MUITO  mais arquivos: em geral, \emph{qualquer
+  programa} no GNU/Linux deveria jogar suas configurações padrão aqui.
+
+\subsection{\texttt{/var}}
+
+O diretório \texttt{/var} contêm  arquivos que mudam constantemente de
+conteúdo, como \emph{spools}(filas) de correio eletrônico e documentos
+a serem impressos,  \emph{logs}, \emph{locks} de sistema, \emph{cache}
+de navegação e \emph{proxies} (como o \texttt{squid}\footnote{servidor
+  \emph{proxy} de Web capaz de filtro de conteúdo}) e afins.
+
+Anteriormente,  esses conteúdos eram  colocados em  \texttt{/usr}, mas
+isso  impedia que o  sistema \texttt{/usr}  fosse montado  apenas para
+escrita.   Atualmente,   utiliza-se   um  \emph{link}   simbólico   de
+\texttt{/var}   para   o   diretório  \texttt{/usr/var}.   Dentro   de
+\texttt{/var}, podem-se esperar os seguintes diretórios:
+
+\begin{itemize}
+\item \texttt{/var/cache}:  informação de \emph{cache}  de aplicativos
+  como \texttt{squid} e MySQL;
+\item \texttt{/var/lock}: \emph{locks} de aplicações do sistema;
+\item \texttt{/var/log}:  arquivos e diretório de  \emph{log} tanto do
+  sistema quanto de programas;
+\item \texttt{/var/run}: informação dos processos em execução;
+\item \texttt{/var/spool}:  \emph{spool} de dados  das aplicações como
+  email e impressão;
+\item  \texttt{/var/tmp}:  informação variável  que  deve ser  mantida
+  entre reinicializações do sistema;
+\end{itemize}
+
+A estrutura do \texttt{/etc} ficaria então assim:
+
+\begin{figure}
+\begin{displaymath}
+\xymatrix{
+& & & \texttt{/}\ar[dd] & & &\\
+& & & & & & \\
+& & &  \texttt{var}\ar[ddlll]\ar[ddll]\ar[ddl]\ar[ddr]\ar[ddrr]\ar[ddrrr]& & & \\
+& & & & & & \\
+\texttt{cache} & \texttt{lock} & \texttt{log} & & \texttt{run} & \texttt{spool} & \texttt{tmp}
+}
+\end{displaymath}
+\caption{Estrutura do diretório \texttt{/var}}
+\end{figure}
+
+\subsection{\texttt{/mnt}}
+
+O diretório \texttt{/mnt} contém em geral diretórios vazios conhecidos
+como  \emph{pontos de  montagem}. No  caso, não  falaremos  sobre eles
+aqui,  pois esse  é  um assunto  para  a Seção  \ref{sec:mountpoints},
+Página \ref{sec:mountpoints}. A título  de curiosidade, um diagrama de
+exemplo de um diretório \texttt{/mnt}:
+
+\begin{figure}
+\begin{displaymath}
+\xymatrix{
+& & & \texttt{/}\ar[dd] & & &\\
+& & & & & & \\
+& & &  \texttt{mnt}\ar[ddlll]\ar[ddll]\ar[ddl]\ar[ddr]\ar[ddrr]\ar[ddrrr]& & & \\
+& & & & & & \\
+\texttt{winC} & \texttt{floppy} & \texttt{cd} & & \texttt{pen} & \texttt{digicamera} & \texttt{tape}
+}
+\end{displaymath}
+\caption{Exemplo de uma estrutura de pontos de montagem em
+\texttt{/mnt}}
+\end{figure}
+
+\subsection{\texttt{/opt}}
+
+O  diretório  \texttt{/opt}  contém  em  geral  pacotes  adicioais  ao
+sistema.  Embora   não  seja  a  função  definida   pela  FHS,  muitas
+instalações  GNU/Linux   aproveitam  esse  diretório   para  guardarem
+programas  proprietários  ou  programas  binários  cuja  instalação  é
+diferente da padrão do sistema.
+
+\subsection{\texttt{/dev}}
+
+O diretório \texttt{/dev} é um  diretório especial, pois ele contêm os
+arquivos de dispositivo. Para entender, vamos explicar o porquê disso.
+
+Para os Unix em geral (GNU/Linux entre eles), qualquer coisa dentro do
+sistema  é um arquivo.  Periféricos são  arquivos, memória  é arquivo,
+processos  são   arquivos,  etc\ldots.   No  caso,  para   acessar  um
+dispositivo,  o  Unix cria  \emph{arquivos  de  dispositivos} que  são
+referências aos dispositivos. Por exemplo, para mandar uma listagem de
+arquivos para a impressora, você  pode usar o comando \texttt{ls -la >
+  /dev/lp0},  aonde  \texttt{/dev/lp0}  é  a  primeira  impressora  do
+sistema.
+
+No \texttt{/dev}  encontram-se todos  os diretórios de  dispositivo do
+sistema GNU/Linux. Em  geral, os nomes dos dispositivos  são dados por
+um tipo  de barramento, mais o  número do dispositivo  no sistema. Por
+exemplo  \texttt{/dev/lp0}  (primeira  impressora)  \texttt{/dev/tty2}
+(terceiro terminal virtual)\footnote{O começo por 0 é uma herança Unix
+da  linguagem de  programação C,  aonde  em geral  a primeira  posição
+dentro de um vetor é apontada por 0}\ldots. Não entraremos em detalhes
+nesse assunto,  primeiro porque as partes  relevantes serão discutidas
+no decorrer da apostila, em segundo  lugar pelo fato de ser um assunto
+\emph{extremamente complexo} e fora do escopo dessa apostila.
+
+\subsection{\texttt{/proc}}
+
+O  diretório  \texttt{/proc},  na  verdade,  é  um  pseudo-sistema  de
+arquivos (ou  seja, ele não existe em  dispositivos de armazenamento),
+representando o  \emph{kernel} e os  processos em execução.  Em geral,
+não se manipula o  diretório \texttt{/proc}, embora algumas vezes seja
+necessário manipular tais arquivos  para ativar ou desativar opções do
+\emph{kernel on-the-fly} (com o sistema funcionando).
+
+Com isso,  encerramos esse  tópico. No próximo,  veremos mais  sobre o
+acesso a  dispositivos externos e o agregamento  de novos dispositivos
+ao sistema.

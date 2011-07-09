@@ -1,0 +1,237 @@
+\select@language {brazil}
+\contentsline {chapter}{Lista de Trechos de C\'odigo}{xvii}
+\contentsline {chapter}{Introdu\c c\~ao}{xxi}
+\contentsline {chapter}{\numberline {1}Um pouco de Hist\'oria}{1}
+\contentsline {section}{\numberline {1.1}O que \'e GNU/Linux?}{1}
+\contentsline {section}{\numberline {1.2}O projeto GNU}{2}
+\contentsline {subsection}{\numberline {1.2.1}Richard Stallman}{3}
+\contentsline {subsubsection}{\numberline {1.2.1.1}O conceito de Software Livre}{5}
+\contentsline {subsection}{\numberline {1.2.2}O projeto inicia}{6}
+\contentsline {section}{\numberline {1.3}Linus Torvalds e o Kernel Linux}{9}
+\contentsline {section}{\numberline {1.4}As distribui\c c\~oes}{11}
+\contentsline {section}{\numberline {1.5}Algumas distribui\c c\~oes}{12}
+\contentsline {subsection}{\numberline {1.5.1}Debian GNU/Linux}{12}
+\contentsline {subsection}{\numberline {1.5.2}Red Hat}{13}
+\contentsline {subsection}{\numberline {1.5.3}Mandriva}{13}
+\contentsline {subsection}{\numberline {1.5.4}Slackware}{13}
+\contentsline {subsection}{\numberline {1.5.5}Knoppix}{14}
+\contentsline {subsection}{\numberline {1.5.6}Kurumin}{14}
+\contentsline {subsection}{\numberline {1.5.7}Ubuntu}{14}
+\contentsline {subsection}{\numberline {1.5.8}SuSE}{15}
+\contentsline {subsection}{\numberline {1.5.9}Arch Linux}{15}
+\contentsline {subsection}{\numberline {1.5.10}Gentoo Linux}{15}
+\contentsline {chapter}{\numberline {2}Iniciando com o GNU/Linux}{17}
+\contentsline {section}{\numberline {2.1}Entrando no sistema}{17}
+\contentsline {subsection}{\numberline {2.1.1}Filosofia do sistema}{18}
+\contentsline {subsubsection}{\numberline {2.1.1.1}O usu\'ario \texttt {root}}{19}
+\contentsline {subsubsection}{\numberline {2.1.1.2}Cuidados com o \texttt {root}}{19}
+\contentsline {subsection}{\numberline {2.1.2}\emph {Login}}{19}
+\contentsline {section}{\numberline {2.2}O \emph {Shell}}{21}
+\contentsline {section}{\numberline {2.3}Obtendo ajuda de comandos}{22}
+\contentsline {subsection}{\numberline {2.3.1}\texttt {man}}{22}
+\contentsline {subsubsection}{\numberline {2.3.1.1}Navegando pela \emph {manpage}}{24}
+\contentsline {subsection}{\numberline {2.3.2}\texttt {info}}{25}
+\contentsline {subsection}{\numberline {2.3.3}Navegando na \emph {infopage}}{25}
+\contentsline {section}{\numberline {2.4}Alguns comandos b\'asicos}{28}
+\contentsline {subsection}{\numberline {2.4.1}Listando arquivos: \texttt {ls}}{28}
+\contentsline {subsubsection}{\numberline {2.4.1.1}Permiss\~oes de arquivo}{32}
+\contentsline {subsection}{\numberline {2.4.2}Manipula\c c\~ao de arquivos}{34}
+\contentsline {subsubsection}{\numberline {2.4.2.1}\texttt {cp}}{34}
+\contentsline {subsubsection}{\numberline {2.4.2.2}Coringas \emph {wildcards} no GNU/Linux}{36}
+\contentsline {subsubsection}{\numberline {2.4.2.3}\texttt {mv}}{39}
+\contentsline {subsubsection}{\numberline {2.4.2.4}\texttt {rm}}{40}
+\contentsline {section}{\numberline {2.5}Diret\'orios}{40}
+\contentsline {subsection}{\numberline {2.5.1}\texttt {cd}}{40}
+\contentsline {subsection}{\numberline {2.5.2}\texttt {mkdir}}{41}
+\contentsline {subsection}{\numberline {2.5.3}\texttt {mv}}{42}
+\contentsline {subsection}{\numberline {2.5.4}\texttt {rmdir}}{42}
+\contentsline {subsection}{\numberline {2.5.5}Aonde Estou? \texttt {pwd}}{43}
+\contentsline {section}{\numberline {2.6}Passando para superusu\'ario}{43}
+\contentsline {subsection}{\numberline {2.6.1}\texttt {su}}{44}
+\contentsline {subsubsection}{\numberline {2.6.1.1}Usando \texttt {su} para acessar como usu\'ario comum}{46}
+\contentsline {section}{\numberline {2.7}Permiss\~oes de Acesso}{46}
+\contentsline {subsection}{\numberline {2.7.1}Revisando Permiss\~oes de Acesso}{46}
+\contentsline {subsubsection}{\numberline {2.7.1.1}\emph {setuid}}{47}
+\contentsline {subsubsection}{\numberline {2.7.1.2}\emph {setgid}}{47}
+\contentsline {subsubsection}{\numberline {2.7.1.3}\emph {sticky bit} --- Bit de cola}{48}
+\contentsline {subsection}{\numberline {2.7.2}Mudando permiss\~oes --- \texttt {chmod}}{49}
+\contentsline {subsubsection}{\numberline {2.7.2.1}Refer\^encia Octal}{49}
+\contentsline {subsubsection}{\numberline {2.7.2.2}Refer\^encia Simb\'olica}{50}
+\contentsline {subsection}{\numberline {2.7.3}Mudando o dono do arquivo --- \texttt {chown}}{51}
+\contentsline {subsection}{\numberline {2.7.4}Mudando o grupo dono do arquivo --- \texttt {chgrp}}{53}
+\contentsline {subsection}{\numberline {2.7.5}Definindo as permiss\~oes padr\~ao --- \texttt {umask}}{55}
+\contentsline {section}{\numberline {2.8}Vendo o conte\'udo de arquivos}{57}
+\contentsline {subsection}{\numberline {2.8.1}\texttt {cat}}{57}
+\contentsline {subsection}{\numberline {2.8.2}Visualizando arquivos grandes: \texttt {more} e \texttt {less}}{58}
+\contentsline {subsubsection}{\numberline {2.8.2.1}Entrada padr\~ao, Sa\IeC {\'\i }da padr\~ao, redirecionamento e \emph {pipes}}{59}
+\contentsline {subsection}{\numberline {2.8.3}Vendo o final de arquivos: \texttt {tail}}{60}
+\contentsline {subsection}{\numberline {2.8.4}Acompanhando arquivos: \texttt {watch}}{61}
+\contentsline {section}{\numberline {2.9}Liga\c c\~oes}{62}
+\contentsline {subsection}{\numberline {2.9.1}O que s\~ao liga\c c\~oes?}{62}
+\contentsline {subsection}{\numberline {2.9.2}Vantagens e desvantagens das liga\c c\~oes}{62}
+\contentsline {subsection}{\numberline {2.9.3}O comando \texttt {ln}}{63}
+\contentsline {section}{\numberline {2.10}Apelidos para comandos: \texttt {alias}}{64}
+\contentsline {chapter}{\numberline {3}Estrutura de diret\'orios do GNU/Linux}{65}
+\contentsline {section}{\numberline {3.1}Entendendo os diret\'orios em GNU/Linux}{65}
+\contentsline {subsection}{\numberline {3.1.1}O diret\'orio \texttt {`.'}}{66}
+\contentsline {subsection}{\numberline {3.1.2}O diret\'orio \texttt {`..'}}{67}
+\contentsline {subsection}{\numberline {3.1.3}O diret\'orio `\texttt {\~{}}'}{67}
+\contentsline {section}{\numberline {3.2}A estrutura padr\~ao de diret\'orios}{69}
+\contentsline {subsection}{\numberline {3.2.1}\texttt {/usr}}{69}
+\contentsline {subsubsection}{\numberline {3.2.1.1}\texttt {/usr/bin}}{70}
+\contentsline {subsubsection}{\numberline {3.2.1.2}\texttt {/usr/doc}}{70}
+\contentsline {subsubsection}{\numberline {3.2.1.3}\texttt {/usr/lib}}{71}
+\contentsline {subsubsection}{\numberline {3.2.1.4}\texttt {/usr/src}}{71}
+\contentsline {subsubsection}{\numberline {3.2.1.5}\texttt {/usr/share}}{72}
+\contentsline {subsubsection}{\numberline {3.2.1.6}\texttt {/usr/local}}{72}
+\contentsline {subsection}{\numberline {3.2.2}\texttt {/sbin}}{72}
+\contentsline {subsection}{\numberline {3.2.3}\texttt {/boot}}{73}
+\contentsline {subsection}{\numberline {3.2.4}\texttt {/root}}{73}
+\contentsline {subsection}{\numberline {3.2.5}\texttt {/home}}{73}
+\contentsline {subsection}{\numberline {3.2.6}\texttt {/etc}}{73}
+\contentsline {subsection}{\numberline {3.2.7}\texttt {/var}}{75}
+\contentsline {subsection}{\numberline {3.2.8}\texttt {/mnt}}{75}
+\contentsline {subsection}{\numberline {3.2.9}\texttt {/opt}}{77}
+\contentsline {subsection}{\numberline {3.2.10}\texttt {/dev}}{77}
+\contentsline {subsection}{\numberline {3.2.11}\texttt {/proc}}{77}
+\contentsline {chapter}{\numberline {4}Acessando dispositivos no GNU/Linux}{79}
+\contentsline {section}{\numberline {4.1}Conceito de ``montagem de dispositivos''}{79}
+\contentsline {section}{\numberline {4.2}Pontos de montagem}{80}
+\contentsline {subsection}{\numberline {4.2.1}Dispositivos remov\IeC {\'\i }veis e pontos de montagem}{82}
+\contentsline {section}{\numberline {4.3}Montando e desmontando dispositivos: \texttt {mount} e \texttt {umount}}{82}
+\contentsline {section}{\numberline {4.4}O \texttt {/etc/fstab}}{86}
+\contentsline {chapter}{\numberline {5}Administrando o sistema}{89}
+\contentsline {section}{\numberline {5.1}Criando usu\'arios: \texttt {adduser}}{90}
+\contentsline {subsection}{\numberline {5.1.1}O cuidado com os UID}{92}
+\contentsline {subsection}{\numberline {5.1.2}O diret\'orio \texttt {/etc/skel}}{93}
+\contentsline {subsection}{\numberline {5.1.3}O arquivo \texttt {/etc/passwd} e o arquivo \texttt {/etc/shadow}}{94}
+\contentsline {subsubsection}{\numberline {5.1.3.1}O arquivo \texttt {/etc/shadow}}{96}
+\contentsline {section}{\numberline {5.2}Criando grupos: \texttt {addgroup}}{97}
+\contentsline {subsection}{\numberline {5.2.1}O cuidado com os GID}{98}
+\contentsline {subsection}{\numberline {5.2.2}O arquivo \texttt {/etc/group}}{98}
+\contentsline {subsection}{\numberline {5.2.3}Usando \texttt {adduser} para adicionar um ususu\'ario a um grupo extra}{100}
+\contentsline {subsection}{\numberline {5.2.4}Acessando documentos com outra identifica\c c\~ao de grupo: \texttt {sg}, \texttt {newgrp} e \texttt {id}}{102}
+\contentsline {subsection}{\numberline {5.2.5}Alterando senhas: o comando \texttt {passwd}}{103}
+\contentsline {subsection}{\numberline {5.2.6}Removendo usu\'arios e grupos: \texttt {userdel} e \texttt {groupdel}}{104}
+\contentsline {section}{\numberline {5.3}Entendendo processos e \emph {jobs}}{105}
+\contentsline {subsection}{\numberline {5.3.1}O que \'e um processo}{105}
+\contentsline {subsubsection}{\numberline {5.3.1.1}Processos de primeiro e segundo plano}{106}
+\contentsline {subsection}{\numberline {5.3.2}Diferen\c ca entre programas multi-thread e programas de m\'ultiplos processos}{107}
+\contentsline {subsection}{\numberline {5.3.3}Estado de processos}{109}
+\contentsline {subsection}{\numberline {5.3.4}O comando \texttt {ps}}{110}
+\contentsline {subsection}{\numberline {5.3.5}Mandando um processo para segundo plano e o trazendo de volta: \texttt {bg} e \texttt {fg}}{112}
+\contentsline {subsection}{\numberline {5.3.6}Vendo os processos de segundo plano: \texttt {jobs}}{115}
+\contentsline {subsection}{\numberline {5.3.7}``Matando'' processos: \texttt {kill} e \texttt {killall}}{116}
+\contentsline {subsection}{\numberline {5.3.8}Aumentando a prioridade do processo: \texttt {nice} e \texttt {renice}}{118}
+\contentsline {subsection}{\numberline {5.3.9}``Congelando'' um processo: \texttt {nohup}}{119}
+\contentsline {section}{\numberline {5.4}\emph {Backup}}{120}
+\contentsline {subsection}{\numberline {5.4.1}Os utilit\'arios \texttt {tar}, \texttt {gzip} e \texttt {bzip2}}{121}
+\contentsline {subsection}{\numberline {5.4.2}Criando um \emph {backup} com o utilit\'ario \texttt {tar}}{122}
+\contentsline {subsection}{\numberline {5.4.3}Recuperando um \emph {backup} com o utilit\'ario \texttt {tar}}{123}
+\contentsline {chapter}{\numberline {6}Rede e Internet}{125}
+\contentsline {section}{\numberline {6.1}Bases do TCP/IP}{126}
+\contentsline {subsection}{\numberline {6.1.1}Hist\'oria da Internet e do TCP/IP}{126}
+\contentsline {subsection}{\numberline {6.1.2}Definindo um IP}{127}
+\contentsline {subsection}{\numberline {6.1.3}Definindo m\'ascara de sub-rede}{128}
+\contentsline {subsection}{\numberline {6.1.4}Endere\c cos especiais}{130}
+\contentsline {subsection}{\numberline {6.1.5}Classes de rede}{130}
+\contentsline {subsection}{\numberline {6.1.6}IPs privativos ou ``inv\'alidos''}{132}
+\contentsline {section}{\numberline {6.2}Conectando uma m\'aquina a uma rede IP: os comandos \texttt {ifconfig} e \texttt {route}}{134}
+\contentsline {subsection}{\numberline {6.2.1}Explicando o comando \texttt {ifconfig}}{135}
+\contentsline {subsection}{\numberline {6.2.2}Explicando o comando \texttt {route}}{137}
+\contentsline {subsection}{\numberline {6.2.3}Um exemplo de configura\c c\~ao de rede}{138}
+\contentsline {section}{\numberline {6.3}Arquivos de informa\c c\~oes sobre redes}{140}
+\contentsline {subsection}{\numberline {6.3.1}\texttt {/etc/HOSTNAME}}{141}
+\contentsline {subsection}{\numberline {6.3.2}\texttt {/etc/hosts}}{141}
+\contentsline {subsection}{\numberline {6.3.3}\texttt {/etc/networks}}{142}
+\contentsline {section}{\numberline {6.4}Arquivos de \emph {resolver}}{146}
+\contentsline {subsection}{\numberline {6.4.1}O arquivo \texttt {/etc/host.conf}}{147}
+\contentsline {subsection}{\numberline {6.4.2}O arquivo \texttt {/etc/resolv.conf}}{148}
+\contentsline {section}{\numberline {6.5}\tolerance 9999\emergencystretch 3em\hfuzz .5\p@ \vfuzz \hfuzz {O arquivo \texttt {/etc/rc.d/init.d/network} e o arquivo \texttt {/etc/sysconfig/network}}}{150}
+\contentsline {section}{\numberline {6.6}Alguns sistemas de troca de arquivos}{151}
+\contentsline {subsection}{\numberline {6.6.1}NFS}{159}
+\contentsline {subsubsection}{\numberline {6.6.1.1}Configurando um \emph {share} NFS}{159}
+\contentsline {subsubsection}{\numberline {6.6.1.2}Acessando um \emph {share} NFS}{161}
+\contentsline {subsection}{\numberline {6.6.2}FTP}{163}
+\contentsline {subsubsection}{\numberline {6.6.2.1}Configurando um servidor FTP}{165}
+\contentsline {subsubsection}{\numberline {6.6.2.2}Acessando um servidor FTP}{168}
+\contentsline {subsubsection}{\numberline {6.6.2.3}Modos de transfer\^encia no FTP}{169}
+\contentsline {subsection}{\numberline {6.6.3}SMB (SaMBa)}{172}
+\contentsline {subsubsection}{\numberline {6.6.3.1}Configurando um \emph {share} SaMBa}{172}
+\contentsline {subsubsection}{\numberline {6.6.3.2}A se\c c\~ao \texttt {[global]}}{175}
+\contentsline {subsubsection}{\numberline {6.6.3.3}A se\c c\~ao \texttt {[homes]}}{184}
+\contentsline {subsubsection}{\numberline {6.6.3.4}A se\c c\~ao \texttt {[printers]} e configura\c c\~ao para impress\~ao}{184}
+\contentsline {subsubsection}{\numberline {6.6.3.5}Configurando as se\c c\~oes dos compartilhamentos}{185}
+\contentsline {subsubsection}{\numberline {6.6.3.6}Habilitando um usu\'ario/m\'aquina no SaMBa}{185}
+\contentsline {subsubsection}{\numberline {6.6.3.7}Acessando um \emph {share} SaMBa}{185}
+\contentsline {section}{\numberline {6.7}Introdu\c c\~ao ao Firewall}{185}
+\contentsline {chapter}{\numberline {7}Editores de texto}{187}
+\contentsline {section}{\numberline {7.1}Por que \'e importante manipular um editor de texto}{188}
+\contentsline {subsection}{\numberline {7.1.1}Qual deles \'e o melhor?}{188}
+\contentsline {section}{\numberline {7.2}Introdu\c c\~ao ao \texttt {vi}}{189}
+\contentsline {subsection}{\numberline {7.2.1}Edi\c c\~ao e navega\c c\~ao por arquivos}{191}
+\contentsline {subsection}{\numberline {7.2.2}Abrindo e salvando arquivos}{194}
+\contentsline {subsection}{\numberline {7.2.3}Cortar, Copiar, Colar e Apagar}{195}
+\contentsline {subsection}{\numberline {7.2.4}Truques de edi\c c\~ao}{196}
+\contentsline {subsection}{\numberline {7.2.5}Mudando a codifica\c c\~ao do arquivo}{196}
+\contentsline {subsection}{\numberline {7.2.6}O Arquivo \texttt {~/.exrc} ou \texttt {~/.vimrc}}{197}
+\contentsline {section}{\numberline {7.3}Introdu\c c\~ao ao \texttt {emacs}}{198}
+\contentsline {subsection}{\numberline {7.3.1}A Hist\'oria do \texttt {emacs}}{198}
+\contentsline {subsubsection}{\numberline {7.3.1.1}Conven\c c\~oes do \texttt {emacs}}{202}
+\contentsline {subsection}{\numberline {7.3.2}Edi\c c\~ao e navega\c c\~ao por arquivos}{203}
+\contentsline {subsection}{\numberline {7.3.3}Abrindo e salvando arquivos}{204}
+\contentsline {subsection}{\numberline {7.3.4}Pesquisa e substitui\c c\~ao}{207}
+\contentsline {subsection}{\numberline {7.3.5}Cortar, Copiar, Colar e Apagar}{207}
+\contentsline {subsection}{\numberline {7.3.6}Truques de edi\c c\~ao}{208}
+\contentsline {subsection}{\numberline {7.3.7}Mudando a codifica\c c\~ao do arquivo}{209}
+\contentsline {subsection}{\numberline {7.3.8}O arquivo \texttt {.emacs}}{209}
+\contentsline {chapter}{\numberline {8}Interfaces Gr\'aficas}{213}
+\contentsline {section}{\numberline {8.1}O que \'e o X-Windows}{214}
+\contentsline {section}{\numberline {8.2}Configurando o X-Windows}{214}
+\contentsline {section}{\numberline {8.3}O arquivo \texttt {/etc/X11R6/Xorgconf}}{214}
+\contentsline {section}{\numberline {8.4}O arquivo \texttt {.Xresources}}{214}
+\contentsline {section}{\numberline {8.5}Algumas interfaces interessantes}{214}
+\contentsline {subsection}{\numberline {8.5.1}KDE}{214}
+\contentsline {subsection}{\numberline {8.5.2}GNOME}{214}
+\contentsline {subsection}{\numberline {8.5.3}WindowMaker}{214}
+\contentsline {subsection}{\numberline {8.5.4}IceWM}{214}
+\contentsline {subsection}{\numberline {8.5.5}Blackbox}{214}
+\contentsline {chapter}{\numberline {9}Instalando Programas}{215}
+\contentsline {section}{\numberline {9.1}Programas em GNU/Linux}{216}
+\contentsline {section}{\numberline {9.2}Compilando do Fonte}{216}
+\contentsline {subsection}{\numberline {9.2.1}Seq\"u\^encia m\'agica}{216}
+\contentsline {subsection}{\numberline {9.2.2}O utilit\'ario \texttt {make}}{216}
+\contentsline {subsection}{\numberline {9.2.3}Porque no \texttt {/usr/local} e n\~ao no \texttt {/usr}}{216}
+\contentsline {subsection}{\numberline {9.2.4}Dificuldades de compilar no fonte}{216}
+\contentsline {section}{\numberline {9.3}Sistemas de empacotamento}{216}
+\contentsline {subsection}{\numberline {9.3.1}RPM - RedHat Package Manager}{216}
+\contentsline {subsection}{\numberline {9.3.2}DEB}{216}
+\contentsline {subsection}{\numberline {9.3.3}TGZ}{216}
+\contentsline {section}{\numberline {9.4}Atualiza\c c\~ao via Internet}{216}
+\contentsline {subsection}{\numberline {9.4.1}\texttt {apt}}{216}
+\contentsline {subsection}{\numberline {9.4.2}\texttt {smart}}{216}
+\contentsline {chapter}{\numberline {10}Servi\c cos e inicializa\c c\~ao}{217}
+\contentsline {section}{\numberline {10.1}O que s\~ao ``servi\c cos''}{217}
+\contentsline {subsection}{\numberline {10.1.1}Como ``levantar'' servi\c cos}{217}
+\contentsline {section}{\numberline {10.2}Um pouco sobre a inicializa\c c\~ao do GNU/Linux}{217}
+\contentsline {subsection}{\numberline {10.2.1}O arquivo \texttt {/etc/inittab}}{217}
+\contentsline {subsection}{\numberline {10.2.2}Inicializa\c c\~ao System V e BSD}{217}
+\contentsline {subsection}{\numberline {10.2.3}\emph {Runlevels}}{217}
+\contentsline {subsection}{\numberline {10.2.4}\emph {Login} e \texttt {tty}s}{217}
+\contentsline {chapter}{\numberline {11}Ajuda}{219}
+\contentsline {section}{\numberline {11.1}Como proceder com ajuda?}{220}
+\contentsline {section}{\numberline {11.2}Porque tomar nota?}{220}
+\contentsline {section}{\numberline {11.3}O diret\'orio \texttt {/var/log}}{220}
+\contentsline {section}{\numberline {11.4}Os comandos \texttt {uname} e \texttt {dmesg}}{220}
+\contentsline {section}{\numberline {11.5}O log do sistema (\emph {syslog})}{220}
+\contentsline {section}{\numberline {11.6}Fontes de ajuda:}{220}
+\contentsline {subsection}{\numberline {11.6.1}Sites de suporte t\'ecnico}{220}
+\contentsline {subsection}{\numberline {11.6.2}F\'oruns}{220}
+\contentsline {subsection}{\numberline {11.6.3}Listas de discuss\~ao}{220}
+\contentsline {subsubsection}{\numberline {11.6.3.1}Um pouco sobre Netiqueta}{220}
+\contentsline {section}{\numberline {11.7}Suporte telef\^onico}{220}
+\contentsline {section}{\numberline {11.8}Documenta\c c\~oes online}{220}
+\contentsline {chapter}{\numberline {12}Mantendo-se atualizado}{221}
+\contentsline {section}{\numberline {12.1}Sites de informa\c c\~ao}{221}
+\contentsline {section}{\numberline {12.2}Newsletters}{221}
+\contentsline {chapter}{\numberline {A}Licenciamento dessa obra}{223}
